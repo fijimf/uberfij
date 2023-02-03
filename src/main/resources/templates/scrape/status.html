@@ -6,36 +6,88 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Deep Fij</title>
+    <!--    <link href="webjars/bootstrap/5.2.3/css/bootstrap.min.css"-->
+    <!--          rel="stylesheet">-->
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
 
-<!--    <meta property="og:title" content="">-->
-<!--    <meta property="og:type" content="">-->
-<!--    <meta property="og:url" content="">-->
-<!--    <meta property="og:image" content="">-->
 
-<!--    <link rel="manifest" href="site.webmanifest">-->
-<!--    <link rel="apple-touch-icon" href="icon.png">-->
+    <!--    <meta property="og:title" content="">-->
+    <!--    <meta property="og:type" content="">-->
+    <!--    <meta property="og:url" content="">-->
+    <!--    <meta property="og:image" content="">-->
+
+    <!--    <link rel="manifest" href="site.webmanifest">-->
+    <!--    <link rel="apple-touch-icon" href="icon.png">-->
     <!-- Place favicon.ico in the root directory -->
 
-<!--    <link rel="stylesheet" href="css/normalize.css">-->
-<!--    <link rel="stylesheet" href="css/main.css">-->
+    <!--    <link rel="stylesheet" href="css/normalize.css">-->
+    <!--    <link rel="stylesheet" href="css/main.css">-->
 
-<!--    <meta name="theme-color" content="#fafafa">-->
+    <!--    <meta name="theme-color" content="#fafafa">-->
 </head>
 
 <body>
 
 <!-- Add your site or application content here -->
-<p>Hello world! This is HTML5 Boilerplate.</p>
-<a th:href="@{/admin/scrape/conferences/scrape}">Scrape Now</a>
-<p><span th:text="${confs.size()}"> </span> Conferences</p>
-<table>
-    <tr th:each="scrape: ${confScrapes}">
-
-        <td th:text="${scrape.id}"></td>
-<td > <a th:href="${'/admin/scrape/conferences/publish/'+scrape.id}">Publish</a></td>
-    </tr>
-</table>
-<p><span th:text="${confScrapes.size()}"> </span> Conferences</p>
+<div class="container">
+    <div class="row"><h1 class="display-3">Admin Conferences</h1>
+        <a th:href="@{/admin/scrape/conferences/scrape}">Scrape Now</a>
+        <h3>Conference Scrapes Staged</h3>
+        <table class="table table-bordered table-sm">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Retrieved At</th>
+                <th>Response Time</th>
+                <th>Response Code</th>
+                <th>Status</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="scrape: ${confScrapes}">
+                <td th:text="${scrape.id}"></td>
+                <td th:text="${scrape.getRetrievedAt()}"></td>
+                <td th:text="${scrape.getResponseTimeMs()}"></td>
+                <td th:text="${scrape.getResponseCode()}"></td>
+                <td th:text="${scrape.status}"></td>
+                <td><a th:href="${'/admin/scrape/conferences/publish/'+scrape.id}"><i style="font-weight: bold; color: blue;" class="bi-box-arrow-in-down"></i>Publish</a></td>
+                <td><a th:href="${'/admin/scrape/conferences/delete/'+scrape.id}"><i style="font-weight: bold; color: red;" class="bi-x-circle"></i>Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <h3>Conferences</h3>
+        <table class="table table-bordered table-sm">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th colspan="2">Name</th>
+                <th>Key</th>
+                <th>ESPN Id</th>
+                <th>Scrape Id</th>
+                <th>Created At</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="conf: ${confs}">
+                <td class="w-auto align-middle" th:text="${conf.id}"></td>
+                <td style="max-width: 2em;"><img class="img-fluid img-thumbnail" th:src="${conf.logoUrl}"/></td>
+                <td class="w-auto align-middle" th:text="${conf.name}"></td>
+                <td class="w-auto align-middle" th:text="${conf.key}"></td>
+                <td class="w-auto align-middle" th:text="${conf.espnId}"></td>
+                <td class="w-auto align-middle" th:text="${conf.scrapeSrcId}"></td>
+                <td class="w-auto align-middle" th:text="${conf.publishedAt}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 <!--<script src="js/vendor/modernizr-3.11.2.min.js"></script>-->
 <!--<script src="js/plugins.js"></script>-->
 <!--<script src="js/main.js"></script>-->

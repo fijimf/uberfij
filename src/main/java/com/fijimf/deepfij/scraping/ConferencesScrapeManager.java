@@ -97,6 +97,7 @@ public class ConferencesScrapeManager {
                         conference.setPublishedAt(LocalDateTime.now());
                         repo.saveAndFlush(conference);
                     } else {
+                        c.setScrapeSrcId(id);
                         repo.saveAndFlush(c);
                     }
                 });
