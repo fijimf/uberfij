@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface ConferenceRepo extends JpaRepository<Conference, Long> {
     Optional<Conference> findByEspnIdEquals(String espnId);
+
+    void deleteByScrapeSrcIdNot(long scrapeSrcId);
 }

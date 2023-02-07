@@ -9,8 +9,8 @@ import com.fijimf.deepfij.db.repo.schedule.ConferenceRepo;
 import com.fijimf.deepfij.db.repo.scrape.EspnConferencesScrapeRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 import java.io.IOException;
@@ -80,7 +80,8 @@ public class ConferencesScrapeManager {
         }
     }
 
-    public void publishConferences(long id) {
+    @Transactional
+    public void publishConferences(long id, boolean cleanUp) {
         scrapeRepo.findById(id).ifPresent(s -> {
             try {
                 Conferences conferences1 = objectMapper.readValue(s.getResponse(), Conferences.class);
@@ -101,6 +102,10 @@ public class ConferencesScrapeManager {
                         repo.saveAndFlush(c);
                     }
                 });
+                if (cleanUp) {
+                    repo.deleteByScrapeSrcIdNot(id);
+                }
+
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
@@ -110,5 +115,9 @@ public class ConferencesScrapeManager {
 
     public void deleteAll() {
         repo.deleteAll();
+    }
+
+    public String showRawConferencesScrape(long id) {
+        return scrapeRepo.findById(id).map(EspnConferencesScrape::getResponse).orElse("");
     }
 }

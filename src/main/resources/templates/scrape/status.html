@@ -10,8 +10,9 @@
     <title>Deep Fij</title>
     <!--    <link href="webjars/bootstrap/5.2.3/css/bootstrap.min.css"-->
     <!--          rel="stylesheet">-->
-    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/deepfij.css">
 
 
     <!--    <meta property="og:title" content="">-->
@@ -33,36 +34,50 @@
 
 <!-- Add your site or application content here -->
 <div class="container">
-    <div class="row"><h1 class="display-3">Admin Conferences</h1>
-        <a th:href="@{/admin/scrape/conferences/scrape}">Scrape Now</a>
-        <h3>Conference Scrapes Staged</h3>
+    <div class="row">
+        <h1 class="display-3">Conferences</h1>
+        <h3>Conference Scrapes</h3>
+        <a class="btn btn-primary btn-sm col-1" th:href="@{/admin/scrape/conferences/scrape}">Scrape
+            <i class="px-1 bi-cloud-arrow-down-fill"></i>
+        </a>
         <table class="table table-bordered table-sm">
             <thead>
             <tr>
                 <th>Id</th>
                 <th>Retrieved At</th>
+                <th>URL</th>
                 <th>Response Time</th>
                 <th>Response Code</th>
                 <th>Status</th>
-                <th></th>
-                <th></th>
+                <th>View Raw</th>
+                <th>Update</th>
+                <th>Replace</th>
+                <th>Drop</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="scrape: ${confScrapes}">
                 <td th:text="${scrape.id}"></td>
-                <td th:text="${scrape.getRetrievedAt()}"></td>
-                <td th:text="${scrape.getResponseTimeMs()}"></td>
-                <td th:text="${scrape.getResponseCode()}"></td>
+                <td th:text="${#temporals.format(scrape.retrievedAt, 'yyyy-MMM-dd HH:mm:ss')}"></td>
+                <td><a th:href="${scrape.url}" th:title="${scrape.url}" th:text="${scrape.displayUrl()}"
+                       target="_blank"></a><i class="px-1 bold-bi bi-box-arrow-up-right"></i></td>
+                <td th:text="${scrape.responseTimeMs}"></td>
+                <td th:text="${scrape.responseCode}"></td>
                 <td th:text="${scrape.status}"></td>
-                <td><a th:href="${'/admin/scrape/conferences/publish/'+scrape.id}"><i style="font-weight: bold; color: blue;" class="bi-box-arrow-in-down"></i>Publish</a></td>
-                <td><a th:href="${'/admin/scrape/conferences/delete/'+scrape.id}"><i style="font-weight: bold; color: red;" class="bi-x-circle"></i>Delete</a></td>
+                <td class="text-center"><a th:href="${'/admin/scrape/conferences/raw/'+scrape.id}"
+                                           target="_blank"><i class="bi-search bold-bi"></i></a></td>
+                <td class="text-center"><a th:href="${'/admin/scrape/conferences/publishUpdate/'+scrape.id}"><i
+                        class="bi-database bold-bi"></i></a></td>
+                <td class="text-center"><a th:href="${'/admin/scrape/conferences/publisheplace/'+scrape.id}"><i
+                        class="bi-database-exclamation bold-bi"></i></a></td>
+                <td class="text-center"><a th:href="${'/admin/scrape/conferences/delete/'+scrape.id}"><i
+                        class="bi-x-circle bold-bi text-danger"></i></a></td>
             </tr>
             </tbody>
         </table>
     </div>
     <div class="row">
-        <h3>Conferences</h3>
+        <h3>Conference Data</h3>
         <table class="table table-bordered table-sm">
             <thead>
             <tr>
@@ -82,7 +97,8 @@
                 <td class="w-auto align-middle" th:text="${conf.key}"></td>
                 <td class="w-auto align-middle" th:text="${conf.espnId}"></td>
                 <td class="w-auto align-middle" th:text="${conf.scrapeSrcId}"></td>
-                <td class="w-auto align-middle" th:text="${conf.publishedAt}"></td>
+                <td class="w-auto align-middle"
+                    th:text="${#temporals.format(conf.publishedAt, 'yyyy-MMM-dd HH:mm:ss')}"></td>
             </tr>
             </tbody>
         </table>

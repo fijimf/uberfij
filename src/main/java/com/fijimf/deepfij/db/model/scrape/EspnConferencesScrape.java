@@ -1,31 +1,32 @@
 package com.fijimf.deepfij.db.model.scrape;
 
 import jakarta.persistence.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "espn_conferences_scrape")
 public class EspnConferencesScrape {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private long id;
-        private String url;
-        @Column(name="retrieved_at")
-        private LocalDateTime retrievedAt;
-        @Column(name="response_time_ms")
-        private Long responseTimeMs;
-        @Column(name="response_code")
-        private Integer responseCode;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String url;
+    @Column(name = "retrieved_at")
+    private LocalDateTime retrievedAt;
+    @Column(name = "response_time_ms")
+    private Long responseTimeMs;
+    @Column(name = "response_code")
+    private Integer responseCode;
 
-        private String response;
-        private String digest;
-        private String status;
+    private String response;
+    private String digest;
+    private String status;
 
     public EspnConferencesScrape() {
     }
 
-    public EspnConferencesScrape(long id, String url, LocalDateTime retrievedAt, Long responseTimeMs, Integer responseCode, String response, String digest,  String status) {
+    public EspnConferencesScrape(long id, String url, LocalDateTime retrievedAt, Long responseTimeMs, Integer responseCode, String response, String digest, String status) {
         this.id = id;
         this.url = url;
         this.retrievedAt = retrievedAt;
@@ -98,5 +99,9 @@ public class EspnConferencesScrape {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String displayUrl() {
+        return url.length() > 32 ? StringUtils.truncate(url, 32) + "..." : url;
     }
 }

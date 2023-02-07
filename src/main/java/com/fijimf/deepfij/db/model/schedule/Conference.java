@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "conference")
@@ -22,7 +23,7 @@ public class Conference {
     private String logoUrl;
     @Column(name = "espn_id")
     private String espnId;
-    @Column(name="scrape_src_id")
+    @Column(name = "scrape_src_id")
     private long scrapeSrcId;
     @Column(name = "published_at")
     private LocalDateTime publishedAt;
@@ -106,8 +107,6 @@ public class Conference {
     }
 
     public boolean isValid() {
-        boolean all = !key.equalsIgnoreCase("top-25") && !key.equalsIgnoreCase("all");
-        System.err.println(name+" "+altName+" "+key+" "+all);
-        return all;
+        return !Arrays.stream(new String[]{"top-25", "indep", "all"}).toList().contains(key);
     }
 }

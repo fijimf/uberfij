@@ -1,5 +1,6 @@
 package com.fijimf.deepfij.scraping;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fijimf.deepfij.db.model.schedule.Conference;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +15,7 @@ public class ConferencesConference {
     private String logo;
     private String parentGroupId;
 
+    @JsonIgnore
     public Conference getConference() {
         return getConference(0L);
     }
