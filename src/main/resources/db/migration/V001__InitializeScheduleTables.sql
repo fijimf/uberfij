@@ -9,7 +9,7 @@ CREATE UNIQUE INDEX ON season (season);
 CREATE TABLE team
 (
     id            BIGSERIAL PRIMARY KEY,
-    key           VARCHAR(32)  NOT NULL UNIQUE,
+    key           VARCHAR(48)  NOT NULL UNIQUE,
     name          VARCHAR(64)  NOT NULL UNIQUE,
     nickname      VARCHAR(64)  NOT NULL,
     long_name     VARCHAR(96)  NOT NULL UNIQUE,

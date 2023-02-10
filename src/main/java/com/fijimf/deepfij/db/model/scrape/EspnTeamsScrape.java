@@ -1,13 +1,17 @@
 package com.fijimf.deepfij.db.model.scrape;
 
 import jakarta.persistence.*;
+import org.apache.commons.lang3.StringUtils;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "espn_teams_scrape")
 public class EspnTeamsScrape {
-        @Id
-        private long id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
         private String url;
         @Column(name="retrieved_at")
         private LocalDateTime retrievedAt;
@@ -31,7 +35,7 @@ public class EspnTeamsScrape {
         this.responseTimeMs = responseTimeMs;
         this.responseCode = responseCode;
         this.response = response;
-    this.digest = digest;
+        this.digest = digest;
         this.status = status;
     }
 
@@ -98,4 +102,9 @@ public class EspnTeamsScrape {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String displayUrl() {
+        return url.length() > 32 ? StringUtils.truncate(url, 32) + "..." : url;
+    }
+
 }

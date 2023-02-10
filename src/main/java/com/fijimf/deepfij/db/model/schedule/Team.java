@@ -157,4 +157,23 @@ public class Team {
     public void setPublishedAt(LocalDateTime publishedAt) {
         this.publishedAt = publishedAt;
     }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "id=" + id +
+                ", key='" + key + '\'' +
+                ", name='" + name + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", longName='" + longName + '\'' +
+                ", altName1='" + altName1 + '\'' +
+                ", altName2='" + altName2 + '\'' +
+                ", color='" + color + '\'' +
+                ", altColor='" + altColor + '\'' +
+                ", logoUrl='" + logoUrl + '\'' +
+                ", espnId='" + espnId + '\'' +
+                ", scrapeSrcId=" + scrapeSrcId +
+                ", publishedAt=" + publishedAt +
+                '}';
+    }
 }
