@@ -7,7 +7,6 @@ import com.fijimf.deepfij.db.model.schedule.Team;
 import com.fijimf.deepfij.scraping.Conferences;
 import com.fijimf.deepfij.scraping.ConferencesConference;
 import com.fijimf.deepfij.scraping.Teams;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

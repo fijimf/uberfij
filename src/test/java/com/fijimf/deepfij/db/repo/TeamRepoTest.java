@@ -1,10 +1,8 @@
 package com.fijimf.deepfij.db.repo;
 
 
-import com.fijimf.deepfij.db.model.schedule.Conference;
 import com.fijimf.deepfij.db.model.schedule.Team;
 import com.fijimf.deepfij.db.repo.schedule.TeamRepo;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

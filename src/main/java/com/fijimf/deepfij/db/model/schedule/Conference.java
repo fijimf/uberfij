@@ -1,7 +1,6 @@
 package com.fijimf.deepfij.db.model.schedule;
 
 import jakarta.persistence.*;
-import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;

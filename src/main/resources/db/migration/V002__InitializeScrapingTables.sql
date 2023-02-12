@@ -49,3 +49,16 @@ CREATE TABLE espn_conferences_scrape
     status                VARCHaR(32) NOT NULL
 );
 
+CREATE TABLE espn_standings_scrape
+(
+    id                    BIGSERIAL PRIMARY KEY,
+    season                INT          NOT NULL,
+    url                   VARCHAR(192) NOT NULL,
+    retrieved_at          TIMESTAMP    NULL,
+    response_time_ms      BIGINT       NULL,
+    response_code         INT          NULL,
+    response              TEXT         NULL,
+    digest                VARCHAR(64)  NULL,
+    status                VARCHaR(32) NOT NULL
+);
+

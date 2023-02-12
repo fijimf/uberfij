@@ -6,7 +6,6 @@ import com.fijimf.deepfij.db.model.schedule.Conference;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Conferences {

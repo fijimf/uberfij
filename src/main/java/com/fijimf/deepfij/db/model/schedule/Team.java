@@ -1,6 +1,5 @@
 package com.fijimf.deepfij.db.model.schedule;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

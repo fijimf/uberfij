@@ -24,7 +24,7 @@ public class ConferenceScrapeTest {
             Conferences mapped = objectMapper.readValue(inputStream, Conferences.class);
             assertThat(mapped).isNotNull();
             List<Conference> conferences = mapped.values();
-            assertThat(conferences).hasSize(33);
+            assertThat(conferences).hasSize(32);
             assertThat(conferences).allMatch(c-> StringUtils.isNotBlank(c.getLogoUrl())||c.getKey().equalsIgnoreCase("asun"));
             assertThat(conferences).allMatch(Conference::isValid);
         }

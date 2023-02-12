@@ -1,6 +1,7 @@
 package com.fijimf.deepfij.db.model.scrape;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Entity
