@@ -50,7 +50,7 @@ class ConferenceRepoTest {
 
     @Test
     void saveMany() {
-        List<Conference> conferences = IntStream.range(1, 35).mapToObj(n -> new Conference(0L, RandomStringUtils.randomAlphabetic(12), "Conference " + n, "Conference " + n, "www.balh balh blah", "zzz-xx-c-", 32L, LocalDateTime.now())).toList();
+        List<Conference> conferences = IntStream.range(1, 35).mapToObj(n -> new Conference(0L, RandomStringUtils.randomAlphabetic(12), "Conference " + n, "Conference " + n, "www.balh balh blah", "zzz-xx-c-"+n, 32L, LocalDateTime.now())).toList();
         assertThat(conferences).allMatch(c -> c.getId() == 0);
         conferences = conferenceRepo.saveAllAndFlush(conferences);
         assertThat(conferences).allMatch(c -> c.getId() > 0);

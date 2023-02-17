@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Deep Fij</title>
+    <!--    <link href="webjars/bootstrap/5.2.3/css/bootstrap.min.css"-->
+    <!--          rel="stylesheet">-->
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/deepfij.css">
+
+
+    <!--    <meta property="og:title" content="">-->
+    <!--    <meta property="og:type" content="">-->
+    <!--    <meta property="og:url" content="">-->
+    <!--    <meta property="og:image" content="">-->
+
+    <!--    <link rel="manifest" href="site.webmanifest">-->
+    <!--    <link rel="apple-touch-icon" href="icon.png">-->
+    <!-- Place favicon.ico in the root directory -->
+
+    <!--    <link rel="stylesheet" href="css/normalize.css">-->
+    <!--    <link rel="stylesheet" href="css/main.css">-->
+
+    <!--    <meta name="theme-color" content="#fafafa">-->
+</head>
+
+<body>
+<header>
+    <div class="navbar navbar-expand-lg">
+        <div class="container">
+            <ul class="nav ">
+                <li class="nav-item"><a th:href="${'/admin/scrape/status'}">Admin</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<!-- Add your site or application content here -->
+<main>
+    <div class="container">
+        <div class="row">
+            <h1 class="display-3 col-12">Status</h1>
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Teams</h3>
+                        <p th:text="${teams.size()+' teams loaded.'}"></p>
+                        <a th:href="${'/admin/scrape/teams/status'}" class="btn btn-primary">Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Conferences</h3>
+                        <p th:text="${confs.size()+' conferences loaded.'}"></p>
+                        <a th:href="${'/admin/scrape/conferences/status'}" class="btn btn-primary">Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Seasons</h3>
+                        <div class="" th:each="season: ${seasons}">
+                            <div class="px-2" th:text="${season.getSeason()}"></div>
+                            <div class="px-2" th:text="${season.getGames().size()+' games loaded.'}"></div>
+                            <a th:href="${'/admin/scrape/seasons/status'}"  class="px-2 btn btn-primary">Details</a>
+                            <a th:href="${'/admin/scrape/seasons/delete/'+season.getId()}"  class="px-2 btn btn-danger">Remove</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<script src="js/vendor/modernizr-3.11.2.min.js"></script>-->
+    <!--<script src="js/plugins.js"></script>-->
+    <!--<script src="js/main.js"></script>-->
+
+    <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+</main>
+</body>
+
+</html>

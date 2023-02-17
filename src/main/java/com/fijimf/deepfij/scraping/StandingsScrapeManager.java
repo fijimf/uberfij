@@ -2,6 +2,11 @@ package com.fijimf.deepfij.scraping;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fijimf.deepfij.db.model.schedule.Conference;
+import com.fijimf.deepfij.db.model.schedule.ConferenceMap;
+import com.fijimf.deepfij.db.model.schedule.Season;
+import com.fijimf.deepfij.db.model.schedule.Team;
+import com.fijimf.deepfij.db.model.scrape.EspnConferencesScrape;
 import com.fijimf.deepfij.db.model.scrape.EspnStandingsScrape;
 import com.fijimf.deepfij.db.repo.schedule.ConferenceMappingRepo;
 import com.fijimf.deepfij.db.repo.schedule.ConferenceRepo;
@@ -23,6 +28,9 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
 
@@ -52,11 +60,7 @@ public class StandingsScrapeManager {
         String seasonUrl = URL + season;
         LocalDateTime start = LocalDateTime.now();
         try {
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(seasonUrl))
-                    .timeout(Duration.of(10, SECONDS))
-                    .GET()
-                    .build();
+            HttpRequest request = HttpRequest.newBuilder().uri(new URI(seasonUrl)).timeout(Duration.of(10, SECONDS)).GET().build();
             HttpClient client = HttpClient.newBuilder().build();
 
             HttpResponse<byte[]> response = client.send(request, HttpResponse.BodyHandlers.ofByteArray());
@@ -67,66 +71,69 @@ public class StandingsScrapeManager {
             try {
                 Standings teams = objectMapper.readValue(response.body(), Standings.class);
                 try {
-                    return scrapeRepo.saveAndFlush(new EspnStandingsScrape(0L, season, seasonUrl
-                            , start, duration, status, objectMapper.writerFor(Standings.class).writeValueAsString(teams), digest, "OK"));
+                    return scrapeRepo.saveAndFlush(new EspnStandingsScrape(0L, season, seasonUrl, start, duration, status, objectMapper.writerFor(Standings.class).writeValueAsString(teams), digest, "OK"));
                 } catch (JsonProcessingException e) {
                     logger.error("", e);
-                    return scrapeRepo.saveAndFlush(new EspnStandingsScrape(0L, season, seasonUrl
-                            , start, duration, status, null, digest, "FAILED SERIALIZING"));
+                    return scrapeRepo.saveAndFlush(new EspnStandingsScrape(0L, season, seasonUrl, start, duration, status, null, digest, "FAILED SERIALIZING"));
 
                 }
             } catch (IOException e) {
                 logger.error("", e);
-                return scrapeRepo.saveAndFlush(new EspnStandingsScrape(0L, season, seasonUrl
-                        , start, duration, status, null, digest, "FAILED DESERIALIZING"));
+                return scrapeRepo.saveAndFlush(new EspnStandingsScrape(0L, season, seasonUrl, start, duration, status, null, digest, "FAILED DESERIALIZING"));
             }
 
         } catch (Exception e) {
             logger.error("", e);
-            return scrapeRepo.saveAndFlush(new EspnStandingsScrape(0L, season, seasonUrl
-                    , start, 0L, -100, null, null, "HTTPREQUEST FAILED"));
+            return scrapeRepo.saveAndFlush(new EspnStandingsScrape(0L, season, seasonUrl, start, 0L, -100, null, null, "HTTPREQUEST FAILED"));
         }
     }
 
     @Transactional
     public void publishConferenceMap(long id, boolean cleanUp) {
-
-        //  scrapeRepo.findById(id).ifPresent(standingsScrape -> publishConferenceMap(standingsScrape, cleanUp);
-//
+        publishConferenceMap(scrapeRepo.findById(id).orElseThrow(), cleanUp);
     }
 
     @Transactional
     public void publishConferenceMap(EspnStandingsScrape scrape, boolean cleanUp) {
-       // seasonRepo.findByYear().ifPresent();
-//            try {
-//                Conferences conferences1 = objectMapper.readValue(s.getResponse(), Conferences.class);
-//                List<Conference> conferences = conferences1.values();
-//                conferences.forEach(c -> {
-//                    Optional<Conference> optionalConference = repo.findByEspnIdEquals(c.getEspnId());
-//                    if (optionalConference.isPresent()) {
-//                        Conference conference = optionalConference.get();
-//                        conference.setAltName(c.getAltName());
-//                        conference.setName(c.getName());
-//                        conference.setKey(c.getKey());
-//                        conference.setLogoUrl(c.getLogoUrl());
-//                        conference.setScrapeSrcId(id);
-//                        conference.setPublishedAt(LocalDateTime.now());
-//                        repo.saveAndFlush(conference);
-//                    } else {
-//                        c.setScrapeSrcId(id);
-//                        repo.saveAndFlush(c);
-//                    }
-//                });
-//                if (cleanUp) {
-//                    repo.deleteByScrapeSrcIdNot(id);
-//                }
-//
-//            } catch (JsonProcessingException e) {
-//                throw new RuntimeException(e);
-//            }
-//        });
+        Season season = seasonRepo.findBySeason(scrape.getSeason()).orElseThrow();
+        try {
+            Standings standings = objectMapper.readValue(scrape.getResponse(), Standings.class);
+            Map<String, List<String>> confMap = standings.mapValues();
+            confMap.keySet().forEach(c -> {
+                Conference conf = conferenceRepo.findByEspnIdEquals(c).orElseThrow();
+                confMap.get(c).stream().forEach(t -> {
+                    Team team = teamRepo.findByEspnIdEquals(t).orElseThrow();
+                    Optional<ConferenceMap> optMapping = conferenceMappingRepo.findBySeasonIdAndTeamId(season.getId(), team.getId());
+                    if (optMapping.isPresent()) {
+                        ConferenceMap conferenceMap = optMapping.get();
+                        conferenceMap.setConferenceId(conf.getId());
+                        conferenceMap.setScrapeSrcId(scrape.getId());
+                        conferenceMap.setPublishedAt(LocalDateTime.now());
+                        conferenceMappingRepo.saveAndFlush(conferenceMap);
+                    } else {
+                        ConferenceMap conferenceMap = new ConferenceMap(0L, season, conf.getId(), team.getId(), scrape.getId(), LocalDateTime.now());
+                        conferenceMappingRepo.saveAndFlush(conferenceMap);
+                    }
+                });
+            });
+            if (cleanUp) {
+                conferenceMappingRepo.deleteBySeasonIdAndScrapeSrcIdNot(season.getId(), scrape.getId());
+            }
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
+    public String showRawStandingsScrape(long id) {
+        return scrapeRepo.findById(id).map(EspnStandingsScrape::getResponse).orElse("");
+    }
 
+    public List<ConferenceMap> findAllConfMaps() {
+        return conferenceMappingRepo.findAll();
+    }
+
+    public List<EspnStandingsScrape> findAllStandingsScrapes() {
+        return scrapeRepo.findAll();
+    }
 }

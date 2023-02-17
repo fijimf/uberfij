@@ -125,4 +125,11 @@ public class TeamsScrapeManager {
     public String showRawConferencesScrape(long id) {
         return scrapeRepo.findById(id).map(EspnTeamsScrape::getResponse).orElse("");
     }
+
+    public List<Team> findAllTeams() {
+        return repo.findAll();
+    }
+   public List<EspnTeamsScrape> findAllTeamScrapes() {
+        return scrapeRepo.findAll();
+    }
 }

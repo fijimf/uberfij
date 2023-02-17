@@ -43,15 +43,16 @@
 <!-- Add your site or application content here -->
 <div class="container">
     <div class="row">
-        <h1 class="display-3">Conferences</h1>
-        <h3>Conference Scrapes</h3>
-        <a class="btn btn-primary btn-sm col-1" th:href="@{/admin/scrape/conferences/scrape}">Scrape
+        <h1 class="display-3">Conference Mappings</h1>
+        <h3>Standings Scrapes</h3>
+        <a class="btn btn-primary btn-sm col-1" th:href="@{/admin/scrape/conferences/scrape}">No!
             <i class="px-1 bi-cloud-arrow-down-fill"></i>
         </a>
         <table class="table table-bordered table-sm">
             <thead>
             <tr>
                 <th>Id</th>
+                <th>Season</th>
                 <th>Retrieved At</th>
                 <th>URL</th>
                 <th>Response Time</th>
@@ -64,8 +65,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="scrape: ${confScrapes}">
+            <tr th:each="scrape: ${standingsScrapes}">
                 <td th:text="${scrape.id}"></td>
+                <td th:text="${scrape.season}"></td>
                 <td th:text="${#temporals.format(scrape.retrievedAt, 'yyyy-MMM-dd HH:mm:ss')}"></td>
                 <td><a th:href="${scrape.url}" th:title="${scrape.url}" th:text="${scrape.displayUrl()}"
                        target="_blank"></a><i class="px-1 bold-bi bi-box-arrow-up-right"></i></td>
@@ -85,7 +87,7 @@
         </table>
     </div>
     <div class="row">
-        <h3>Conference Data</h3>
+        <h3>Conference Mapping Data</h3>
         <table class="table table-bordered table-sm">
             <thead>
             <tr>

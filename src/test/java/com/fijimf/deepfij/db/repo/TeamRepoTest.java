@@ -49,7 +49,7 @@ class TeamRepoTest {
 
     @Test
     void saveMany() {
-        List<Team> teams = IntStream.range(1, 35).mapToObj(n -> new Team(0L, "georgetown"+n, "Georgetown"+n, "Hoyas", "GU"+n,"GU","GU", "Blue","Grey","xxx" ,"xxx",32L, LocalDateTime.now())).toList();
+        List<Team> teams = IntStream.range(1, 35).mapToObj(n -> new Team(0L, "georgetown"+n, "Georgetown"+n, "Hoyas", "GU"+n,"GU","GU", "Blue","Grey","xxx" ,"xxx"+n,32L, LocalDateTime.now())).toList();
         assertThat(teams).allMatch(c -> c.getId() == 0);
         teams = teamRepo.saveAllAndFlush(teams);
         assertThat(teams).allMatch(c -> c.getId() > 0);

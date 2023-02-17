@@ -20,7 +20,7 @@ public class Conference {
     private String altName;
     @Column(name = "logo_url")
     private String logoUrl;
-    @Column(name = "espn_id")
+    @Column(name = "espn_id", unique = true)
     private String espnId;
     @Column(name = "scrape_src_id")
     private long scrapeSrcId;

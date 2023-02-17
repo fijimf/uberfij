@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Deep Fij</title>
+    <!--    <link href="webjars/bootstrap/5.2.3/css/bootstrap.min.css"-->
+    <!--          rel="stylesheet">-->
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/deepfij.css">
+
+
+    <!--    <meta property="og:title" content="">-->
+    <!--    <meta property="og:type" content="">-->
+    <!--    <meta property="og:url" content="">-->
+    <!--    <meta property="og:image" content="">-->
+
+    <!--    <link rel="manifest" href="site.webmanifest">-->
+    <!--    <link rel="apple-touch-icon" href="icon.png">-->
+    <!-- Place favicon.ico in the root directory -->
+
+    <!--    <link rel="stylesheet" href="css/normalize.css">-->
+    <!--    <link rel="stylesheet" href="css/main.css">-->
+
+    <!--    <meta name="theme-color" content="#fafafa">-->
+</head>
+
+<body>
+<header>
+    <div class="navbar navbar-expand-lg">
+        <div class="container">
+            <ul class="nav ">
+                <li class="nav-item"><a th:href="${'/admin/scrape/status'}">Admin</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<!-- Add your site or application content here -->
+<main>
+    <div class="container">
+        <div class="row">
+            <h1 class="display-3 col-12">Seasons</h1>
+        </div>
+        <form th:action="${'/admin/scrape/seasons/new'}" method="post">
+            <div class="row">
+                <label type="text" class="col-1 form-label" for="seasonYear">Year</label>
+                <div class="col-1">
+                    <input type="text" id="seasonYear" name="seasonYear" class="form-control" placeholder="yyyy" aria-label="Year">
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-primary">Create New Season</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--<script src="js/vendor/modernizr-3.11.2.min.js"></script>-->
+    <!--<script src="js/plugins.js"></script>-->
+    <!--<script src="js/main.js"></script>-->
+
+    <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+</main>
+</body>
+
+</html>

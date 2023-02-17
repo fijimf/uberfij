@@ -35,6 +35,8 @@ class SeasonRepoTest {
     void isEmptyInitially() {
         long count = seasonRepo.count();
         assertThat(count).isEqualTo(0L);
+        List<Season> all = seasonRepo.findAll();
+        assertThat(all).hasSize(0);
     }
 
     @Test
@@ -54,4 +56,5 @@ class SeasonRepoTest {
         assertThat(seasons).allMatch(c -> c.getId() > 0);
         assertThat(seasonRepo.count()).isEqualTo(34);
     }
+
 }

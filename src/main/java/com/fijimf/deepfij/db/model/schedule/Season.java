@@ -2,6 +2,10 @@ package com.fijimf.deepfij.db.model.schedule;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name = "season")
 public class Season {
@@ -11,6 +15,10 @@ public class Season {
     @Column(unique = true)
     private int season;
 
+    @OneToMany(mappedBy = "id")
+    private Set<ConferenceMap> conferenceMaps= new HashSet<>();
+    @OneToMany(mappedBy = "id")
+    private Set<Game> games= new HashSet<>();
     public Season() {
     }
 
@@ -33,5 +41,21 @@ public class Season {
 
     public void setSeason(int season) {
         this.season = season;
+    }
+
+    public Set<ConferenceMap> getConferenceMaps() {
+        return conferenceMaps;
+    }
+
+    public void setConferenceMaps(Set<ConferenceMap> conferenceMaps) {
+        this.conferenceMaps = conferenceMaps;
+    }
+
+    public Set<Game> getGames() {
+        return games;
+    }
+
+    public void setGames(Set<Game> games) {
+        this.games = games;
     }
 }

@@ -24,6 +24,7 @@ CREATE TABLE team
 );
 
 CREATE UNIQUE INDEX ON team (key);
+CREATE UNIQUE INDEX ON team (espn_id);
 
 CREATE TABLE conference
 (
@@ -38,21 +39,40 @@ CREATE TABLE conference
 );
 
 CREATE UNIQUE INDEX ON conference (key);
+CREATE UNIQUE INDEX ON conference (espn_id);
 
 
 CREATE TABLE conference_maps
 (
-    id BIGSERIAL PRIMARY KEY,
-    season_id BIGINT NOT NULL,
-    conference_id BIGINT NOT NULL,
-    team_id BIGINT NOT NULL,
-    scrape_src_id BIGINT       NOT NULL,
-    published_at  TIMESTAMP    NOT NULL
+    id            BIGSERIAL PRIMARY KEY,
+    season_id     BIGINT    NOT NULL REFERENCES season (id),
+    conference_id BIGINT    NOT NULL REFERENCES conference (id),
+    team_id       BIGINT    NOT NULL REFERENCES team (id),
+    scrape_src_id BIGINT    NOT NULL,
+    published_at  TIMESTAMP NOT NULL
 );
 
-CREATE UNIQUE INDEX ON conference_maps(season_id, team_id);
+CREATE UNIQUE INDEX ON conference_maps (season_id, team_id);
 
 CREATE TABLE games
 (
-    id BIGSERIAL PRIMARY KEY
+    id                 BIGSERIAL PRIMARY KEY,
+    date               DATE        NOT NULL,
+    season_id          BIGINT      NOT NULL REFERENCES season (id),
+    home_team_id       BIGINT      NOT NULL REFERENCES team (id),
+    away_team_id       BIGINT      NOT NULL REFERENCES team (id),
+    home_score         INT         NULL,
+    away_score         INT         NULL,
+    num_periods        INT         NULL,
+    is_neutral_site    BOOLEAN     NULL,
+    location           VARCHAR(48) NULL,
+    spread             FLOAT       NULL,
+    over_under         FLOAT       NULL,
+    is_conf_tournament BOOLEAN     NULL,
+    is_ncaa_tournament BOOLEAN     NULL,
+    espn_id            VARCHAR(24) NOT NULL,
+    scrape_src_id      BIGINT      NOT NULL,
+    published_at       TIMESTAMP   NOT NULL
 );
+
+CREATE UNIQUE INDEX ON games (espn_id);

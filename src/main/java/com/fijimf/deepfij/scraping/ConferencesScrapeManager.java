@@ -113,6 +113,14 @@ public class ConferencesScrapeManager {
 
     }
 
+    public List<Conference> findAllConferences() {
+        return repo.findAll();
+    }
+
+    public List<EspnConferencesScrape> findAllConferenceScrapes() {
+        return scrapeRepo.findAll();
+    }
+
     public void deleteAll() {
         repo.deleteAll();
     }
