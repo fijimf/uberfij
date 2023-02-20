@@ -24,7 +24,7 @@ public class ScrapeService {
 
     @GetMapping("/index")
     public ModelAndView showOverallStatus() {
-        ModelAndView modelAndView = new ModelAndView("scrape/status");
+        ModelAndView modelAndView = new ModelAndView("scrape/index");
         modelAndView.addObject("conferences", conferenceMgr.findAllConferences());
         modelAndView.addObject("teams", teamMgr.findAllTeams());
         modelAndView.addObject("seasons", seasonMgr.findAllSeasons());

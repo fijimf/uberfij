@@ -21,7 +21,7 @@ public class TeamScrapeService {
 
     @GetMapping("/index")
     public ModelAndView getTeamsStatus() {
-        ModelAndView modelAndView = new ModelAndView("scrape/teamsStatus");
+        ModelAndView modelAndView = new ModelAndView("scrape/teams/index");
         modelAndView.addObject("teams", teamMgr.findAllTeams());
         modelAndView.addObject("teamsScrapes", teamMgr.findAllTeamScrapes());
         return modelAndView;
@@ -30,7 +30,7 @@ public class TeamScrapeService {
     @GetMapping("/scrape")
     public ModelAndView scrapeTeams() {
         teamMgr.scrape();
-        return new ModelAndView("redirect:/admin/scrape/teams/status");
+        return teamsIndexRedirect();
     }
 
     @GetMapping(value = "/raw/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -42,12 +42,16 @@ public class TeamScrapeService {
     @GetMapping("/publishUpdate/{id}")
     public ModelAndView publishTeamsUpdate(@PathVariable long id) {
         teamMgr.publishTeams(id, false);
-        return new ModelAndView("redirect:/admin/scrape/teams/status");
+        return teamsIndexRedirect();
     }
 
     @GetMapping("/publishReplace/{id}")
     public ModelAndView publishTeamsReplace(@PathVariable long id) {
         teamMgr.publishTeams(id, true);
-        return new ModelAndView("redirect:/admin/scrape/teams/status");
+        return teamsIndexRedirect();
+    }
+
+    public static ModelAndView teamsIndexRedirect() {
+        return new ModelAndView("redirect:/admin/scrape/teams/index");
     }
 }

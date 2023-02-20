@@ -22,7 +22,7 @@ public class ConferenceScrapeService {
 
     @GetMapping("/index")
     public ModelAndView getConferencesStatus() {
-        ModelAndView modelAndView = new ModelAndView("scrape/conferencesStatus");
+        ModelAndView modelAndView = new ModelAndView("scrape/conferences/index");
         modelAndView.addObject("conferences", conferenceMgr.findAllConferences());
         modelAndView.addObject("confScrapes", conferenceMgr.findAllConferenceScrapes());
         return modelAndView;
@@ -35,7 +35,7 @@ public class ConferenceScrapeService {
 
     @GetMapping("/clear")
     public ModelAndView getClearConferences() {
-        ModelAndView modelAndView = new ModelAndView("scrape/conferencesStatus");
+        ModelAndView modelAndView = new ModelAndView("scrape/conferences/index");
         modelAndView.addObject("conferences", conferenceMgr.findAllConferences());
         modelAndView.addObject("confScrapes", conferenceMgr.findAllConferenceScrapes());
         return modelAndView;
@@ -44,7 +44,7 @@ public class ConferenceScrapeService {
     @GetMapping("/scrape")
     public ModelAndView scrapeConferences() {
         conferenceMgr.scrape();
-        return new ModelAndView("redirect:/admin/scrape/conferences/status");
+        return conferencesIndexRedirect();
     }
 
     @GetMapping(value = "/raw/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -56,13 +56,18 @@ public class ConferenceScrapeService {
     @GetMapping("/publishUpdate/{id}")
     public ModelAndView publishConferencesUpdate(@PathVariable long id) {
         conferenceMgr.publishConferences(id, false);
-        return new ModelAndView("redirect:/admin/scrape/conferences/status");
+        return conferencesIndexRedirect();
     }
+
 
     @GetMapping("/publishReplace/{id}")
     public ModelAndView publishConferencesReplace(@PathVariable long id) {
         conferenceMgr.publishConferences(id, true);
-        return new ModelAndView("redirect:/admin/scrape/conferences/status");
+        return conferencesIndexRedirect();
+    }
+
+    public static ModelAndView conferencesIndexRedirect() {
+        return new ModelAndView("redirect:/admin/scrape/conferences/index");
     }
 
 }

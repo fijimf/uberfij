@@ -43,7 +43,7 @@
     <div class="navbar navbar-expand-lg">
         <div class="container">
             <ul class="nav ">
-                <li class="nav-item"><a th:href="${'/admin/scrape/status'}">Admin</a></li>
+                <li class="nav-item"><a th:href="${'/admin/scrape/index'}">Admin</a></li>
             </ul>
         </div>
     </div>
@@ -62,7 +62,7 @@
                             <div style="grid-column: 1;" th:text="${teams.size()+' teams.'}"></div>
                             <a th:href="${'/admin/scrape/teams/view'}" class="btn btn-sm btn-primary">View<span
                                     class="bi bi-eye px-1"></span></a>
-                            <a th:href="${'/admin/scrape/teams/status'}" class="btn btn-sm btn-primary">Edit<span
+                            <a th:href="${'/admin/scrape/teams/index'}" class="btn btn-sm btn-primary">Edit<span
                                     class="bi bi-pencil px-1"></span></a>
                             <a th:href="${'/admin/scrape/teams/clear'}" class="btn btn-sm btn-danger">Clear<span
                                     class="bi bi-x-circle px-1"></span></a>
@@ -72,7 +72,7 @@
                             <div style="grid-column: 1;" th:text="${conferences.size()+' conferences.'}"></div>
                             <a th:href="${'/admin/scrape/conferences/view'}" class="btn btn-sm btn-primary">View<span
                                     class="bi bi-eye px-1"></span></a>
-                            <a th:href="${'/admin/scrape/conferences/status'}" class="btn btn-sm btn-primary">Edit<span
+                            <a th:href="${'/admin/scrape/conferences/index'}" class="btn btn-sm btn-primary">Edit<span
                                     class="bi bi-pencil px-1"></span></a>
                             <a th:href="${'/admin/scrape/conferences/clear'}" class="btn btn-sm btn-danger">Clear<span
                                     class="bi bi-x-circle px-1"></span></a>
@@ -80,10 +80,10 @@
                         <h3 class="card-title">Seasons</h3>
                         <div class="scrape-card">
                             <th:block th:each="season: ${seasons}">
-                                <div th:text="${season.getSeason()+' : '+season.getGames().size()+' games.'+season.getGames().size()+' dates. '+season.getGames().size()+' team mapps.'}"></div>
+                                <div th:text="${season.getSeason()+': '+season.getGames().size()+' games. '+season.getGames().size()+' dates. '+season.getGames().size()+' team mappings.'}"></div>
                                 <a th:href="${'/admin/scrape/seasons/view/'+season.getId()}"
                                    class="btn btn-sm btn-primary">View<span class="bi bi-eye px-1"></span></a>
-                                <a th:href="${'/admin/scrape/seasons/status/'+season.getId()}"
+                                <a th:href="${'/admin/scrape/seasons/index/'+season.getId()}"
                                    class="btn btn-sm btn-primary">Edit<span class="bi bi-pencil px-1"></span></a>
                                 <a th:href="${'/admin/scrape/seasons/delete/'+season.getId()}"
                                    class="btn btn-sm btn-danger">Clear<span class="bi bi-x-circle px-1"></span></a>

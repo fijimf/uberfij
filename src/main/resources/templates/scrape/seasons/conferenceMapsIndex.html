@@ -29,30 +29,30 @@
 
     <!--    <meta name="theme-color" content="#fafafa">-->
 </head>
+
+<body>
 <header>
     <div class="navbar navbar-expand-lg">
         <div class="container">
             <ul class="nav ">
-                <li class="nav-item"><a th:href="${'/admin/scrape/status'}">Admin</a></li>
+                <li class="nav-item"><a th:href="${'/admin/scrape/index'}">Admin</a></li>
             </ul>
         </div>
     </div>
 </header>
-
-<body>
-
 <!-- Add your site or application content here -->
 <div class="container">
     <div class="row">
-        <h1 class="display-3">Teams</h1>
-        <h3>Team Scrapes</h3>
-        <a class="btn btn-primary btn-sm col-1" th:href="@{/admin/scrape/teams/scrape}">Scrape
+        <h1 class="display-3">Conference Mappings</h1>
+        <h3>Standings Scrapes</h3>
+        <a class="btn btn-primary btn-sm col-1" th:href="@{/admin/scrape/conferences/scrape}">No!
             <i class="px-1 bi-cloud-arrow-down-fill"></i>
         </a>
         <table class="table table-bordered table-sm">
             <thead>
             <tr>
                 <th>Id</th>
+                <th>Season</th>
                 <th>Retrieved At</th>
                 <th>URL</th>
                 <th>Response Time</th>
@@ -65,19 +65,20 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="scrape: ${teamsScrapes}">
+            <tr th:each="scrape: ${standingsScrapes}">
                 <td th:text="${scrape.id}"></td>
+                <td th:text="${scrape.season}"></td>
                 <td th:text="${#temporals.format(scrape.retrievedAt, 'yyyy-MMM-dd HH:mm:ss')}"></td>
                 <td><a th:href="${scrape.url}" th:title="${scrape.url}" th:text="${scrape.displayUrl()}"
                        target="_blank"></a><i class="px-1 bold-bi bi-box-arrow-up-right"></i></td>
                 <td th:text="${scrape.responseTimeMs}"></td>
                 <td th:text="${scrape.responseCode}"></td>
                 <td th:text="${scrape.status}"></td>
-                <td class="text-center"><a th:href="${'/admin/scrape/teams/raw/'+scrape.id}"
+                <td class="text-center"><a th:href="${'/admin/scrape/conferences/raw/'+scrape.id}"
                                            target="_blank"><i class="bi-search bold-bi"></i></a></td>
-                <td class="text-center"><a th:href="${'/admin/scrape/teams/publishUpdate/'+scrape.id}"><i
+                <td class="text-center"><a th:href="${'/admin/scrape/conferences/publishUpdate/'+scrape.id}"><i
                         class="bi-database bold-bi"></i></a></td>
-                <td class="text-center"><a th:href="${'/admin/scrape/teams/publishReplace/'+scrape.id}"><i
+                <td class="text-center"><a th:href="${'/admin/scrape/conferences/publisheplace/'+scrape.id}"><i
                         class="bi-database-exclamation bold-bi"></i></a></td>
                 <td class="text-center"><a th:href="${'/admin/scrape/conferences/delete/'+scrape.id}"><i
                         class="bi-x-circle bold-bi text-danger"></i></a></td>
@@ -86,34 +87,28 @@
         </table>
     </div>
     <div class="row">
-        <h3>Team Data</h3>
+        <h3>Conference Mapping Data</h3>
         <table class="table table-bordered table-sm">
             <thead>
             <tr>
                 <th>Id</th>
                 <th colspan="2">Name</th>
                 <th>Key</th>
-                <th>Nickname</th>
-                <th>Long Name</th>
-                <th>Alt Name 1</th>
                 <th>ESPN Id</th>
                 <th>Scrape Id</th>
                 <th>Created At</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="team: ${teams}" >
-                <td class="w-auto align-middle" th:text="${team.id}"></td>
-                <td style="max-width: 2em;"><img class="img-fluid img-thumbnail" th:src="${team.logoUrl}"/></td>
-                <td class="w-auto align-middle" th:text="${team.name}" th:style="${'background-color: #'+team.color+'80'}"></td>
-                <td class="w-auto align-middle" th:text="${team.key}"></td>
-                <td class="w-auto align-middle" th:text="${team.nickname}"></td>
-                <td class="w-auto align-middle" th:text="${team.longName}"></td>
-                <td class="w-auto align-middle" th:text="${team.altName1}"></td>
-                <td class="w-auto align-middle" th:text="${team.espnId}"></td>
-                <td class="w-auto align-middle" th:text="${team.scrapeSrcId}"></td>
+            <tr th:each="conf: ${conferences}">
+                <td class="w-auto align-middle" th:text="${conf.id}"></td>
+                <td style="max-width: 2em;"><img class="img-fluid img-thumbnail" th:src="${conf.logoUrl}"/></td>
+                <td class="w-auto align-middle" th:text="${conf.name}"></td>
+                <td class="w-auto align-middle" th:text="${conf.key}"></td>
+                <td class="w-auto align-middle" th:text="${conf.espnId}"></td>
+                <td class="w-auto align-middle" th:text="${conf.scrapeSrcId}"></td>
                 <td class="w-auto align-middle"
-                    th:text="${#temporals.format(team.publishedAt, 'yyyy-MMM-dd HH:mm:ss')}"></td>
+                    th:text="${#temporals.format(conf.publishedAt, 'yyyy-MMM-dd HH:mm:ss')}"></td>
             </tr>
             </tbody>
         </table>
