@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fijimf.deepfij.scraping.Standings;
 import com.fijimf.deepfij.scraping.StandingsConference;
+import com.fijimf.deepfij.scraping.StandingsTeam;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -64,11 +65,11 @@ public class ConferenceMapScrapeTest {
             ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
             Standings mapped = objectMapper.readValue(inputStream, Standings.class);
             assertThat(mapped).isNotNull();
-            Map<String, List<String>> confMap = mapped.mapValues();
+            Map<String, List<StandingsTeam>> confMap = mapped.mapValues();
             String value = objectMapper.writerFor(Standings.class).writeValueAsString(mapped);
             System.err.println(value);
             Standings mapped2 = objectMapper.readValue(value, Standings.class);
-            Map<String, List<String>> confMap2 = mapped2.mapValues();
+            Map<String, List<StandingsTeam>> confMap2 = mapped2.mapValues();
             assertThat(confMap).isEqualTo(confMap2);
 
         }

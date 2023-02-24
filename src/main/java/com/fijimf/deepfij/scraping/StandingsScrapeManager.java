@@ -6,13 +6,13 @@ import com.fijimf.deepfij.db.model.schedule.Conference;
 import com.fijimf.deepfij.db.model.schedule.ConferenceMap;
 import com.fijimf.deepfij.db.model.schedule.Season;
 import com.fijimf.deepfij.db.model.schedule.Team;
-import com.fijimf.deepfij.db.model.scrape.EspnConferencesScrape;
 import com.fijimf.deepfij.db.model.scrape.EspnStandingsScrape;
 import com.fijimf.deepfij.db.repo.schedule.ConferenceMappingRepo;
 import com.fijimf.deepfij.db.repo.schedule.ConferenceRepo;
 import com.fijimf.deepfij.db.repo.schedule.SeasonRepo;
 import com.fijimf.deepfij.db.repo.schedule.TeamRepo;
 import com.fijimf.deepfij.db.repo.scrape.EspnStandingsScrapeRepo;
+import com.fijimf.deepfij.scraping.util.TeamNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,20 +89,23 @@ public class StandingsScrapeManager {
     }
 
     @Transactional
-    public void publishConferenceMap(long id, boolean cleanUp) {
-        publishConferenceMap(scrapeRepo.findById(id).orElseThrow(), cleanUp);
+    public Season publishConferenceMap(long id, boolean cleanUp) {
+       return  publishConferenceMap(scrapeRepo.findById(id).orElseThrow(), cleanUp);
     }
 
     @Transactional
-    public void publishConferenceMap(EspnStandingsScrape scrape, boolean cleanUp) {
+    public Season publishConferenceMap(EspnStandingsScrape scrape, boolean cleanUp) {
         Season season = seasonRepo.findBySeason(scrape.getSeason()).orElseThrow();
         try {
             Standings standings = objectMapper.readValue(scrape.getResponse(), Standings.class);
-            Map<String, List<String>> confMap = standings.mapValues();
+            Map<String, List<StandingsTeam>> confMap = standings.mapValues();
             confMap.keySet().forEach(c -> {
                 Conference conf = conferenceRepo.findByEspnIdEquals(c).orElseThrow();
-                confMap.get(c).stream().forEach(t -> {
-                    Team team = teamRepo.findByEspnIdEquals(t).orElseThrow();
+                confMap.get(c).forEach(t -> {
+                    Optional<Team> zzzzzzzzz = teamRepo.findByEspnIdEquals(t.getId());
+                    System.err.println(t.getId());
+                    System.err.println(zzzzzzzzz);
+                    Team team = zzzzzzzzz.orElseGet(()->populateStubTeamFromStandings(t));
                     Optional<ConferenceMap> optMapping = conferenceMappingRepo.findBySeasonIdAndTeamId(season.getId(), team.getId());
                     if (optMapping.isPresent()) {
                         ConferenceMap conferenceMap = optMapping.get();
@@ -122,7 +125,14 @@ public class StandingsScrapeManager {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+        return seasonRepo.findById(season.getId()).orElseThrow();
+    }
 
+    private Team populateStubTeamFromStandings(StandingsTeam t) {
+        logger.info("Team ["+t.getId()+"] not found.  Creating from standings");
+        Team team = teamRepo.saveAndFlush(t.value());
+        logger.info("Team "+team.getKey()+" created");
+        return team;
     }
 
     public String showRawStandingsScrape(long id) {
@@ -135,5 +145,9 @@ public class StandingsScrapeManager {
 
     public List<EspnStandingsScrape> findAllStandingsScrapes() {
         return scrapeRepo.findAll();
+    }
+
+    public List<EspnStandingsScrape> findStandingScrapesBySeasonYear(int year) {
+        return scrapeRepo.findAllBySeason(year);
     }
 }

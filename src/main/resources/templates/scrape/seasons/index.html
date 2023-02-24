@@ -47,17 +47,46 @@
         <div class="row">
             <h1 class="display-3 col-12">Seasons</h1>
         </div>
-        <form th:action="${'/admin/scrape/seasons/new'}" method="post">
-            <div class="row">
-                <label type="text" class="col-1 form-label" for="seasonYear">Year</label>
-                <div class="col-1">
-                    <input type="text" id="seasonYear" name="seasonYear" class="form-control" placeholder="yyyy" aria-label="Year">
-                </div>
-                <div class="col-2">
-                    <button type="submit" class="btn btn-primary">Create New Season</button>
-                </div>
-            </div>
-        </form>
+        <h3>Standings Scrapes</h3>
+        <a class="btn btn-primary btn-sm col-1" th:href="${'/admin/scrape/seasons/conferenceMappings/scrape/'+season.getSeason()}">Scrape
+            <i class="px-1 bi-cloud-arrow-down-fill"></i>
+        </a>
+        <table class="table table-bordered table-sm">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Retrieved At</th>
+                <th>URL</th>
+                <th>Response Time</th>
+                <th>Response Code</th>
+                <th>Status</th>
+                <th>View Raw</th>
+                <th>Update</th>
+                <th>Replace</th>
+                <th>Drop</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="scrape: ${standingsScrapes}">
+                <td th:text="${scrape.id}"></td>
+                <td th:text="${#temporals.format(scrape.retrievedAt, 'yyyy-MMM-dd HH:mm:ss')}"></td>
+                <td><a th:href="${scrape.url}" th:title="${scrape.url}" th:text="${scrape.displayUrl()}"
+                       target="_blank"></a><i class="px-1 bold-bi bi-box-arrow-up-right"></i></td>
+                <td th:text="${scrape.responseTimeMs}"></td>
+                <td th:text="${scrape.responseCode}"></td>
+                <td th:text="${scrape.status}"></td>
+                <td class="text-center"><a th:href="${'/admin/scrape/seaasons/conferenceMappings/raw/'+scrape.id}"
+                                           target="_blank"><i class="bi-search bold-bi"></i></a></td>
+                <td class="text-center"><a th:href="${'/admin/scrape/seasons/conferenceMappings/publishUpdate/'+scrape.id}"><i
+                        class="bi-database bold-bi"></i></a></td>
+                <td class="text-center"><a th:href="${'/admin/scrape/seasons/conferenceMappings/publishReplace/'+scrape.id}"><i
+                        class="bi-database-exclamation bold-bi"></i></a></td>
+                <td class="text-center"><a th:href="${'/admin/scrape/seasons/conferenceMappings/delete/'+scrape.id}"><i
+                        class="bi-x-circle bold-bi text-danger"></i></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     </div>
     <!--<script src="js/vendor/modernizr-3.11.2.min.js"></script>-->
     <!--<script src="js/plugins.js"></script>-->

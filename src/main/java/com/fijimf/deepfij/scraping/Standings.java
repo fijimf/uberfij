@@ -40,7 +40,7 @@ public class Standings {
         this.children = children;
     }
 
-    public Map<String, List<String>> mapValues() {
+    public Map<String, List<StandingsTeam>> mapValues() {
         return Arrays.stream(children)
                 .peek(c->logger.info(c.getName()+"["+c.getId()+"]"))
                 .collect(Collectors.toMap(
@@ -48,7 +48,7 @@ public class Standings {
                         c -> c.consolidatedStandings()
                                 .stream()
                                 .peek(e->logger.info(" -> "+e.getTeam().getShortDisplayName()+"["+e.getTeam().getId()+"]"))
-                                .map(e -> e.getTeam().getId())
+                                .map(StandingsLine::getTeam)
                                 .collect(Collectors.toList())
                 ));
     }
