@@ -1,0 +1,477 @@
+{
+  "sports": [
+    {
+      "id": "40",
+      "uid": "s:40",
+      "guid": "cd70a58e-a830-330c-93ed-52360b51b632",
+      "name": "Basketball",
+      "slug": "basketball",
+      "logos": [
+        {
+          "href": "https://a.espncdn.com/combiner/i?img=/redesign/assets/img/icons/ESPN-icon-basketball.png",
+          "alt": "",
+          "rel": [
+            "full",
+            "default"
+          ],
+          "width": 500,
+          "height": 500
+        }
+      ],
+      "leagues": [
+        {
+          "id": "41",
+          "uid": "s:40~l:41",
+          "name": "NCAA Men's Basketball",
+          "abbreviation": "NCAAM",
+          "shortName": "NCAAM",
+          "slug": "mens-college-basketball",
+          "tag": "mens-college-basketball",
+          "isTournament": false,
+          "smartdates": [
+            "2022-11-07T08:00Z",
+            "2022-11-08T08:00Z",
+            "2022-11-09T08:00Z"
+          ],
+          "events": [
+            {
+              "id": "401310866",
+              "uid": "s:40~l:41~e:401310866~c:401310866",
+              "date": "2021-04-03T21:14:00Z",
+              "timeValid": true,
+              "recent": false,
+              "name": "Houston Cougars at Baylor Bears",
+              "shortName": "HOU @ BAY",
+              "notes": [
+                {
+                  "text": "Men's Basketball Championship - Final Four",
+                  "headline": "Men's Basketball Championship - Final Four",
+                  "type": "event"
+                }
+              ],
+              "links": [
+                {
+                  "rel": [
+                    "summary",
+                    "desktop",
+                    "event"
+                  ],
+                  "href": "https://www.espn.com/mens-college-basketball/game/_/gameId/401310866",
+                  "text": "Gamecast"
+                },
+                {
+                  "rel": [
+                    "boxscore",
+                    "desktop",
+                    "event"
+                  ],
+                  "href": "https://www.espn.com/mens-college-basketball/boxscore/_/gameId/401310866",
+                  "text": "Box Score"
+                }
+              ],
+              "gamecastAvailable": true,
+              "playByPlayAvailable": true,
+              "commentaryAvailable": false,
+              "onWatch": false,
+              "competitionId": "401310866",
+              "location": "Lucas Oil Stadium",
+              "season": 2021,
+              "seasonStartDate": "2020-07-01T07:00:00Z",
+              "seasonEndDate": "2021-04-07T06:59:00Z",
+              "seasonType": "3",
+              "seasonTypeHasGroups": false,
+              "group": {
+                "groupId": "3",
+                "name": "Postseason",
+                "abbreviation": "post",
+                "shortName": "post"
+              },
+              "week": 3,
+              "weekText": "Week 3",
+              "link": "https://www.espn.com/mens-college-basketball/game/_/gameId/401310866",
+              "status": "post",
+              "summary": "Final",
+              "period": 2,
+              "clock": "0:00",
+              "note": "Men's Basketball Championship - Final Four",
+              "broadcasts": [
+                {
+                  "typeId": 1,
+                  "priority": 1,
+                  "type": "TV",
+                  "isNational": true,
+                  "broadcasterId": 44,
+                  "broadcastId": 44,
+                  "name": "CBS",
+                  "shortName": "CBS",
+                  "callLetters": "CBS",
+                  "station": "CBS",
+                  "lang": "en",
+                  "region": "us",
+                  "slug": "cbs"
+                }
+              ],
+              "broadcast": "CBS",
+              "odds": {
+                "details": "BAY -5.0",
+                "overUnder": 135.5,
+                "spread": -5.0,
+                "overOdds": -110,
+                "underOdds": -110,
+                "provider": {
+                  "id": "45",
+                  "name": "Caesars Sportsbook (New Jersey)",
+                  "priority": 1
+                },
+                "home": {
+                  "moneyLine": -250
+                },
+                "away": {
+                  "moneyLine": 205
+                },
+                "awayTeamOdds": {
+                  "favorite": false,
+                  "underdog": true,
+                  "moneyLine": 205,
+                  "spreadOdds": -110,
+                  "team": {
+                    "id": "248",
+                    "abbreviation": "HOU"
+                  }
+                },
+                "homeTeamOdds": {
+                  "favorite": true,
+                  "underdog": false,
+                  "moneyLine": -250,
+                  "spreadOdds": -110,
+                  "team": {
+                    "id": "239",
+                    "abbreviation": "BAY"
+                  }
+                },
+                "links": []
+              },
+              "fullStatus": {
+                "clock": 0.0,
+                "displayClock": "0:00",
+                "period": 2,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "completed": true,
+                  "description": "Final",
+                  "detail": "Final",
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "248",
+                  "uid": "s:40~l:41~t:248",
+                  "type": "team",
+                  "order": 1,
+                  "homeAway": "away",
+                  "winner": false,
+                  "displayName": "Houston Cougars",
+                  "name": "Houston",
+                  "abbreviation": "HOU",
+                  "location": "Houston",
+                  "color": "c92a39",
+                  "alternateColor": "ffffff",
+                  "score": "59",
+                  "group": "62",
+                  "record": "28-4",
+                  "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/248.png",
+                  "logoDark": "https://a.espncdn.com/i/teamlogos/ncaa/500-dark/248.png",
+                  "rank": 2,
+                  "tournamentMatchup": {
+                    "position": 2,
+                    "seed": "2"
+                  }
+                },
+                {
+                  "id": "239",
+                  "uid": "s:40~l:41~t:239",
+                  "type": "team",
+                  "order": 0,
+                  "homeAway": "home",
+                  "winner": true,
+                  "displayName": "Baylor Bears",
+                  "name": "Baylor",
+                  "abbreviation": "BAY",
+                  "location": "Baylor",
+                  "color": "154734",
+                  "alternateColor": "ffb81c",
+                  "score": "78",
+                  "group": "8",
+                  "record": "27-2",
+                  "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/239.png",
+                  "logoDark": "https://a.espncdn.com/i/teamlogos/ncaa/500-dark/239.png",
+                  "rank": 1,
+                  "tournamentMatchup": {
+                    "position": 1,
+                    "seed": "1"
+                  }
+                }
+              ],
+              "appLinks": [
+                {
+                  "rel": [
+                    "summary",
+                    "sportscenter",
+                    "app",
+                    "event"
+                  ],
+                  "href": "sportscenter://x-callback-url/showGame?sportName=basketball&leagueAbbrev=mens-college-basketball&gameId=401310866",
+                  "text": "Gamecast",
+                  "shortText": "Summary"
+                },
+                {
+                  "rel": [
+                    "boxscore",
+                    "sportscenter",
+                    "app",
+                    "event"
+                  ],
+                  "href": "sportscenter://x-callback-url/showGame?sportName=basketball&leagueAbbrev=mens-college-basketball&gameId=401310866",
+                  "text": "Box Score",
+                  "shortText": "Box Score"
+                },
+                {
+                  "rel": [
+                    "gamecast",
+                    "sportscenter",
+                    "app",
+                    "event"
+                  ],
+                  "href": "sportscenter://x-callback-url/showGame?sportName=basketball&leagueAbbrev=mens-college-basketball&gameId=401310866",
+                  "text": "Gamecast",
+                  "shortText": "Gamecast"
+                }
+              ]
+            },
+            {
+              "id": "401310867",
+              "uid": "s:40~l:41~e:401310867~c:401310867",
+              "date": "2021-04-04T00:47:00Z",
+              "timeValid": true,
+              "recent": false,
+              "name": "UCLA Bruins at Gonzaga Bulldogs",
+              "shortName": "UCLA @ GONZ",
+              "notes": [
+                {
+                  "text": "Men's Basketball Championship - Final Four",
+                  "headline": "Men's Basketball Championship - Final Four",
+                  "type": "event"
+                }
+              ],
+              "links": [
+                {
+                  "rel": [
+                    "summary",
+                    "desktop",
+                    "event"
+                  ],
+                  "href": "https://www.espn.com/mens-college-basketball/game/_/gameId/401310867",
+                  "text": "Gamecast"
+                },
+                {
+                  "rel": [
+                    "boxscore",
+                    "desktop",
+                    "event"
+                  ],
+                  "href": "https://www.espn.com/mens-college-basketball/boxscore/_/gameId/401310867",
+                  "text": "Box Score"
+                }
+              ],
+              "gamecastAvailable": true,
+              "playByPlayAvailable": true,
+              "commentaryAvailable": false,
+              "onWatch": false,
+              "competitionId": "401310867",
+              "location": "Lucas Oil Stadium",
+              "season": 2021,
+              "seasonStartDate": "2020-07-01T07:00:00Z",
+              "seasonEndDate": "2021-04-07T06:59:00Z",
+              "seasonType": "3",
+              "seasonTypeHasGroups": false,
+              "group": {
+                "groupId": "3",
+                "name": "Postseason",
+                "abbreviation": "post",
+                "shortName": "post"
+              },
+              "week": 3,
+              "weekText": "Week 3",
+              "link": "https://www.espn.com/mens-college-basketball/game/_/gameId/401310867",
+              "status": "post",
+              "summary": "Final/OT",
+              "period": 3,
+              "clock": "0:00",
+              "note": "Men's Basketball Championship - Final Four",
+              "broadcasts": [
+                {
+                  "typeId": 1,
+                  "priority": 1,
+                  "type": "TV",
+                  "isNational": true,
+                  "broadcasterId": 44,
+                  "broadcastId": 44,
+                  "name": "CBS",
+                  "shortName": "CBS",
+                  "callLetters": "CBS",
+                  "station": "CBS",
+                  "lang": "en",
+                  "region": "us",
+                  "slug": "cbs"
+                }
+              ],
+              "broadcast": "CBS",
+              "odds": {
+                "details": "GONZ -14.5",
+                "overUnder": 147.5,
+                "spread": -14.5,
+                "overOdds": -110,
+                "underOdds": -110,
+                "provider": {
+                  "id": "45",
+                  "name": "Caesars Sportsbook (New Jersey)",
+                  "priority": 1
+                },
+                "home": {
+                  "moneyLine": -1200
+                },
+                "away": {
+                  "moneyLine": 750
+                },
+                "awayTeamOdds": {
+                  "favorite": false,
+                  "underdog": true,
+                  "moneyLine": 750,
+                  "spreadOdds": -110,
+                  "team": {
+                    "id": "26",
+                    "abbreviation": "UCLA"
+                  }
+                },
+                "homeTeamOdds": {
+                  "favorite": true,
+                  "underdog": false,
+                  "moneyLine": -1200,
+                  "spreadOdds": -110,
+                  "team": {
+                    "id": "2250",
+                    "abbreviation": "GONZ"
+                  }
+                },
+                "links": []
+              },
+              "fullStatus": {
+                "clock": 0.0,
+                "displayClock": "0:00",
+                "period": 3,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "completed": true,
+                  "description": "Final",
+                  "detail": "Final/OT",
+                  "shortDetail": "Final/OT",
+                  "altDetail": "OT"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "26",
+                  "uid": "s:40~l:41~t:26",
+                  "type": "team",
+                  "order": 1,
+                  "homeAway": "away",
+                  "winner": false,
+                  "displayName": "UCLA Bruins",
+                  "name": "UCLA",
+                  "abbreviation": "UCLA",
+                  "location": "UCLA",
+                  "color": "2774ae",
+                  "alternateColor": "f2a900",
+                  "score": "90",
+                  "group": "21",
+                  "record": "22-10",
+                  "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/26.png",
+                  "logoDark": "https://a.espncdn.com/i/teamlogos/ncaa/500-dark/26.png",
+                  "rank": 11,
+                  "tournamentMatchup": {
+                    "position": 2,
+                    "seed": "11"
+                  }
+                },
+                {
+                  "id": "2250",
+                  "uid": "s:40~l:41~t:2250",
+                  "type": "team",
+                  "order": 0,
+                  "homeAway": "home",
+                  "winner": true,
+                  "displayName": "Gonzaga Bulldogs",
+                  "name": "Gonzaga",
+                  "abbreviation": "GONZ",
+                  "location": "Gonzaga",
+                  "color": "041e42",
+                  "alternateColor": "c8102e",
+                  "score": "93",
+                  "group": "29",
+                  "record": "31-0",
+                  "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/2250.png",
+                  "logoDark": "https://a.espncdn.com/i/teamlogos/ncaa/500-dark/2250.png",
+                  "rank": 1,
+                  "tournamentMatchup": {
+                    "position": 1,
+                    "seed": "1"
+                  }
+                }
+              ],
+              "appLinks": [
+                {
+                  "rel": [
+                    "summary",
+                    "sportscenter",
+                    "app",
+                    "event"
+                  ],
+                  "href": "sportscenter://x-callback-url/showGame?sportName=basketball&leagueAbbrev=mens-college-basketball&gameId=401310867",
+                  "text": "Gamecast",
+                  "shortText": "Summary"
+                },
+                {
+                  "rel": [
+                    "boxscore",
+                    "sportscenter",
+                    "app",
+                    "event"
+                  ],
+                  "href": "sportscenter://x-callback-url/showGame?sportName=basketball&leagueAbbrev=mens-college-basketball&gameId=401310867",
+                  "text": "Box Score",
+                  "shortText": "Box Score"
+                },
+                {
+                  "rel": [
+                    "gamecast",
+                    "sportscenter",
+                    "app",
+                    "event"
+                  ],
+                  "href": "sportscenter://x-callback-url/showGame?sportName=basketball&leagueAbbrev=mens-college-basketball&gameId=401310867",
+                  "text": "Gamecast",
+                  "shortText": "Gamecast"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

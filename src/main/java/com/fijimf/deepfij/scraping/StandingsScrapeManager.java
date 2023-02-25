@@ -100,21 +100,18 @@ public class StandingsScrapeManager {
             Standings standings = objectMapper.readValue(scrape.getResponse(), Standings.class);
             Map<String, List<StandingsTeam>> confMap = standings.mapValues();
             confMap.keySet().forEach(c -> {
-                Conference conf = conferenceRepo.findByEspnIdEquals(c).orElseThrow();
+                Conference conf = conferenceRepo.findByEspnIdEquals(c).orElseThrow(()->new RuntimeException("Could not find conf for id "+c));
                 confMap.get(c).forEach(t -> {
-                    Optional<Team> zzzzzzzzz = teamRepo.findByEspnIdEquals(t.getId());
-                    System.err.println(t.getId());
-                    System.err.println(zzzzzzzzz);
-                    Team team = zzzzzzzzz.orElseGet(()->populateStubTeamFromStandings(t));
-                    Optional<ConferenceMap> optMapping = conferenceMappingRepo.findBySeasonIdAndTeamId(season.getId(), team.getId());
+                    Team team = teamRepo.findByEspnIdEquals(t.getId()).orElseGet(()->populateStubTeamFromStandings(t));
+                    Optional<ConferenceMap> optMapping = conferenceMappingRepo.findBySeasonAndTeam(season, team);
                     if (optMapping.isPresent()) {
                         ConferenceMap conferenceMap = optMapping.get();
-                        conferenceMap.setConferenceId(conf.getId());
+                        conferenceMap.setConference(conf);
                         conferenceMap.setScrapeSrcId(scrape.getId());
                         conferenceMap.setPublishedAt(LocalDateTime.now());
                         conferenceMappingRepo.saveAndFlush(conferenceMap);
                     } else {
-                        ConferenceMap conferenceMap = new ConferenceMap(0L, season, conf.getId(), team.getId(), scrape.getId(), LocalDateTime.now());
+                        ConferenceMap conferenceMap = new ConferenceMap(0L, season, conf, team, scrape.getId(), LocalDateTime.now());
                         conferenceMappingRepo.saveAndFlush(conferenceMap);
                     }
                 });

@@ -1,0 +1,2778 @@
+{
+  "leagues": [
+    {
+      "id": "41",
+      "uid": "s:40~l:41",
+      "name": "NCAA Men's Basketball",
+      "abbreviation": "NCAAM",
+      "midsizeName": "NCAAM Basketball",
+      "slug": "mens-college-basketball",
+      "season": {
+        "year": 2023,
+        "startDate": "2022-07-13T07:00Z",
+        "endDate": "2023-04-05T06:59Z",
+        "type": {
+          "id": "2",
+          "type": 2,
+          "name": "Regular Season",
+          "abbreviation": "reg"
+        }
+      },
+      "logos": [
+        {
+          "href": "https://a3.espncdn.com/redesign/assets/img/icons/ESPN-icon-basketball.png",
+          "width": 500,
+          "height": 500,
+          "alt": "",
+          "rel": [
+            "full",
+            "default"
+          ],
+          "lastUpdated": "2021-08-03T15:56Z"
+        }
+      ],
+      "calendarType": "day",
+      "calendarIsWhitelist": true,
+      "calendarStartDate": "2020-07-01T07:00Z",
+      "calendarEndDate": "2021-04-07T06:59Z",
+      "calendar": [
+        "2020-11-25T08:00Z",
+        "2020-11-26T08:00Z",
+        "2020-11-27T08:00Z",
+        "2020-11-28T08:00Z",
+        "2020-11-29T08:00Z",
+        "2020-11-30T08:00Z",
+        "2020-12-01T08:00Z",
+        "2020-12-02T08:00Z",
+        "2020-12-03T08:00Z",
+        "2020-12-04T08:00Z",
+        "2020-12-05T08:00Z",
+        "2020-12-06T08:00Z",
+        "2020-12-07T08:00Z",
+        "2020-12-08T08:00Z",
+        "2020-12-09T08:00Z",
+        "2020-12-10T08:00Z",
+        "2020-12-11T08:00Z",
+        "2020-12-12T08:00Z",
+        "2020-12-13T08:00Z",
+        "2020-12-14T08:00Z",
+        "2020-12-15T08:00Z",
+        "2020-12-16T08:00Z",
+        "2020-12-17T08:00Z",
+        "2020-12-18T08:00Z",
+        "2020-12-19T08:00Z",
+        "2020-12-20T08:00Z",
+        "2020-12-21T08:00Z",
+        "2020-12-22T08:00Z",
+        "2020-12-23T08:00Z",
+        "2020-12-25T08:00Z",
+        "2020-12-26T08:00Z",
+        "2020-12-27T08:00Z",
+        "2020-12-28T08:00Z",
+        "2020-12-29T08:00Z",
+        "2020-12-30T08:00Z",
+        "2020-12-31T08:00Z",
+        "2021-01-01T08:00Z",
+        "2021-01-02T08:00Z",
+        "2021-01-03T08:00Z",
+        "2021-01-04T08:00Z",
+        "2021-01-05T08:00Z",
+        "2021-01-06T08:00Z",
+        "2021-01-07T08:00Z",
+        "2021-01-08T08:00Z",
+        "2021-01-09T08:00Z",
+        "2021-01-10T08:00Z",
+        "2021-01-11T08:00Z",
+        "2021-01-12T08:00Z",
+        "2021-01-13T08:00Z",
+        "2021-01-14T08:00Z",
+        "2021-01-15T08:00Z",
+        "2021-01-16T08:00Z",
+        "2021-01-17T08:00Z",
+        "2021-01-18T08:00Z",
+        "2021-01-19T08:00Z",
+        "2021-01-20T08:00Z",
+        "2021-01-21T08:00Z",
+        "2021-01-22T08:00Z",
+        "2021-01-23T08:00Z",
+        "2021-01-24T08:00Z",
+        "2021-01-25T08:00Z",
+        "2021-01-26T08:00Z",
+        "2021-01-27T08:00Z",
+        "2021-01-28T08:00Z",
+        "2021-01-29T08:00Z",
+        "2021-01-30T08:00Z",
+        "2021-01-31T08:00Z",
+        "2021-02-01T08:00Z",
+        "2021-02-02T08:00Z",
+        "2021-02-03T08:00Z",
+        "2021-02-04T08:00Z",
+        "2021-02-05T08:00Z",
+        "2021-02-06T08:00Z",
+        "2021-02-07T08:00Z",
+        "2021-02-08T08:00Z",
+        "2021-02-09T08:00Z",
+        "2021-02-10T08:00Z",
+        "2021-02-11T08:00Z",
+        "2021-02-12T08:00Z",
+        "2021-02-13T08:00Z",
+        "2021-02-14T08:00Z",
+        "2021-02-15T08:00Z",
+        "2021-02-16T08:00Z",
+        "2021-02-17T08:00Z",
+        "2021-02-18T08:00Z",
+        "2021-02-19T08:00Z",
+        "2021-02-20T08:00Z",
+        "2021-02-21T08:00Z",
+        "2021-02-22T08:00Z",
+        "2021-02-23T08:00Z",
+        "2021-02-24T08:00Z",
+        "2021-02-25T08:00Z",
+        "2021-02-26T08:00Z",
+        "2021-02-27T08:00Z",
+        "2021-02-28T08:00Z",
+        "2021-03-01T08:00Z",
+        "2021-03-02T08:00Z",
+        "2021-03-03T08:00Z",
+        "2021-03-04T08:00Z",
+        "2021-03-05T08:00Z",
+        "2021-03-06T08:00Z",
+        "2021-03-07T08:00Z",
+        "2021-03-08T08:00Z",
+        "2021-03-09T08:00Z",
+        "2021-03-10T08:00Z",
+        "2021-03-11T08:00Z",
+        "2021-03-12T08:00Z",
+        "2021-03-13T08:00Z",
+        "2021-03-14T08:00Z",
+        "2021-03-17T07:00Z",
+        "2021-03-18T07:00Z",
+        "2021-03-19T07:00Z",
+        "2021-03-20T07:00Z",
+        "2021-03-21T07:00Z",
+        "2021-03-22T07:00Z",
+        "2021-03-23T07:00Z",
+        "2021-03-24T07:00Z",
+        "2021-03-25T07:00Z",
+        "2021-03-27T07:00Z",
+        "2021-03-28T07:00Z",
+        "2021-03-29T07:00Z",
+        "2021-03-30T07:00Z",
+        "2021-04-03T07:00Z",
+        "2021-04-05T07:00Z"
+      ]
+    }
+  ],
+  "groups": [
+    "100"
+  ],
+  "day": {
+    "date": "2021-04-03"
+  },
+  "events": [
+    {
+      "id": "401310867",
+      "uid": "s:40~l:41~e:401310867",
+      "date": "2021-04-04T00:47Z",
+      "name": "UCLA Bruins at Gonzaga Bulldogs",
+      "shortName": "UCLA @ GONZ",
+      "season": {
+        "year": 2021,
+        "type": 3,
+        "slug": "post-season"
+      },
+      "competitions": [
+        {
+          "id": "401310867",
+          "uid": "s:40~l:41~e:401310867~c:401310867",
+          "date": "2021-04-04T00:47Z",
+          "attendance": 8131,
+          "timeValid": true,
+          "neutralSite": true,
+          "conferenceCompetition": false,
+          "recent": false,
+          "venue": {
+            "id": "3812",
+            "fullName": "Lucas Oil Stadium",
+            "address": {
+              "city": "Indianapolis",
+              "state": "IN"
+            },
+            "capacity": 0,
+            "indoor": true
+          },
+          "competitors": [
+            {
+              "id": "2250",
+              "uid": "s:40~l:41~t:2250",
+              "type": "team",
+              "order": 0,
+              "homeAway": "home",
+              "winner": true,
+              "team": {
+                "id": "2250",
+                "uid": "s:40~l:41~t:2250",
+                "location": "Gonzaga",
+                "name": "Bulldogs",
+                "abbreviation": "GONZ",
+                "displayName": "Gonzaga Bulldogs",
+                "shortDisplayName": "Gonzaga",
+                "color": "041e42",
+                "alternateColor": "c8102e",
+                "isActive": true,
+                "venue": {
+                  "id": "1979"
+                },
+                "links": [
+                  {
+                    "rel": [
+                      "clubhouse",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "https://www.espn.com/mens-college-basketball/team/_/id/2250/gonzaga-bulldogs",
+                    "text": "Clubhouse",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "roster",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "http://www.espn.com/mens-college-basketball/team/roster/_/id/2250",
+                    "text": "Roster",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "stats",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "http://www.espn.com/mens-college-basketball/team/stats/_/id/2250",
+                    "text": "Statistics",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "schedule",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "https://www.espn.com/mens-college-basketball/team/schedule/_/id/2250",
+                    "text": "Schedule",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "photos",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "http://www.espn.com/mens-college-basketball/team/photos/_/id/2250",
+                    "text": "photos",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "scores",
+                      "sportscenter",
+                      "app",
+                      "team"
+                    ],
+                    "href": "sportscenter://x-callback-url/showClubhouse?uid=s:40~l:41~t:2250&section=scores",
+                    "text": "Scores",
+                    "isExternal": false,
+                    "isPremium": false
+                  }
+                ],
+                "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/2250.png",
+                "conferenceId": "29"
+              },
+              "score": "93",
+              "linescores": [
+                {
+                  "value": 45.0
+                },
+                {
+                  "value": 36.0
+                },
+                {
+                  "value": 12.0
+                }
+              ],
+              "statistics": [
+                {
+                  "name": "rebounds",
+                  "abbreviation": "REB",
+                  "displayValue": "26"
+                },
+                {
+                  "name": "avgRebounds",
+                  "abbreviation": "REB",
+                  "displayValue": "26.0"
+                },
+                {
+                  "name": "assists",
+                  "abbreviation": "AST",
+                  "displayValue": "26"
+                },
+                {
+                  "name": "fieldGoalsAttempted",
+                  "abbreviation": "FGA",
+                  "displayValue": "63"
+                },
+                {
+                  "name": "fieldGoalsMade",
+                  "abbreviation": "FGM",
+                  "displayValue": "37"
+                },
+                {
+                  "name": "fieldGoalPct",
+                  "abbreviation": "FG%",
+                  "displayValue": "58.7"
+                },
+                {
+                  "name": "freeThrowPct",
+                  "abbreviation": "FT%",
+                  "displayValue": "60.0"
+                },
+                {
+                  "name": "freeThrowsAttempted",
+                  "abbreviation": "FTA",
+                  "displayValue": "20"
+                },
+                {
+                  "name": "freeThrowsMade",
+                  "abbreviation": "FTM",
+                  "displayValue": "12"
+                },
+                {
+                  "name": "points",
+                  "abbreviation": "PTS",
+                  "displayValue": "93"
+                },
+                {
+                  "name": "threePointFieldGoalsAttempted",
+                  "abbreviation": "3PA",
+                  "displayValue": "21"
+                },
+                {
+                  "name": "threePointFieldGoalsMade",
+                  "abbreviation": "3PM",
+                  "displayValue": "7"
+                },
+                {
+                  "name": "avgPoints",
+                  "abbreviation": "PTS",
+                  "displayValue": "93.0"
+                },
+                {
+                  "name": "avgAssists",
+                  "abbreviation": "AST",
+                  "displayValue": "26.0"
+                },
+                {
+                  "name": "threePointFieldGoalPct",
+                  "abbreviation": "3P%",
+                  "displayValue": "33.3"
+                }
+              ],
+              "leaders": [
+                {
+                  "name": "points",
+                  "displayName": "Points",
+                  "shortDisplayName": "Pts",
+                  "abbreviation": "Pts",
+                  "leaders": [
+                    {
+                      "displayValue": "25",
+                      "value": 25.0,
+                      "athlete": {
+                        "id": "4431695",
+                        "fullName": "Drew Timme",
+                        "displayName": "Drew Timme",
+                        "shortName": "D. Timme",
+                        "links": [
+                          {
+                            "rel": [
+                              "playercard",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "https://www.espn.com/mens-college-basketball/player/_/id/4431695/drew-timme"
+                          },
+                          {
+                            "rel": [
+                              "stats",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/stats/_/id/4431695/drew-timme"
+                          },
+                          {
+                            "rel": [
+                              "splits",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/splits/_/id/4431695/drew-timme"
+                          },
+                          {
+                            "rel": [
+                              "gamelog",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/gamelog/_/id/4431695/drew-timme"
+                          },
+                          {
+                            "rel": [
+                              "news",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/news/_/id/4431695/drew-timme"
+                          },
+                          {
+                            "rel": [
+                              "bio",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/bio/_/id/4431695/drew-timme"
+                          },
+                          {
+                            "rel": [
+                              "overview",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/_/id/4431695/drew-timme"
+                          }
+                        ],
+                        "headshot": "https://a.espncdn.com/i/headshots/mens-college-basketball/players/full/4431695.png",
+                        "jersey": "2",
+                        "position": {
+                          "abbreviation": "F"
+                        },
+                        "team": {
+                          "id": "2250"
+                        },
+                        "active": true
+                      },
+                      "team": {
+                        "id": "2250"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "rebounds",
+                  "displayName": "Rebounds",
+                  "shortDisplayName": "Reb",
+                  "abbreviation": "Reb",
+                  "leaders": [
+                    {
+                      "displayValue": "6",
+                      "value": 6.0,
+                      "athlete": {
+                        "id": "4280150",
+                        "fullName": "Joel Ayayi",
+                        "displayName": "Joel Ayayi",
+                        "shortName": "J. Ayayi",
+                        "links": [
+                          {
+                            "rel": [
+                              "playercard",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "https://www.espn.com/mens-college-basketball/player/_/id/4280150/joel-ayayi"
+                          },
+                          {
+                            "rel": [
+                              "stats",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/stats/_/id/4280150/joel-ayayi"
+                          },
+                          {
+                            "rel": [
+                              "splits",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/splits/_/id/4280150/joel-ayayi"
+                          },
+                          {
+                            "rel": [
+                              "gamelog",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/gamelog/_/id/4280150/joel-ayayi"
+                          },
+                          {
+                            "rel": [
+                              "news",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/news/_/id/4280150/joel-ayayi"
+                          },
+                          {
+                            "rel": [
+                              "bio",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/bio/_/id/4280150/joel-ayayi"
+                          },
+                          {
+                            "rel": [
+                              "overview",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/_/id/4280150/joel-ayayi"
+                          }
+                        ],
+                        "headshot": "https://a.espncdn.com/i/headshots/mens-college-basketball/players/full/4280150.png",
+                        "jersey": "11",
+                        "position": {
+                          "abbreviation": "G"
+                        },
+                        "team": {
+                          "id": "2250"
+                        },
+                        "active": false
+                      },
+                      "team": {
+                        "id": "2250"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "assists",
+                  "displayName": "Assists",
+                  "shortDisplayName": "Ast",
+                  "abbreviation": "Ast",
+                  "leaders": [
+                    {
+                      "displayValue": "8",
+                      "value": 8.0,
+                      "athlete": {
+                        "id": "4395712",
+                        "fullName": "Andrew Nembhard",
+                        "displayName": "Andrew Nembhard",
+                        "shortName": "A. Nembhard",
+                        "links": [
+                          {
+                            "rel": [
+                              "playercard",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "https://www.espn.com/mens-college-basketball/player/_/id/4395712/andrew-nembhard"
+                          },
+                          {
+                            "rel": [
+                              "stats",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/stats/_/id/4395712/andrew-nembhard"
+                          },
+                          {
+                            "rel": [
+                              "splits",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/splits/_/id/4395712/andrew-nembhard"
+                          },
+                          {
+                            "rel": [
+                              "gamelog",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/gamelog/_/id/4395712/andrew-nembhard"
+                          },
+                          {
+                            "rel": [
+                              "news",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/news/_/id/4395712/andrew-nembhard"
+                          },
+                          {
+                            "rel": [
+                              "bio",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/bio/_/id/4395712/andrew-nembhard"
+                          },
+                          {
+                            "rel": [
+                              "overview",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/_/id/4395712/andrew-nembhard"
+                          }
+                        ],
+                        "headshot": "https://a.espncdn.com/i/headshots/mens-college-basketball/players/full/4395712.png",
+                        "jersey": "3",
+                        "position": {
+                          "abbreviation": "G"
+                        },
+                        "team": {
+                          "id": "2250"
+                        },
+                        "active": false
+                      },
+                      "team": {
+                        "id": "2250"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "rating",
+                  "displayName": "Rating",
+                  "shortDisplayName": "RAT",
+                  "abbreviation": "RAT",
+                  "leaders": [
+                    {
+                      "displayValue": "25 PTS",
+                      "value": 38.75,
+                      "athlete": {
+                        "id": "4431695",
+                        "fullName": "Drew Timme",
+                        "displayName": "Drew Timme",
+                        "shortName": "D. Timme",
+                        "links": [
+                          {
+                            "rel": [
+                              "playercard",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "https://www.espn.com/mens-college-basketball/player/_/id/4431695/drew-timme"
+                          },
+                          {
+                            "rel": [
+                              "stats",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/stats/_/id/4431695/drew-timme"
+                          },
+                          {
+                            "rel": [
+                              "splits",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/splits/_/id/4431695/drew-timme"
+                          },
+                          {
+                            "rel": [
+                              "gamelog",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/gamelog/_/id/4431695/drew-timme"
+                          },
+                          {
+                            "rel": [
+                              "news",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/news/_/id/4431695/drew-timme"
+                          },
+                          {
+                            "rel": [
+                              "bio",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/bio/_/id/4431695/drew-timme"
+                          },
+                          {
+                            "rel": [
+                              "overview",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/_/id/4431695/drew-timme"
+                          }
+                        ],
+                        "headshot": "https://a.espncdn.com/i/headshots/mens-college-basketball/players/full/4431695.png",
+                        "jersey": "2",
+                        "position": {
+                          "abbreviation": "F"
+                        },
+                        "team": {
+                          "id": "2250"
+                        },
+                        "active": true
+                      },
+                      "team": {
+                        "id": "2250"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "curatedRank": {
+                "current": 1
+              },
+              "records": [
+                {
+                  "name": "overall",
+                  "abbreviation": "Game",
+                  "type": "total",
+                  "summary": "31-0"
+                },
+                {
+                  "name": "Home",
+                  "type": "home",
+                  "summary": "12-0"
+                },
+                {
+                  "name": "Road",
+                  "type": "road",
+                  "summary": "7-0"
+                },
+                {
+                  "name": "vs. Conf.",
+                  "type": "vsconf",
+                  "summary": "15-0"
+                }
+              ]
+            },
+            {
+              "id": "26",
+              "uid": "s:40~l:41~t:26",
+              "type": "team",
+              "order": 1,
+              "homeAway": "away",
+              "winner": false,
+              "team": {
+                "id": "26",
+                "uid": "s:40~l:41~t:26",
+                "location": "UCLA",
+                "name": "Bruins",
+                "abbreviation": "UCLA",
+                "displayName": "UCLA Bruins",
+                "shortDisplayName": "UCLA",
+                "color": "2774ae",
+                "alternateColor": "f2a900",
+                "isActive": true,
+                "venue": {
+                  "id": "479"
+                },
+                "links": [
+                  {
+                    "rel": [
+                      "clubhouse",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "https://www.espn.com/mens-college-basketball/team/_/id/26/ucla-bruins",
+                    "text": "Clubhouse",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "roster",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "http://www.espn.com/mens-college-basketball/team/roster/_/id/26",
+                    "text": "Roster",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "stats",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "http://www.espn.com/mens-college-basketball/team/stats/_/id/26",
+                    "text": "Statistics",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "schedule",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "https://www.espn.com/mens-college-basketball/team/schedule/_/id/26",
+                    "text": "Schedule",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "photos",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "http://www.espn.com/mens-college-basketball/team/photos/_/id/26",
+                    "text": "photos",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "scores",
+                      "sportscenter",
+                      "app",
+                      "team"
+                    ],
+                    "href": "sportscenter://x-callback-url/showClubhouse?uid=s:40~l:41~t:26&section=scores",
+                    "text": "Scores",
+                    "isExternal": false,
+                    "isPremium": false
+                  }
+                ],
+                "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/26.png",
+                "conferenceId": "21"
+              },
+              "score": "90",
+              "linescores": [
+                {
+                  "value": 44.0
+                },
+                {
+                  "value": 37.0
+                },
+                {
+                  "value": 9.0
+                }
+              ],
+              "statistics": [
+                {
+                  "name": "rebounds",
+                  "abbreviation": "REB",
+                  "displayValue": "32"
+                },
+                {
+                  "name": "avgRebounds",
+                  "abbreviation": "REB",
+                  "displayValue": "32.0"
+                },
+                {
+                  "name": "assists",
+                  "abbreviation": "AST",
+                  "displayValue": "21"
+                },
+                {
+                  "name": "fieldGoalsAttempted",
+                  "abbreviation": "FGA",
+                  "displayValue": "59"
+                },
+                {
+                  "name": "fieldGoalsMade",
+                  "abbreviation": "FGM",
+                  "displayValue": "34"
+                },
+                {
+                  "name": "fieldGoalPct",
+                  "abbreviation": "FG%",
+                  "displayValue": "57.6"
+                },
+                {
+                  "name": "freeThrowPct",
+                  "abbreviation": "FT%",
+                  "displayValue": "66.7"
+                },
+                {
+                  "name": "freeThrowsAttempted",
+                  "abbreviation": "FTA",
+                  "displayValue": "21"
+                },
+                {
+                  "name": "freeThrowsMade",
+                  "abbreviation": "FTM",
+                  "displayValue": "14"
+                },
+                {
+                  "name": "points",
+                  "abbreviation": "PTS",
+                  "displayValue": "90"
+                },
+                {
+                  "name": "threePointFieldGoalsAttempted",
+                  "abbreviation": "3PA",
+                  "displayValue": "17"
+                },
+                {
+                  "name": "threePointFieldGoalsMade",
+                  "abbreviation": "3PM",
+                  "displayValue": "8"
+                },
+                {
+                  "name": "avgPoints",
+                  "abbreviation": "PTS",
+                  "displayValue": "90.0"
+                },
+                {
+                  "name": "avgAssists",
+                  "abbreviation": "AST",
+                  "displayValue": "21.0"
+                },
+                {
+                  "name": "threePointFieldGoalPct",
+                  "abbreviation": "3P%",
+                  "displayValue": "47.1"
+                }
+              ],
+              "leaders": [
+                {
+                  "name": "points",
+                  "displayName": "Points",
+                  "shortDisplayName": "Pts",
+                  "abbreviation": "Pts",
+                  "leaders": [
+                    {
+                      "displayValue": "29",
+                      "value": 29.0,
+                      "athlete": {
+                        "id": "4432817",
+                        "fullName": "Johnny Juzang",
+                        "displayName": "Johnny Juzang",
+                        "shortName": "J. Juzang",
+                        "links": [
+                          {
+                            "rel": [
+                              "playercard",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "https://www.espn.com/mens-college-basketball/player/_/id/4432817/johnny-juzang"
+                          },
+                          {
+                            "rel": [
+                              "stats",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/stats/_/id/4432817/johnny-juzang"
+                          },
+                          {
+                            "rel": [
+                              "splits",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/splits/_/id/4432817/johnny-juzang"
+                          },
+                          {
+                            "rel": [
+                              "gamelog",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/gamelog/_/id/4432817/johnny-juzang"
+                          },
+                          {
+                            "rel": [
+                              "news",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/news/_/id/4432817/johnny-juzang"
+                          },
+                          {
+                            "rel": [
+                              "bio",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/bio/_/id/4432817/johnny-juzang"
+                          },
+                          {
+                            "rel": [
+                              "overview",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/_/id/4432817/johnny-juzang"
+                          }
+                        ],
+                        "headshot": "https://a.espncdn.com/i/headshots/mens-college-basketball/players/full/4432817.png",
+                        "jersey": "3",
+                        "position": {
+                          "abbreviation": "G"
+                        },
+                        "team": {
+                          "id": "26"
+                        },
+                        "active": false
+                      },
+                      "team": {
+                        "id": "26"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "rebounds",
+                  "displayName": "Rebounds",
+                  "shortDisplayName": "Reb",
+                  "abbreviation": "Reb",
+                  "leaders": [
+                    {
+                      "displayValue": "10",
+                      "value": 10.0,
+                      "athlete": {
+                        "id": "4278525",
+                        "fullName": "Cody Riley",
+                        "displayName": "Cody Riley",
+                        "shortName": "C. Riley",
+                        "links": [
+                          {
+                            "rel": [
+                              "playercard",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "https://www.espn.com/mens-college-basketball/player/_/id/4278525/cody-riley"
+                          },
+                          {
+                            "rel": [
+                              "stats",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/stats/_/id/4278525/cody-riley"
+                          },
+                          {
+                            "rel": [
+                              "splits",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/splits/_/id/4278525/cody-riley"
+                          },
+                          {
+                            "rel": [
+                              "gamelog",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/gamelog/_/id/4278525/cody-riley"
+                          },
+                          {
+                            "rel": [
+                              "news",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/news/_/id/4278525/cody-riley"
+                          },
+                          {
+                            "rel": [
+                              "bio",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/bio/_/id/4278525/cody-riley"
+                          },
+                          {
+                            "rel": [
+                              "overview",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/_/id/4278525/cody-riley"
+                          }
+                        ],
+                        "headshot": "https://a.espncdn.com/i/headshots/mens-college-basketball/players/full/4278525.png",
+                        "jersey": "2",
+                        "position": {
+                          "abbreviation": "F"
+                        },
+                        "team": {
+                          "id": "26"
+                        },
+                        "active": false
+                      },
+                      "team": {
+                        "id": "26"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "assists",
+                  "displayName": "Assists",
+                  "shortDisplayName": "Ast",
+                  "abbreviation": "Ast",
+                  "leaders": [
+                    {
+                      "displayValue": "7",
+                      "value": 7.0,
+                      "athlete": {
+                        "id": "4397128",
+                        "fullName": "Tyger Campbell",
+                        "displayName": "Tyger Campbell",
+                        "shortName": "T. Campbell",
+                        "links": [
+                          {
+                            "rel": [
+                              "playercard",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "https://www.espn.com/mens-college-basketball/player/_/id/4397128/tyger-campbell"
+                          },
+                          {
+                            "rel": [
+                              "stats",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/stats/_/id/4397128/tyger-campbell"
+                          },
+                          {
+                            "rel": [
+                              "splits",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/splits/_/id/4397128/tyger-campbell"
+                          },
+                          {
+                            "rel": [
+                              "gamelog",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/gamelog/_/id/4397128/tyger-campbell"
+                          },
+                          {
+                            "rel": [
+                              "news",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/news/_/id/4397128/tyger-campbell"
+                          },
+                          {
+                            "rel": [
+                              "bio",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/bio/_/id/4397128/tyger-campbell"
+                          },
+                          {
+                            "rel": [
+                              "overview",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/_/id/4397128/tyger-campbell"
+                          }
+                        ],
+                        "headshot": "https://a.espncdn.com/i/headshots/mens-college-basketball/players/full/4397128.png",
+                        "jersey": "10",
+                        "position": {
+                          "abbreviation": "G"
+                        },
+                        "team": {
+                          "id": "26"
+                        },
+                        "active": true
+                      },
+                      "team": {
+                        "id": "26"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "rating",
+                  "displayName": "Rating",
+                  "shortDisplayName": "RAT",
+                  "abbreviation": "RAT",
+                  "leaders": [
+                    {
+                      "displayValue": "29 PTS, 6 REB",
+                      "value": 44.599998474121094,
+                      "athlete": {
+                        "id": "4432817",
+                        "fullName": "Johnny Juzang",
+                        "displayName": "Johnny Juzang",
+                        "shortName": "J. Juzang",
+                        "links": [
+                          {
+                            "rel": [
+                              "playercard",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "https://www.espn.com/mens-college-basketball/player/_/id/4432817/johnny-juzang"
+                          },
+                          {
+                            "rel": [
+                              "stats",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/stats/_/id/4432817/johnny-juzang"
+                          },
+                          {
+                            "rel": [
+                              "splits",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/splits/_/id/4432817/johnny-juzang"
+                          },
+                          {
+                            "rel": [
+                              "gamelog",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/gamelog/_/id/4432817/johnny-juzang"
+                          },
+                          {
+                            "rel": [
+                              "news",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/news/_/id/4432817/johnny-juzang"
+                          },
+                          {
+                            "rel": [
+                              "bio",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/bio/_/id/4432817/johnny-juzang"
+                          },
+                          {
+                            "rel": [
+                              "overview",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/_/id/4432817/johnny-juzang"
+                          }
+                        ],
+                        "headshot": "https://a.espncdn.com/i/headshots/mens-college-basketball/players/full/4432817.png",
+                        "jersey": "3",
+                        "position": {
+                          "abbreviation": "G"
+                        },
+                        "team": {
+                          "id": "26"
+                        },
+                        "active": false
+                      },
+                      "team": {
+                        "id": "26"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "curatedRank": {
+                "current": 11
+              },
+              "records": [
+                {
+                  "name": "overall",
+                  "abbreviation": "Game",
+                  "type": "total",
+                  "summary": "22-10"
+                },
+                {
+                  "name": "Home",
+                  "type": "home",
+                  "summary": "11-1"
+                },
+                {
+                  "name": "Road",
+                  "type": "road",
+                  "summary": "5-6"
+                },
+                {
+                  "name": "vs. Conf.",
+                  "type": "vsconf",
+                  "summary": "13-6"
+                }
+              ]
+            }
+          ],
+          "notes": [
+            {
+              "type": "event",
+              "headline": "Men's Basketball Championship - Final Four"
+            }
+          ],
+          "status": {
+            "clock": 0.0,
+            "displayClock": "0:00",
+            "period": 3,
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final",
+              "detail": "Final/OT",
+              "shortDetail": "Final/OT",
+              "altDetail": "OT"
+            }
+          },
+          "broadcasts": [
+            {
+              "market": "national",
+              "names": [
+                "CBS"
+              ]
+            }
+          ],
+          "tournamentId": 22,
+          "format": {
+            "regulation": {
+              "periods": 2
+            }
+          },
+          "startDate": "2021-04-04T00:47Z",
+          "geoBroadcasts": [
+            {
+              "type": {
+                "id": "1",
+                "shortName": "TV"
+              },
+              "market": {
+                "id": "1",
+                "type": "National"
+              },
+              "media": {
+                "shortName": "CBS"
+              },
+              "lang": "en",
+              "region": "us"
+            }
+          ],
+          "headlines": [
+            {
+              "description": "— Peyton Watson had 19 points, Johnny Juzang added 13 and No. 2 UCLA beat Bellarmine 75-62 on Monday night in the Empire Classic.",
+              "type": "Recap",
+              "shortLinkText": "No. 2 UCLA withstands Bellarmine rally, wins 75-62"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "language": "en-US",
+          "rel": [
+            "summary",
+            "desktop",
+            "event"
+          ],
+          "href": "https://www.espn.com/mens-college-basketball/game/_/gameId/401310867",
+          "text": "Gamecast",
+          "shortText": "Gamecast",
+          "isExternal": false,
+          "isPremium": false
+        },
+        {
+          "language": "en-US",
+          "rel": [
+            "boxscore",
+            "desktop",
+            "event"
+          ],
+          "href": "https://www.espn.com/mens-college-basketball/boxscore/_/gameId/401310867",
+          "text": "Box Score",
+          "shortText": "Box Score",
+          "isExternal": false,
+          "isPremium": false
+        },
+        {
+          "language": "en-US",
+          "rel": [
+            "pbp",
+            "desktop",
+            "event"
+          ],
+          "href": "https://www.espn.com/mens-college-basketball/playbyplay/_/gameId/401310867",
+          "text": "Play-by-Play",
+          "shortText": "Play-by-Play",
+          "isExternal": false,
+          "isPremium": false
+        },
+        {
+          "language": "en-US",
+          "rel": [
+            "bracket",
+            "desktop",
+            "event"
+          ],
+          "href": "http://www.espn.com/mens-college-basketball/tournament/bracket/_/id/202122/2021-ncaa-tournament",
+          "text": "Bracket",
+          "shortText": "Bracket",
+          "isExternal": false,
+          "isPremium": false
+        },
+        {
+          "language": "en-US",
+          "rel": [
+            "recap",
+            "desktop",
+            "event"
+          ],
+          "href": "https://www.espn.com/mens-college-basketball/recap?gameId=401310867",
+          "text": "Recap",
+          "shortText": "Recap",
+          "isExternal": false,
+          "isPremium": false
+        }
+      ],
+      "status": {
+        "clock": 0.0,
+        "displayClock": "0:00",
+        "period": 3,
+        "type": {
+          "id": "3",
+          "name": "STATUS_FINAL",
+          "state": "post",
+          "completed": true,
+          "description": "Final",
+          "detail": "Final/OT",
+          "shortDetail": "Final/OT",
+          "altDetail": "OT"
+        }
+      }
+    },
+    {
+      "id": "401310866",
+      "uid": "s:40~l:41~e:401310866",
+      "date": "2021-04-03T21:14Z",
+      "name": "Houston Cougars at Baylor Bears",
+      "shortName": "HOU @ BAY",
+      "season": {
+        "year": 2021,
+        "type": 3,
+        "slug": "post-season"
+      },
+      "competitions": [
+        {
+          "id": "401310866",
+          "uid": "s:40~l:41~e:401310866~c:401310866",
+          "date": "2021-04-03T21:14Z",
+          "attendance": 0,
+          "timeValid": true,
+          "neutralSite": true,
+          "conferenceCompetition": false,
+          "recent": false,
+          "venue": {
+            "id": "3812",
+            "fullName": "Lucas Oil Stadium",
+            "address": {
+              "city": "Indianapolis",
+              "state": "IN"
+            },
+            "capacity": 0,
+            "indoor": true
+          },
+          "competitors": [
+            {
+              "id": "239",
+              "uid": "s:40~l:41~t:239",
+              "type": "team",
+              "order": 0,
+              "homeAway": "home",
+              "winner": true,
+              "team": {
+                "id": "239",
+                "uid": "s:40~l:41~t:239",
+                "location": "Baylor",
+                "name": "Bears",
+                "abbreviation": "BAY",
+                "displayName": "Baylor Bears",
+                "shortDisplayName": "Baylor",
+                "color": "154734",
+                "alternateColor": "ffb81c",
+                "isActive": true,
+                "venue": {
+                  "id": "1049"
+                },
+                "links": [
+                  {
+                    "rel": [
+                      "clubhouse",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "https://www.espn.com/mens-college-basketball/team/_/id/239/baylor-bears",
+                    "text": "Clubhouse",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "roster",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "http://www.espn.com/mens-college-basketball/team/roster/_/id/239",
+                    "text": "Roster",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "stats",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "http://www.espn.com/mens-college-basketball/team/stats/_/id/239",
+                    "text": "Statistics",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "schedule",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "https://www.espn.com/mens-college-basketball/team/schedule/_/id/239",
+                    "text": "Schedule",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "photos",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "http://www.espn.com/mens-college-basketball/team/photos/_/id/239",
+                    "text": "photos",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "scores",
+                      "sportscenter",
+                      "app",
+                      "team"
+                    ],
+                    "href": "sportscenter://x-callback-url/showClubhouse?uid=s:40~l:41~t:239&section=scores",
+                    "text": "Scores",
+                    "isExternal": false,
+                    "isPremium": false
+                  }
+                ],
+                "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/239.png",
+                "conferenceId": "8"
+              },
+              "score": "78",
+              "linescores": [
+                {
+                  "value": 45.0
+                },
+                {
+                  "value": 33.0
+                }
+              ],
+              "statistics": [
+                {
+                  "name": "rebounds",
+                  "abbreviation": "REB",
+                  "displayValue": "33"
+                },
+                {
+                  "name": "avgRebounds",
+                  "abbreviation": "REB",
+                  "displayValue": "33.0"
+                },
+                {
+                  "name": "assists",
+                  "abbreviation": "AST",
+                  "displayValue": "23"
+                },
+                {
+                  "name": "fieldGoalsAttempted",
+                  "abbreviation": "FGA",
+                  "displayValue": "55"
+                },
+                {
+                  "name": "fieldGoalsMade",
+                  "abbreviation": "FGM",
+                  "displayValue": "29"
+                },
+                {
+                  "name": "fieldGoalPct",
+                  "abbreviation": "FG%",
+                  "displayValue": "52.7"
+                },
+                {
+                  "name": "freeThrowPct",
+                  "abbreviation": "FT%",
+                  "displayValue": "69.2"
+                },
+                {
+                  "name": "freeThrowsAttempted",
+                  "abbreviation": "FTA",
+                  "displayValue": "13"
+                },
+                {
+                  "name": "freeThrowsMade",
+                  "abbreviation": "FTM",
+                  "displayValue": "9"
+                },
+                {
+                  "name": "points",
+                  "abbreviation": "PTS",
+                  "displayValue": "78"
+                },
+                {
+                  "name": "threePointFieldGoalsAttempted",
+                  "abbreviation": "3PA",
+                  "displayValue": "24"
+                },
+                {
+                  "name": "threePointFieldGoalsMade",
+                  "abbreviation": "3PM",
+                  "displayValue": "11"
+                },
+                {
+                  "name": "avgPoints",
+                  "abbreviation": "PTS",
+                  "displayValue": "78.0"
+                },
+                {
+                  "name": "avgAssists",
+                  "abbreviation": "AST",
+                  "displayValue": "23.0"
+                },
+                {
+                  "name": "threePointFieldGoalPct",
+                  "abbreviation": "3P%",
+                  "displayValue": "45.8"
+                }
+              ],
+              "leaders": [
+                {
+                  "name": "points",
+                  "displayName": "Points",
+                  "shortDisplayName": "Pts",
+                  "abbreviation": "Pts",
+                  "leaders": [
+                    {
+                      "displayValue": "17",
+                      "value": 17.0,
+                      "athlete": {
+                        "id": "4395695",
+                        "fullName": "Jared Butler",
+                        "displayName": "Jared Butler",
+                        "shortName": "J. Butler",
+                        "links": [
+                          {
+                            "rel": [
+                              "playercard",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "https://www.espn.com/mens-college-basketball/player/_/id/4395695/jared-butler"
+                          },
+                          {
+                            "rel": [
+                              "stats",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/stats/_/id/4395695/jared-butler"
+                          },
+                          {
+                            "rel": [
+                              "splits",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/splits/_/id/4395695/jared-butler"
+                          },
+                          {
+                            "rel": [
+                              "gamelog",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/gamelog/_/id/4395695/jared-butler"
+                          },
+                          {
+                            "rel": [
+                              "news",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/news/_/id/4395695/jared-butler"
+                          },
+                          {
+                            "rel": [
+                              "bio",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/bio/_/id/4395695/jared-butler"
+                          },
+                          {
+                            "rel": [
+                              "overview",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/_/id/4395695/jared-butler"
+                          }
+                        ],
+                        "headshot": "https://a.espncdn.com/i/headshots/mens-college-basketball/players/full/4395695.png",
+                        "jersey": "12",
+                        "position": {
+                          "abbreviation": "G"
+                        },
+                        "team": {
+                          "id": "239"
+                        },
+                        "active": false
+                      },
+                      "team": {
+                        "id": "239"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "rebounds",
+                  "displayName": "Rebounds",
+                  "shortDisplayName": "Reb",
+                  "abbreviation": "Reb",
+                  "leaders": [
+                    {
+                      "displayValue": "6",
+                      "value": 6.0,
+                      "athlete": {
+                        "id": "4397436",
+                        "fullName": "Jonathan Tchamwa Tchatchoua",
+                        "displayName": "Jonathan Tchamwa Tchatchoua",
+                        "shortName": "J. Tchamwa Tchatchoua",
+                        "links": [
+                          {
+                            "rel": [
+                              "playercard",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "https://www.espn.com/mens-college-basketball/player/_/id/4397436/jonathan-tchamwa-tchatchoua"
+                          },
+                          {
+                            "rel": [
+                              "stats",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/stats/_/id/4397436/jonathan-tchamwa-tchatchoua"
+                          },
+                          {
+                            "rel": [
+                              "splits",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/splits/_/id/4397436/jonathan-tchamwa-tchatchoua"
+                          },
+                          {
+                            "rel": [
+                              "gamelog",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/gamelog/_/id/4397436/jonathan-tchamwa-tchatchoua"
+                          },
+                          {
+                            "rel": [
+                              "news",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/news/_/id/4397436/jonathan-tchamwa-tchatchoua"
+                          },
+                          {
+                            "rel": [
+                              "bio",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/bio/_/id/4397436/jonathan-tchamwa-tchatchoua"
+                          },
+                          {
+                            "rel": [
+                              "overview",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/_/id/4397436/jonathan-tchamwa-tchatchoua"
+                          }
+                        ],
+                        "headshot": "https://a.espncdn.com/i/headshots/mens-college-basketball/players/full/4397436.png",
+                        "jersey": "23",
+                        "position": {
+                          "abbreviation": "F"
+                        },
+                        "team": {
+                          "id": "239"
+                        },
+                        "active": true
+                      },
+                      "team": {
+                        "id": "239"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "assists",
+                  "displayName": "Assists",
+                  "shortDisplayName": "Ast",
+                  "abbreviation": "Ast",
+                  "leaders": [
+                    {
+                      "displayValue": "11",
+                      "value": 11.0,
+                      "athlete": {
+                        "id": "4278053",
+                        "fullName": "Davion Mitchell",
+                        "displayName": "Davion Mitchell",
+                        "shortName": "D. Mitchell",
+                        "links": [
+                          {
+                            "rel": [
+                              "playercard",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "https://www.espn.com/mens-college-basketball/player/_/id/4278053/davion-mitchell"
+                          },
+                          {
+                            "rel": [
+                              "stats",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/stats/_/id/4278053/davion-mitchell"
+                          },
+                          {
+                            "rel": [
+                              "splits",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/splits/_/id/4278053/davion-mitchell"
+                          },
+                          {
+                            "rel": [
+                              "gamelog",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/gamelog/_/id/4278053/davion-mitchell"
+                          },
+                          {
+                            "rel": [
+                              "news",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/news/_/id/4278053/davion-mitchell"
+                          },
+                          {
+                            "rel": [
+                              "bio",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/bio/_/id/4278053/davion-mitchell"
+                          },
+                          {
+                            "rel": [
+                              "overview",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/_/id/4278053/davion-mitchell"
+                          }
+                        ],
+                        "headshot": "https://a.espncdn.com/i/headshots/mens-college-basketball/players/full/4278053.png",
+                        "jersey": "45",
+                        "position": {
+                          "abbreviation": "G"
+                        },
+                        "team": {
+                          "id": "239"
+                        },
+                        "active": false
+                      },
+                      "team": {
+                        "id": "239"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "rating",
+                  "displayName": "Rating",
+                  "shortDisplayName": "RAT",
+                  "abbreviation": "RAT",
+                  "leaders": [
+                    {
+                      "displayValue": "17 PTS",
+                      "value": 33.349998474121094,
+                      "athlete": {
+                        "id": "4395695",
+                        "fullName": "Jared Butler",
+                        "displayName": "Jared Butler",
+                        "shortName": "J. Butler",
+                        "links": [
+                          {
+                            "rel": [
+                              "playercard",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "https://www.espn.com/mens-college-basketball/player/_/id/4395695/jared-butler"
+                          },
+                          {
+                            "rel": [
+                              "stats",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/stats/_/id/4395695/jared-butler"
+                          },
+                          {
+                            "rel": [
+                              "splits",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/splits/_/id/4395695/jared-butler"
+                          },
+                          {
+                            "rel": [
+                              "gamelog",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/gamelog/_/id/4395695/jared-butler"
+                          },
+                          {
+                            "rel": [
+                              "news",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/news/_/id/4395695/jared-butler"
+                          },
+                          {
+                            "rel": [
+                              "bio",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/bio/_/id/4395695/jared-butler"
+                          },
+                          {
+                            "rel": [
+                              "overview",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/_/id/4395695/jared-butler"
+                          }
+                        ],
+                        "headshot": "https://a.espncdn.com/i/headshots/mens-college-basketball/players/full/4395695.png",
+                        "jersey": "12",
+                        "position": {
+                          "abbreviation": "G"
+                        },
+                        "team": {
+                          "id": "239"
+                        },
+                        "active": false
+                      },
+                      "team": {
+                        "id": "239"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "curatedRank": {
+                "current": 1
+              },
+              "records": [
+                {
+                  "name": "overall",
+                  "abbreviation": "Game",
+                  "type": "total",
+                  "summary": "27-2"
+                },
+                {
+                  "name": "Home",
+                  "type": "home",
+                  "summary": "11-0"
+                },
+                {
+                  "name": "Road",
+                  "type": "road",
+                  "summary": "7-1"
+                },
+                {
+                  "name": "vs. Conf.",
+                  "type": "vsconf",
+                  "summary": "13-1"
+                }
+              ]
+            },
+            {
+              "id": "248",
+              "uid": "s:40~l:41~t:248",
+              "type": "team",
+              "order": 1,
+              "homeAway": "away",
+              "winner": false,
+              "team": {
+                "id": "248",
+                "uid": "s:40~l:41~t:248",
+                "location": "Houston",
+                "name": "Cougars",
+                "abbreviation": "HOU",
+                "displayName": "Houston Cougars",
+                "shortDisplayName": "Houston",
+                "color": "c92a39",
+                "alternateColor": "ffffff",
+                "isActive": true,
+                "venue": {
+                  "id": "2126"
+                },
+                "links": [
+                  {
+                    "rel": [
+                      "clubhouse",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "https://www.espn.com/mens-college-basketball/team/_/id/248/houston-cougars",
+                    "text": "Clubhouse",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "roster",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "http://www.espn.com/mens-college-basketball/team/roster/_/id/248",
+                    "text": "Roster",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "stats",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "http://www.espn.com/mens-college-basketball/team/stats/_/id/248",
+                    "text": "Statistics",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "schedule",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "https://www.espn.com/mens-college-basketball/team/schedule/_/id/248",
+                    "text": "Schedule",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "photos",
+                      "desktop",
+                      "team"
+                    ],
+                    "href": "http://www.espn.com/mens-college-basketball/team/photos/_/id/248",
+                    "text": "photos",
+                    "isExternal": false,
+                    "isPremium": false
+                  },
+                  {
+                    "rel": [
+                      "scores",
+                      "sportscenter",
+                      "app",
+                      "team"
+                    ],
+                    "href": "sportscenter://x-callback-url/showClubhouse?uid=s:40~l:41~t:248&section=scores",
+                    "text": "Scores",
+                    "isExternal": false,
+                    "isPremium": false
+                  }
+                ],
+                "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/248.png",
+                "conferenceId": "62"
+              },
+              "score": "59",
+              "linescores": [
+                {
+                  "value": 20.0
+                },
+                {
+                  "value": 39.0
+                }
+              ],
+              "statistics": [
+                {
+                  "name": "rebounds",
+                  "abbreviation": "REB",
+                  "displayValue": "28"
+                },
+                {
+                  "name": "avgRebounds",
+                  "abbreviation": "REB",
+                  "displayValue": "28.0"
+                },
+                {
+                  "name": "assists",
+                  "abbreviation": "AST",
+                  "displayValue": "10"
+                },
+                {
+                  "name": "fieldGoalsAttempted",
+                  "abbreviation": "FGA",
+                  "displayValue": "55"
+                },
+                {
+                  "name": "fieldGoalsMade",
+                  "abbreviation": "FGM",
+                  "displayValue": "21"
+                },
+                {
+                  "name": "fieldGoalPct",
+                  "abbreviation": "FG%",
+                  "displayValue": "38.2"
+                },
+                {
+                  "name": "freeThrowPct",
+                  "abbreviation": "FT%",
+                  "displayValue": "68.8"
+                },
+                {
+                  "name": "freeThrowsAttempted",
+                  "abbreviation": "FTA",
+                  "displayValue": "16"
+                },
+                {
+                  "name": "freeThrowsMade",
+                  "abbreviation": "FTM",
+                  "displayValue": "11"
+                },
+                {
+                  "name": "points",
+                  "abbreviation": "PTS",
+                  "displayValue": "59"
+                },
+                {
+                  "name": "threePointFieldGoalsAttempted",
+                  "abbreviation": "3PA",
+                  "displayValue": "19"
+                },
+                {
+                  "name": "threePointFieldGoalsMade",
+                  "abbreviation": "3PM",
+                  "displayValue": "6"
+                },
+                {
+                  "name": "avgPoints",
+                  "abbreviation": "PTS",
+                  "displayValue": "59.0"
+                },
+                {
+                  "name": "avgAssists",
+                  "abbreviation": "AST",
+                  "displayValue": "10.0"
+                },
+                {
+                  "name": "threePointFieldGoalPct",
+                  "abbreviation": "3P%",
+                  "displayValue": "31.6"
+                }
+              ],
+              "leaders": [
+                {
+                  "name": "points",
+                  "displayName": "Points",
+                  "shortDisplayName": "Pts",
+                  "abbreviation": "Pts",
+                  "leaders": [
+                    {
+                      "displayValue": "20",
+                      "value": 20.0,
+                      "athlete": {
+                        "id": "4432107",
+                        "fullName": "Marcus Sasser",
+                        "displayName": "Marcus Sasser",
+                        "shortName": "M. Sasser",
+                        "links": [
+                          {
+                            "rel": [
+                              "playercard",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "https://www.espn.com/mens-college-basketball/player/_/id/4432107/marcus-sasser"
+                          },
+                          {
+                            "rel": [
+                              "stats",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/stats/_/id/4432107/marcus-sasser"
+                          },
+                          {
+                            "rel": [
+                              "splits",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/splits/_/id/4432107/marcus-sasser"
+                          },
+                          {
+                            "rel": [
+                              "gamelog",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/gamelog/_/id/4432107/marcus-sasser"
+                          },
+                          {
+                            "rel": [
+                              "news",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/news/_/id/4432107/marcus-sasser"
+                          },
+                          {
+                            "rel": [
+                              "bio",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/bio/_/id/4432107/marcus-sasser"
+                          },
+                          {
+                            "rel": [
+                              "overview",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/_/id/4432107/marcus-sasser"
+                          }
+                        ],
+                        "headshot": "https://a.espncdn.com/i/headshots/mens-college-basketball/players/full/4432107.png",
+                        "jersey": "0",
+                        "position": {
+                          "abbreviation": "G"
+                        },
+                        "team": {
+                          "id": "248"
+                        },
+                        "active": true
+                      },
+                      "team": {
+                        "id": "248"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "rebounds",
+                  "displayName": "Rebounds",
+                  "shortDisplayName": "Reb",
+                  "abbreviation": "Reb",
+                  "leaders": [
+                    {
+                      "displayValue": "6",
+                      "value": 6.0,
+                      "athlete": {
+                        "id": "4067322",
+                        "fullName": "Justin Gorham",
+                        "displayName": "Justin Gorham",
+                        "shortName": "J. Gorham",
+                        "links": [
+                          {
+                            "rel": [
+                              "playercard",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "https://www.espn.com/mens-college-basketball/player/_/id/4067322/justin-gorham"
+                          },
+                          {
+                            "rel": [
+                              "stats",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/stats/_/id/4067322/justin-gorham"
+                          },
+                          {
+                            "rel": [
+                              "splits",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/splits/_/id/4067322/justin-gorham"
+                          },
+                          {
+                            "rel": [
+                              "gamelog",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/gamelog/_/id/4067322/justin-gorham"
+                          },
+                          {
+                            "rel": [
+                              "news",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/news/_/id/4067322/justin-gorham"
+                          },
+                          {
+                            "rel": [
+                              "bio",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/bio/_/id/4067322/justin-gorham"
+                          },
+                          {
+                            "rel": [
+                              "overview",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/_/id/4067322/justin-gorham"
+                          }
+                        ],
+                        "headshot": "https://a.espncdn.com/i/headshots/mens-college-basketball/players/full/4067322.png",
+                        "jersey": "4",
+                        "position": {
+                          "abbreviation": "F"
+                        },
+                        "team": {
+                          "id": "248"
+                        },
+                        "active": false
+                      },
+                      "team": {
+                        "id": "248"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "assists",
+                  "displayName": "Assists",
+                  "shortDisplayName": "Ast",
+                  "abbreviation": "Ast",
+                  "leaders": [
+                    {
+                      "displayValue": "3",
+                      "value": 3.0,
+                      "athlete": {
+                        "id": "4067322",
+                        "fullName": "Justin Gorham",
+                        "displayName": "Justin Gorham",
+                        "shortName": "J. Gorham",
+                        "links": [
+                          {
+                            "rel": [
+                              "playercard",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "https://www.espn.com/mens-college-basketball/player/_/id/4067322/justin-gorham"
+                          },
+                          {
+                            "rel": [
+                              "stats",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/stats/_/id/4067322/justin-gorham"
+                          },
+                          {
+                            "rel": [
+                              "splits",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/splits/_/id/4067322/justin-gorham"
+                          },
+                          {
+                            "rel": [
+                              "gamelog",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/gamelog/_/id/4067322/justin-gorham"
+                          },
+                          {
+                            "rel": [
+                              "news",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/news/_/id/4067322/justin-gorham"
+                          },
+                          {
+                            "rel": [
+                              "bio",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/bio/_/id/4067322/justin-gorham"
+                          },
+                          {
+                            "rel": [
+                              "overview",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/_/id/4067322/justin-gorham"
+                          }
+                        ],
+                        "headshot": "https://a.espncdn.com/i/headshots/mens-college-basketball/players/full/4067322.png",
+                        "jersey": "4",
+                        "position": {
+                          "abbreviation": "F"
+                        },
+                        "team": {
+                          "id": "248"
+                        },
+                        "active": false
+                      },
+                      "team": {
+                        "id": "248"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "rating",
+                  "displayName": "Rating",
+                  "shortDisplayName": "RAT",
+                  "abbreviation": "RAT",
+                  "leaders": [
+                    {
+                      "displayValue": "20 PTS",
+                      "value": 29.350000381469727,
+                      "athlete": {
+                        "id": "4432107",
+                        "fullName": "Marcus Sasser",
+                        "displayName": "Marcus Sasser",
+                        "shortName": "M. Sasser",
+                        "links": [
+                          {
+                            "rel": [
+                              "playercard",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "https://www.espn.com/mens-college-basketball/player/_/id/4432107/marcus-sasser"
+                          },
+                          {
+                            "rel": [
+                              "stats",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/stats/_/id/4432107/marcus-sasser"
+                          },
+                          {
+                            "rel": [
+                              "splits",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/splits/_/id/4432107/marcus-sasser"
+                          },
+                          {
+                            "rel": [
+                              "gamelog",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/gamelog/_/id/4432107/marcus-sasser"
+                          },
+                          {
+                            "rel": [
+                              "news",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/news/_/id/4432107/marcus-sasser"
+                          },
+                          {
+                            "rel": [
+                              "bio",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/bio/_/id/4432107/marcus-sasser"
+                          },
+                          {
+                            "rel": [
+                              "overview",
+                              "desktop",
+                              "athlete"
+                            ],
+                            "href": "http://www.espn.com/mens-college-basketball/player/_/id/4432107/marcus-sasser"
+                          }
+                        ],
+                        "headshot": "https://a.espncdn.com/i/headshots/mens-college-basketball/players/full/4432107.png",
+                        "jersey": "0",
+                        "position": {
+                          "abbreviation": "G"
+                        },
+                        "team": {
+                          "id": "248"
+                        },
+                        "active": true
+                      },
+                      "team": {
+                        "id": "248"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "curatedRank": {
+                "current": 2
+              },
+              "records": [
+                {
+                  "name": "overall",
+                  "abbreviation": "Game",
+                  "type": "total",
+                  "summary": "28-4"
+                },
+                {
+                  "name": "Home",
+                  "type": "home",
+                  "summary": "15-0"
+                },
+                {
+                  "name": "Road",
+                  "type": "road",
+                  "summary": "5-3"
+                },
+                {
+                  "name": "vs. Conf.",
+                  "type": "vsconf",
+                  "summary": "14-3"
+                }
+              ]
+            }
+          ],
+          "notes": [
+            {
+              "type": "event",
+              "headline": "Men's Basketball Championship - Final Four"
+            }
+          ],
+          "status": {
+            "clock": 0.0,
+            "displayClock": "0:00",
+            "period": 2,
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final",
+              "detail": "Final",
+              "shortDetail": "Final"
+            }
+          },
+          "broadcasts": [
+            {
+              "market": "national",
+              "names": [
+                "CBS"
+              ]
+            }
+          ],
+          "tournamentId": 22,
+          "format": {
+            "regulation": {
+              "periods": 2
+            }
+          },
+          "startDate": "2021-04-03T21:14Z",
+          "geoBroadcasts": [
+            {
+              "type": {
+                "id": "1",
+                "shortName": "TV"
+              },
+              "market": {
+                "id": "1",
+                "type": "National"
+              },
+              "media": {
+                "shortName": "CBS"
+              },
+              "lang": "en",
+              "region": "us"
+            }
+          ],
+          "headlines": [
+            {
+              "description": "— Nearly two decades ago, Scott Drew decided to leave his comfort zone at tiny Valparaiso for the scandal-plagued basketball program at Baylor, explaining to his father that there was nowhere for the Bears to go but up.",
+              "type": "Recap",
+              "shortLinkText": "Bearing down: Baylor routs Houston 78-59 to reach title game"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "language": "en-US",
+          "rel": [
+            "summary",
+            "desktop",
+            "event"
+          ],
+          "href": "https://www.espn.com/mens-college-basketball/game/_/gameId/401310866",
+          "text": "Gamecast",
+          "shortText": "Gamecast",
+          "isExternal": false,
+          "isPremium": false
+        },
+        {
+          "language": "en-US",
+          "rel": [
+            "boxscore",
+            "desktop",
+            "event"
+          ],
+          "href": "https://www.espn.com/mens-college-basketball/boxscore/_/gameId/401310866",
+          "text": "Box Score",
+          "shortText": "Box Score",
+          "isExternal": false,
+          "isPremium": false
+        },
+        {
+          "language": "en-US",
+          "rel": [
+            "pbp",
+            "desktop",
+            "event"
+          ],
+          "href": "https://www.espn.com/mens-college-basketball/playbyplay/_/gameId/401310866",
+          "text": "Play-by-Play",
+          "shortText": "Play-by-Play",
+          "isExternal": false,
+          "isPremium": false
+        },
+        {
+          "language": "en-US",
+          "rel": [
+            "bracket",
+            "desktop",
+            "event"
+          ],
+          "href": "http://www.espn.com/mens-college-basketball/tournament/bracket/_/id/202122/2021-ncaa-tournament",
+          "text": "Bracket",
+          "shortText": "Bracket",
+          "isExternal": false,
+          "isPremium": false
+        },
+        {
+          "language": "en-US",
+          "rel": [
+            "recap",
+            "desktop",
+            "event"
+          ],
+          "href": "https://www.espn.com/mens-college-basketball/recap?gameId=401310866",
+          "text": "Recap",
+          "shortText": "Recap",
+          "isExternal": false,
+          "isPremium": false
+        }
+      ],
+      "status": {
+        "clock": 0.0,
+        "displayClock": "0:00",
+        "period": 2,
+        "type": {
+          "id": "3",
+          "name": "STATUS_FINAL",
+          "state": "post",
+          "completed": true,
+          "description": "Final",
+          "detail": "Final",
+          "shortDetail": "Final"
+        }
+      }
+    }
+  ],
+  "eventsDate": {
+    "date": "2021-04-04T00:47Z",
+    "seasonType": 3
+  }
+}

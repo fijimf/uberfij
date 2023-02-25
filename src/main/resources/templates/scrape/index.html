@@ -80,7 +80,7 @@
                         <h3 class="card-title">Seasons</h3>
                         <div class="scrape-card">
                             <th:block th:each="season: ${seasons}">
-                                <div th:text="${season.getSeason()+': '+season.getGames().size()+' games. '+season.getGames().size()+' dates. '+season.getGames().size()+' team mappings.'}"></div>
+                                <div th:text="${season.getSeason()+': '+season.getGames().size()+' games. '+season.getGames().size()+' dates. '+season.numConferences()+' conferences. '+season.numTeams()+' teams.'}"></div>
                                 <a th:href="${'/admin/scrape/seasons/view/'+season.getId()}"
                                    class="btn btn-sm btn-primary">View<span class="bi bi-eye px-1"></span></a>
                                 <a th:href="${'/admin/scrape/seasons/index/'+season.getId()}"

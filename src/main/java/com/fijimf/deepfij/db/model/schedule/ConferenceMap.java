@@ -3,6 +3,8 @@ package com.fijimf.deepfij.db.model.schedule;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Map;
 
 @Entity
 @Table(name = "conference_maps")
@@ -13,12 +15,16 @@ public class ConferenceMap {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "season_id")
+    @JoinColumn(name = "season_id", updatable = false, insertable = true)
     private Season season;
-    @Column(name = "conference_id")
-    private long conferenceId;
-    @Column(name = "team_id")
-    private long teamId;
+
+    @OneToOne
+    @JoinColumn(name = "conference_id", referencedColumnName = "id")
+    private Conference conference;
+
+    @OneToOne
+    @JoinColumn(name = "team_id", referencedColumnName = "id")
+    private Team team;
     @Column(name = "scrape_src_id")
     private long scrapeSrcId;
     @Column(name = "published_at")
@@ -27,13 +33,14 @@ public class ConferenceMap {
     public ConferenceMap() {
     }
 
-    public ConferenceMap(long id, Season season, long conferenceId, long teamId, long scrapeSrcId, LocalDateTime publishedAt) {
+    public ConferenceMap(long id, Season season, Conference conference, Team team, long scrapeSrcId, LocalDateTime publishedAt) {
         this.id = id;
         this.season = season;
-        this.conferenceId = conferenceId;
-        this.teamId = teamId;
+        this.conference = conference;
+        this.team = team;
         this.scrapeSrcId = scrapeSrcId;
         this.publishedAt = publishedAt;
+
     }
 
     public long getId() {
@@ -52,20 +59,20 @@ public class ConferenceMap {
         this.season = season;
     }
 
-    public long getConferenceId() {
-        return conferenceId;
+    public Conference getConference() {
+        return conference;
     }
 
-    public void setConferenceId(long conferenceId) {
-        this.conferenceId = conferenceId;
+    public void setConference(Conference conference) {
+        this.conference = conference;
     }
 
-    public long getTeamId() {
-        return teamId;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setTeamId(long teamId) {
-        this.teamId = teamId;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     public long getScrapeSrcId() {

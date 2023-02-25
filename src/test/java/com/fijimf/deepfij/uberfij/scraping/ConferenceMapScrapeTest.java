@@ -27,6 +27,18 @@ public class ConferenceMapScrapeTest {
         }
 
     }
+
+    @Test
+    void testParseJson2() throws IOException {
+
+        try (InputStream inputStream = ClassLoader.getSystemResourceAsStream("data/standings2.json")) {
+            ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+            Standings mapped = objectMapper.readValue(inputStream, Standings.class);
+            assertThat(mapped).isNotNull();
+            assertThat(mapped.mapValues()).hasSize(32);
+        }
+
+    }
     @Test
     void testSimpleConference() throws IOException {
 

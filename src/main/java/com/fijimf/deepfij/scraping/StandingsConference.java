@@ -1,19 +1,24 @@
 package com.fijimf.deepfij.scraping;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StandingsConference {
+    private final static Logger logger = LoggerFactory.getLogger(StandingsConference.class);
     private String id;
     private String name;
     private String abbreviation;
     private String shortName;
 
     private StandingsConference[] children;
+
     private ConferenceStandings standings;
 
 
@@ -83,7 +88,8 @@ public class StandingsConference {
         } else if (standings!=null && children==null){
             return Arrays.stream(standings.getEntries()).toList();
         } else {
-            throw new RuntimeException("Malformed conference standings");
+            logger.warn("Conference "+getName()+" has no teams");
+            return Collections.emptyList();
         }
     }
 }

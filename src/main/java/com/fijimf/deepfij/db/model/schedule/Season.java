@@ -2,9 +2,8 @@ package com.fijimf.deepfij.db.model.schedule;
 
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "season")
@@ -15,16 +14,29 @@ public class Season {
     @Column(unique = true)
     private int season;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany()
+    @JoinColumn(name="season_id")
     private Set<ConferenceMap> conferenceMaps= new HashSet<>();
     @OneToMany(mappedBy = "id")
     private Set<Game> games= new HashSet<>();
+
+
+    @Transient
+    private Map<Team, Conference> teamToConference;
+
+    @Transient
+    private Map<Conference, List<Team>> conferenceToTeams;
+
     public Season() {
+        teamToConference = Collections.emptyMap();
+        conferenceToTeams = Collections.emptyMap();
     }
 
     public Season(long id, int season) {
         this.id = id;
         this.season = season;
+        teamToConference = Collections.emptyMap();
+        conferenceToTeams = Collections.emptyMap();
     }
 
     public long getId() {
@@ -49,6 +61,23 @@ public class Season {
 
     public void setConferenceMaps(Set<ConferenceMap> conferenceMaps) {
         this.conferenceMaps = conferenceMaps;
+        synchConvenienceMaps();
+    }
+
+    @PostLoad
+    private void synchConvenienceMaps() {
+        this.teamToConference = conferenceMaps.stream().collect(Collectors.toMap(ConferenceMap::getTeam, ConferenceMap::getConference));
+        this.conferenceToTeams = new HashMap<>();
+        conferenceMaps.forEach(cm -> {
+            Conference key = cm.getConference();
+            if (!conferenceToTeams.containsKey(key)) {
+                conferenceToTeams.put(key, new ArrayList<>());
+            }
+            List<Team> teams = conferenceToTeams.get(key);
+            teams.add(cm.getTeam());
+            conferenceToTeams.put(key, teams);
+        });
+        conferenceToTeams.forEach((k,v)->v.sort(Comparator.comparing(Team::getName)));
     }
 
     public Set<Game> getGames() {
@@ -57,5 +86,17 @@ public class Season {
 
     public void setGames(Set<Game> games) {
         this.games = games;
+    }
+
+    public int numTeams() {
+        return teamToConference.size();
+    }
+
+    public int numConferences() {
+        return conferenceToTeams.size();
+    }
+
+    public List<Map.Entry<Conference, List<Team>>> conferenceList() {
+        return conferenceToTeams.entrySet().stream().sorted(Comparator.comparing(e->e.getKey().getName())).toList();
     }
 }

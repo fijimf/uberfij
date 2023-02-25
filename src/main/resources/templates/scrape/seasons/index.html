@@ -48,7 +48,8 @@
             <h1 class="display-3 col-12">Seasons</h1>
         </div>
         <h3>Standings Scrapes</h3>
-        <a class="btn btn-primary btn-sm col-1" th:href="${'/admin/scrape/seasons/conferenceMappings/scrape/'+season.getSeason()}">Scrape
+        <a class="btn btn-primary btn-sm col-1"
+           th:href="${'/admin/scrape/seasons/conferenceMappings/scrape/'+season.getSeason()}">Scrape
             <i class="px-1 bi-cloud-arrow-down-fill"></i>
         </a>
         <table class="table table-bordered table-sm">
@@ -77,17 +78,36 @@
                 <td th:text="${scrape.status}"></td>
                 <td class="text-center"><a th:href="${'/admin/scrape/seaasons/conferenceMappings/raw/'+scrape.id}"
                                            target="_blank"><i class="bi-search bold-bi"></i></a></td>
-                <td class="text-center"><a th:href="${'/admin/scrape/seasons/conferenceMappings/publishUpdate/'+scrape.id}"><i
+                <td class="text-center"><a
+                        th:href="${'/admin/scrape/seasons/conferenceMappings/publishUpdate/'+scrape.id}"><i
                         class="bi-database bold-bi"></i></a></td>
-                <td class="text-center"><a th:href="${'/admin/scrape/seasons/conferenceMappings/publishReplace/'+scrape.id}"><i
+                <td class="text-center"><a
+                        th:href="${'/admin/scrape/seasons/conferenceMappings/publishReplace/'+scrape.id}"><i
                         class="bi-database-exclamation bold-bi"></i></a></td>
                 <td class="text-center"><a th:href="${'/admin/scrape/seasons/conferenceMappings/delete/'+scrape.id}"><i
                         class="bi-x-circle bold-bi text-danger"></i></a></td>
             </tr>
             </tbody>
+        </table>    <table class="table table-bordered table-sm">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Teams</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="ce: ${season.conferenceList()}">
+                <td th:text="${ce.getKey().id}"></td>
+                <td th:text="${ce.getKey().name}"></td>
+                <td >
+                    <img class="img-fluid img-thumbnail" style="max-width: 2em;" th:each="t: ${ce.getValue()}" th:src="${t.getLogoUrl()}" />
+                </td>
+            </tr>
+            </tbody>
         </table>
     </div>
-    </div>
+
     <!--<script src="js/vendor/modernizr-3.11.2.min.js"></script>-->
     <!--<script src="js/plugins.js"></script>-->
     <!--<script src="js/main.js"></script>-->
