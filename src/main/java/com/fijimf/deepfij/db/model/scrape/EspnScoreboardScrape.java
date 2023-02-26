@@ -11,8 +11,12 @@ public class EspnScoreboardScrape {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column( name="espn_season_scrape_id")
-    private long espnSeasonScrapeId;
+//    @Column( name="espn_season_scrape_id")
+//    private long espnSeasonScrapeId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "espn_season_scrape_id")
+    private EspnSeasonScrape espnSeasonScrape;
     @Column(name= "scoreboard_key")
     private LocalDate scoreboardKey;
 
@@ -34,9 +38,9 @@ public class EspnScoreboardScrape {
     public EspnScoreboardScrape() {
     }
 
-    public EspnScoreboardScrape(long id, long espnSeasonScrapeId, LocalDate scoreboardKey, String flavor, String url, LocalDateTime retrievedAt, Long responseTimeMs, Integer responseCode, String response, Integer numberOfGames) {
+    public EspnScoreboardScrape(long id, EspnSeasonScrape espnSeasonScrape, LocalDate scoreboardKey, String flavor, String url, LocalDateTime retrievedAt, Long responseTimeMs, Integer responseCode, String response, Integer numberOfGames) {
         this.id = id;
-        this.espnSeasonScrapeId = espnSeasonScrapeId;
+        this.espnSeasonScrape = espnSeasonScrape;
         this.scoreboardKey = scoreboardKey;
         this.flavor = flavor;
         this.url = url;
@@ -47,9 +51,9 @@ public class EspnScoreboardScrape {
         this.numberOfGames = numberOfGames;
     }
 
-    public EspnScoreboardScrape(long espnSeasonScrapeId, LocalDate scoreboardKey, String flavor, String url) {
+    public EspnScoreboardScrape(EspnSeasonScrape espnSeasonScrape, LocalDate scoreboardKey, String flavor, String url) {
         this.id = 0L;
-        this.espnSeasonScrapeId = espnSeasonScrapeId;
+        this.espnSeasonScrape = espnSeasonScrape;
         this.scoreboardKey = scoreboardKey;
         this.flavor = flavor;
         this.url = url;
@@ -68,12 +72,12 @@ public class EspnScoreboardScrape {
         this.id = id;
     }
 
-    public long getEspnSeasonScrapeId() {
-        return espnSeasonScrapeId;
+    public EspnSeasonScrape getEspnSeasonScrape() {
+        return espnSeasonScrape;
     }
 
-    public void setEspnSeasonScrapeId(long espnSeasonScrapeId) {
-        this.espnSeasonScrapeId = espnSeasonScrapeId;
+    public void setEspnSeasonScrape(EspnSeasonScrape espnSeasonScrape) {
+        this.espnSeasonScrape = espnSeasonScrape;
     }
 
     public LocalDate getScoreboardKey() {

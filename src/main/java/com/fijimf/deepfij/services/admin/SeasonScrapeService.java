@@ -23,7 +23,7 @@ public class SeasonScrapeService {
     }
 
     @GetMapping("/index/{id}")
-    public ModelAndView getSeasonsStatus( @PathVariable("id") Long id) {
+    public ModelAndView getSeasonsStatus(@PathVariable("id") Long id) {
         ModelAndView modelAndView = new ModelAndView("scrape/seasons/index");
         Season season = seasonMgr.findById(id);
         modelAndView.addObject("standingsScrapes", seasonMgr.findStandingsScrapesBySeason(season.getSeason()));
@@ -50,7 +50,14 @@ public class SeasonScrapeService {
     public ModelAndView scrapeConferenceMapping(@PathVariable("year") int year) {
         EspnStandingsScrape standingsScrape = standingsMgr.scrape(year);
         Season season = seasonMgr.findSeasonBySeason(standingsScrape.getSeason());
-        return new ModelAndView("redirect:/admin/scrape/seasons/index/"+season.getId());
+        return new ModelAndView("redirect:/admin/scrape/seasons/index/" + season.getId());
+    }
+
+    @GetMapping("/games/scrape/{year}")
+    public ModelAndView scrapeGames(@PathVariable("year") int year) {
+        seasonMgr.scrapeSeasonByYear(year);
+        Season season = seasonMgr.findSeasonBySeason(year);
+        return new ModelAndView("redirect:/admin/scrape/seasons/index/" + season.getId());
     }
 
     @GetMapping(value = "/conferenceMappings/raw/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -62,12 +69,12 @@ public class SeasonScrapeService {
     @GetMapping("/conferenceMappings/publishUpdate/{id}")
     public ModelAndView publishConferenceMappingUpdate(@PathVariable long id) {
         Season season = standingsMgr.publishConferenceMap(id, false);
-        return new ModelAndView("redirect:/admin/scrape/seasons/index/"+season.getId());
+        return new ModelAndView("redirect:/admin/scrape/seasons/index/" + season.getId());
     }
 
     @GetMapping("/conferenceMappings/publishReplace/{id}")
     public ModelAndView publishConferenceMappingReplace(@PathVariable long id) {
         Season season = standingsMgr.publishConferenceMap(id, true);
-        return new ModelAndView("redirect:/admin/scrape/seasons/index/"+season.getId());
+        return new ModelAndView("redirect:/admin/scrape/seasons/index/" + season.getId());
     }
 }

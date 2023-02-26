@@ -1,17 +1,16 @@
 package com.fijimf.deepfij.db.model.scrape;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "espn_season_scrape")
 public class EspnSeasonScrape {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private int season;
     @Column(name="from_date")
@@ -25,6 +24,10 @@ public class EspnSeasonScrape {
     private LocalDateTime completedAt;
 
     private String status;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "espn_season_scrape_id")
+    private List<EspnScoreboardScrape> scoreboardScrapes;
+
 
     public EspnSeasonScrape() {
     }
@@ -126,4 +129,13 @@ public class EspnSeasonScrape {
         LocalDate d = LocalDate.of(season, 4, 30);
         return ((to == null) || to.isAfter(d)) ? d : to;
     }
+
+    public List<EspnScoreboardScrape> getScoreboardScrapes() {
+        return scoreboardScrapes;
+    }
+
+    public void setScoreboardScrapes(List<EspnScoreboardScrape> scoreboardScrapes) {
+        this.scoreboardScrapes = scoreboardScrapes;
+    }
+
 }

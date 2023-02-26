@@ -43,7 +43,7 @@ public class ScoreboardSport {
         return leagues;
     }
 
-    public long numberOfGames() {
+    public int numberOfGames() {
         if (leagues == null || leagues.isEmpty()) {
             return 0;
         } else {
