@@ -5,6 +5,7 @@ import com.fijimf.deepfij.db.model.scrape.EspnSeasonScrape;
 import com.fijimf.deepfij.db.model.scrape.EspnStandingsScrape;
 import com.fijimf.deepfij.db.repo.schedule.SeasonRepo;
 import com.fijimf.deepfij.db.repo.scrape.EspnSeasonScrapeRepo;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -21,6 +23,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+/*
+TODO Check against running jobs -- only one per season
+TODO Test timeouts
+TODO Cancel
+TODO Progress methods
+TODO publish methods
+ */
 @Component
 public class SeasonManager {
     private final Logger logger = LoggerFactory.getLogger(SeasonManager.class);
@@ -57,21 +66,23 @@ public class SeasonManager {
         return repo.findBySeason(season).orElseThrow();
     }
 
-    public Long scrapeSeason(Long seasonId) {
-        Optional<Season> optionalSeason = repo.findById(seasonId);
-        return optionalSeason.map(this::scrapeSeason).orElse(-1L);
+    public static LocalDate defaultEndDate(int yyyy) {
+        return LocalDate.of(yyyy, 4, 30);
     }
 
-    private Long scrapeSeason(Season season) {
-        int yyyy = season.getSeason();
-        LocalDate start = LocalDate.of(yyyy - 1, 11, 1);
-        LocalDate end = LocalDate.of(yyyy, 4, 30);
-        return scrapeSeason(yyyy, start, end);
+    public static LocalDate defaultStartDate(int yyyy) {
+        return LocalDate.of(yyyy - 1, 11, 1);
     }
 
-    private Long scrapeSeason(int yyyy, LocalDate start, LocalDate end) {
+    public Long scrapeSeason(Season season, String from, String to) {
+        LocalDate start = LocalDate.parse(from, DateTimeFormatter.ofPattern("yyyyMMdd"));
+        LocalDate end = LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyyMMdd"));
+        return scrapeSeason(season, start, end);
+    }
+
+    private Long scrapeSeason(Season season, LocalDate start, LocalDate end) {
         Random random = new Random();
-        EspnSeasonScrape seasonScrape = seasonScrapeRepo.saveAndFlush(new EspnSeasonScrape(0L, yyyy, start, end, LocalDateTime.now(), null, "STARTING"));
+        EspnSeasonScrape seasonScrape = seasonScrapeRepo.saveAndFlush(new EspnSeasonScrape(0L, season.getSeason(), start, end, LocalDateTime.now(), null, "STARTING"));
         ExecutorService executorService = Executors.newFixedThreadPool(1);
         start.datesUntil(end).forEach(d -> {
             executorService.submit( () -> {
@@ -89,11 +100,12 @@ public class SeasonManager {
         executorService.shutdown();
         Executors.newSingleThreadExecutor().submit(() -> {
             try {
-                boolean b = executorService.awaitTermination(1, TimeUnit.HOURS);
+                boolean b = executorService.awaitTermination(15, TimeUnit.SECONDS);
                 if (b) {
                     updateSeasonScrapeStatus(seasonScrape, "COMPLETED");
                 } else {
                     updateSeasonScrapeStatus(seasonScrape, "TIMED OUT");
+                    executorService.shutdownNow();
                 }
             } catch (InterruptedException e) {
                 updateSeasonScrapeStatus(seasonScrape, "ABORTED");
@@ -115,7 +127,10 @@ public class SeasonManager {
         scoreboardMgr.scrapeScoreboardDate(date, seasonScrapeId);
     }
 
-    public Long scrapeSeasonByYear(int year) {
-        return scrapeSeason(findSeasonBySeason(year).getId());
+    public Long scrapeSeasonByYear(int year, String from, String to) {
+        Season season = findSeasonBySeason(year);
+        LocalDate start = StringUtils.isNotBlank(from)?LocalDate.parse(from,DateTimeFormatter.ofPattern("yyyyMMdd")):defaultStartDate(year);
+        LocalDate end = StringUtils.isNotBlank(to)?LocalDate.parse(to,DateTimeFormatter.ofPattern("yyyyMMdd")):defaultEndDate(year);
+        return scrapeSeason(season, start, end);
     }
 }

@@ -25,7 +25,7 @@ public class EspnSeasonScrape {
 
     private String status;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "espn_season_scrape_id")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "id")
     private List<EspnScoreboardScrape> scoreboardScrapes;
 
 

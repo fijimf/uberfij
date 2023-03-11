@@ -53,11 +53,10 @@ public class SeasonScrapeService {
         return new ModelAndView("redirect:/admin/scrape/seasons/index/" + season.getId());
     }
 
-    @GetMapping("/games/scrape/{year}")
-    public ModelAndView scrapeGames(@PathVariable("year") int year) {
-        seasonMgr.scrapeSeasonByYear(year);
-        Season season = seasonMgr.findSeasonBySeason(year);
-        return new ModelAndView("redirect:/admin/scrape/seasons/index/" + season.getId());
+    @PostMapping("/games/scrape/{year}")
+    public ModelAndView scrapeGames(@PathVariable("year") int year, @RequestParam(name="from", required = false) String from, @RequestParam(name="to", required = false) String to) {
+        seasonMgr.scrapeSeasonByYear(year, from, to);
+        return new ModelAndView("redirect:/admin/scrape/index" );
     }
 
     @GetMapping(value = "/conferenceMappings/raw/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

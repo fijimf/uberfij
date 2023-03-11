@@ -110,6 +110,19 @@
            th:href="${'/admin/scrape/seasons/games/scrape/'+season.getSeason()}">Scrape Games
             <i class="px-1 bi-cloud-arrow-down-fill"></i>
         </a>
+
+        <form th:action="${'/admin/scrape/seasons/games/scrape/'+season.getSeason()}" method="post">
+            <div class="scrape-card">
+                <input type="text" id="from" name="from" class=""
+                                            style="max-width: 5em;" aria-label="From">
+                <input type="text" id="to" name="to" class=""
+                                            style="max-width: 5em;" aria-label="To">
+                <button type="submit" style="max-width: fit-content;"
+                        class="btn btn-sm btn-success">Scrape<span class="bi bi-cloud-arrow-down-fill px-1"></span>
+                </button>
+
+            </div>
+        </form>
     </div>
 
     <!--<script src="js/vendor/modernizr-3.11.2.min.js"></script>-->
