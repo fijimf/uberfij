@@ -1,9 +1,11 @@
 package com.fijimf.deepfij.scraping;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fijimf.deepfij.db.model.schedule.Conference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -51,5 +53,19 @@ public class Standings {
                                 .map(StandingsLine::getTeam)
                                 .collect(Collectors.toList())
                 ));
+    }
+
+    public Conference conferenceFromStandings(String espnId){
+        return Arrays.stream(children)
+                .filter(sc->sc.getId().equalsIgnoreCase(espnId))
+                .map(sc->new Conference(0L,sc.getAbbreviation(),sc.getName(),sc.getShortName(),guessLogoUrl(sc),espnId,-1L, LocalDateTime.now()))
+                .findFirst().orElseThrow();
+
+    }
+
+    public String guessLogoUrl(StandingsConference sc){
+//        https://a.espncdn.com/i/teamlogos/ncaa_conf/500/independents.png
+        String s = sc.getShortName().toLowerCase().trim().replace(' ','_');
+        return "https://a.espncdn.com/i/teamlogos/ncaa_conf/500/"+s+".png";
     }
 }

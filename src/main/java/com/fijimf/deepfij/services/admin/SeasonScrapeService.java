@@ -28,13 +28,14 @@ public class SeasonScrapeService {
         Season season = seasonMgr.findById(id);
         modelAndView.addObject("standingsScrapes", seasonMgr.findStandingsScrapesBySeason(season.getSeason()));
         modelAndView.addObject("season", season);
+        modelAndView.addObject("seasonScrapes",  seasonMgr.findSeasonScrapesBySeason(season));
         return modelAndView;
     }
 
     @PostMapping("/new")
     public ModelAndView createNewSeason(@RequestParam(name = "seasonYear") String year) {
         seasonMgr.createNewSeason(Integer.parseInt(year));
-        return new ModelAndView("redirect:/admin/scrape/seasons/status");
+        return new ModelAndView("redirect:/admin/scrape/index");
     }
 
 

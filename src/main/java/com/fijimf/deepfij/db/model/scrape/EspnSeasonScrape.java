@@ -25,7 +25,8 @@ public class EspnSeasonScrape {
 
     private String status;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "id")
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name="espn_season_scrape_id")
     private List<EspnScoreboardScrape> scoreboardScrapes;
 
 
@@ -138,4 +139,18 @@ public class EspnSeasonScrape {
         this.scoreboardScrapes = scoreboardScrapes;
     }
 
+    public int okCount(){
+        if (scoreboardScrapes==null) {
+            return 0;
+        } else {
+            return (int) scoreboardScrapes.stream().filter(s -> s.getResponseCode() == 200).count();
+        }
+    }
+    public int errCount(){
+        if (scoreboardScrapes==null) {
+            return 0;
+        } else {
+            return (int) scoreboardScrapes.stream().filter(s -> s.getResponseCode() != 200).count();
+        }
+    }
 }

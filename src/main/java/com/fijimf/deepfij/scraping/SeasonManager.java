@@ -15,13 +15,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /*
 TODO Check against running jobs -- only one per season
@@ -74,11 +71,11 @@ public class SeasonManager {
         return LocalDate.of(yyyy - 1, 11, 1);
     }
 
-    public Long scrapeSeason(Season season, String from, String to) {
-        LocalDate start = LocalDate.parse(from, DateTimeFormatter.ofPattern("yyyyMMdd"));
-        LocalDate end = LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyyMMdd"));
-        return scrapeSeason(season, start, end);
-    }
+//    public Long scrapeSeason(Season season, String from, String to) {
+//        LocalDate start = LocalDate.parse(from, DateTimeFormatter.ofPattern("yyyyMMdd"));
+//        LocalDate end = LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyyMMdd"));
+//        return scrapeSeason(season, start, end);
+//    }
 
     private Long scrapeSeason(Season season, LocalDate start, LocalDate end) {
         Random random = new Random();
@@ -132,5 +129,9 @@ public class SeasonManager {
         LocalDate start = StringUtils.isNotBlank(from)?LocalDate.parse(from,DateTimeFormatter.ofPattern("yyyyMMdd")):defaultStartDate(year);
         LocalDate end = StringUtils.isNotBlank(to)?LocalDate.parse(to,DateTimeFormatter.ofPattern("yyyyMMdd")):defaultEndDate(year);
         return scrapeSeason(season, start, end);
+    }
+
+    public List<EspnSeasonScrape> findSeasonScrapesBySeason(Season season) {
+        return seasonScrapeRepo.findAllBySeason(season.getSeason());
     }
 }

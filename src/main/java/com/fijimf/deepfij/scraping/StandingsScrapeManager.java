@@ -100,7 +100,7 @@ public class StandingsScrapeManager {
             Standings standings = objectMapper.readValue(scrape.getResponse(), Standings.class);
             Map<String, List<StandingsTeam>> confMap = standings.mapValues();
             confMap.keySet().forEach(c -> {
-                Conference conf = conferenceRepo.findByEspnIdEquals(c).orElseThrow(()->new RuntimeException("Could not find conf for id "+c));
+                Conference conf = conferenceRepo.findByEspnIdEquals(c).orElseGet(()->conferenceRepo.saveAndFlush(standings.conferenceFromStandings(c)));
                 confMap.get(c).forEach(t -> {
                     Team team = teamRepo.findByEspnIdEquals(t.getId()).orElseGet(()->populateStubTeamFromStandings(t));
                     Optional<ConferenceMap> optMapping = conferenceMappingRepo.findBySeasonAndTeam(season, team);
