@@ -77,13 +77,13 @@ public class SeasonManager {
 //        return scrapeSeason(season, start, end);
 //    }
 
-    private Long scrapeSeason(Season season, LocalDate start, LocalDate end) {
+    private Long scrapeSeason(Season season, LocalDate start, LocalDate end, Long timeout) {
         Random random = new Random();
         EspnSeasonScrape seasonScrape = seasonScrapeRepo.saveAndFlush(new EspnSeasonScrape(0L, season.getSeason(), start, end, LocalDateTime.now(), null, "STARTING"));
         ExecutorService executorService = Executors.newFixedThreadPool(1);
         start.datesUntil(end).forEach(d -> {
             executorService.submit( () -> {
-                long sleepDelay = random.nextLong(3000L, 9000L);
+                long sleepDelay = random.nextLong(500L, 2000L);
                 logger.info("Loading "+d+" - delay is "+sleepDelay+" ms");
                 try {
                     Thread.sleep(sleepDelay);
@@ -97,7 +97,7 @@ public class SeasonManager {
         executorService.shutdown();
         Executors.newSingleThreadExecutor().submit(() -> {
             try {
-                boolean b = executorService.awaitTermination(15, TimeUnit.SECONDS);
+                boolean b = executorService.awaitTermination(timeout, TimeUnit.SECONDS);
                 if (b) {
                     updateSeasonScrapeStatus(seasonScrape, "COMPLETED");
                 } else {
@@ -124,11 +124,12 @@ public class SeasonManager {
         scoreboardMgr.scrapeScoreboardDate(date, seasonScrapeId);
     }
 
-    public Long scrapeSeasonByYear(int year, String from, String to) {
+    public Long scrapeSeasonByYear(int year, String from, String to, String timeOutSec) {
         Season season = findSeasonBySeason(year);
         LocalDate start = StringUtils.isNotBlank(from)?LocalDate.parse(from,DateTimeFormatter.ofPattern("yyyyMMdd")):defaultStartDate(year);
         LocalDate end = StringUtils.isNotBlank(to)?LocalDate.parse(to,DateTimeFormatter.ofPattern("yyyyMMdd")):defaultEndDate(year);
-        return scrapeSeason(season, start, end);
+        Long timeout = StringUtils.isNotBlank(timeOutSec)?Long.parseLong(timeOutSec):3600L;
+        return scrapeSeason(season, start, end, timeout);
     }
 
     public List<EspnSeasonScrape> findSeasonScrapesBySeason(Season season) {

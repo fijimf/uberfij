@@ -55,8 +55,8 @@ public class SeasonScrapeService {
     }
 
     @PostMapping("/games/scrape/{year}")
-    public ModelAndView scrapeGames(@PathVariable("year") int year, @RequestParam(name="from", required = false) String from, @RequestParam(name="to", required = false) String to) {
-        seasonMgr.scrapeSeasonByYear(year, from, to);
+    public ModelAndView scrapeGames(@PathVariable("year") int year, @RequestParam(name="from", required = false) String from, @RequestParam(name="to", required = false) String to, @RequestParam(name="timeOutSec", required = false) String timeOutSec) {
+        seasonMgr.scrapeSeasonByYear(year, from, to, timeOutSec);
         return new ModelAndView("redirect:/admin/scrape/index" );
     }
 

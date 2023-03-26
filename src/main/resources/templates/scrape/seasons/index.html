@@ -90,10 +90,12 @@
             </tr>
             </tbody>
         </table>
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#conferencesTable"
-                aria-expanded="false" aria-controls="conferencesTable">
-            Show/Hide Conferences
-        </button>
+        <div><p th:text='${"Conferemnces:"+season.numConferences()}'></p>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#conferencesTable"
+                    aria-expanded="false" aria-controls="conferencesTable">
+                Show/Hide
+            </button></div>
+
         <div class="collapse" id="conferencesTable">
             <table class="table table-bordered table-sm">
                 <thead>
@@ -115,10 +117,6 @@
                 </tbody>
             </table>
         </div>
-        <a class="btn btn-primary btn-sm col-1"
-           th:href="${'/admin/scrape/seasons/games/scrape/'+season.getSeason()}">Scrape Games
-            <i class="px-1 bi-cloud-arrow-down-fill"></i>
-        </a>
 
         <form th:action="${'/admin/scrape/seasons/games/scrape/'+season.getSeason()}" method="post">
             <div class="scrape-card">
@@ -126,6 +124,8 @@
                        style="max-width: 5em;" aria-label="From">
                 <input type="text" id="to" name="to" class=""
                        style="max-width: 5em;" aria-label="To">
+                <input type="text" id="timeOutSec" name="timeOutSec" class=""
+                       style="max-width: 3em;" aria-label="TimeoutSec">
                 <button type="submit" style="max-width: fit-content;"
                         class="btn btn-sm btn-success">Scrape<span class="bi bi-cloud-arrow-down-fill px-1"></span>
                 </button>
@@ -140,6 +140,8 @@
                 <th>Season</th>
                 <th>From</th>
                 <th>To</th>
+                <th>Started</th>
+                <th>Completed</th>
                 <th>OK</th>
                 <th>Err</th>
                 <th>Status</th>
@@ -151,6 +153,9 @@
                 <td th:text="${ssc.getSeason()}"></td>
                 <td th:text="${ssc.getFrom()}"></td>
                 <td th:text="${ssc.getTo()}"></td>
+                <td th:text="${ssc.getStartedAt()}"></td>
+                <td th:text="${ssc.getCompletedAt()}"></td>
+
                 <td th:text="${ssc.okCount()}"></td>
                 <td th:text="${ssc.errCount()}"></td>
                 <td th:text="${ssc.getStatus()}"></td>
