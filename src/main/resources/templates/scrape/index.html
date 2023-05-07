@@ -11,7 +11,7 @@
     <!--    <link href="webjars/bootstrap/5.2.3/css/bootstrap.min.css"-->
     <!--          rel="stylesheet">-->
     <link rel="stylesheet" href="/webjars/bootstrap/5.0.2/dist/css/bootstrap.min.css">
-<!--    <script src="/webjars//jquery-3.6.0.min.js"></script>-->
+    <!--    <script src="/webjars//jquery-3.6.0.min.js"></script>-->
     <script src="/webjars/bootstrap/5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/css/deepfij.css">
@@ -24,87 +24,95 @@
             align-items: baseline;
         }
     </style>
-
-    <!--    <meta property="og:title" content="">-->
-    <!--    <meta property="og:type" content="">-->
-    <!--    <meta property="og:url" content="">-->
-    <!--    <meta property="og:image" content="">-->
-
-    <!--    <link rel="manifest" href="site.webmanifest">-->
-    <!--    <link rel="apple-touch-icon" href="icon.png">-->
-    <!-- Place favicon.ico in the root directory -->
-
-    <!--    <link rel="stylesheet" href="css/normalize.css">-->
-    <!--    <link rel="stylesheet" href="css/main.css">-->
-
-    <!--    <meta name="theme-color" content="#fafafa">-->
 </head>
 
 <body>
-<Header th:include="~{common/topnav::topnav}"></Header>
+<header th:include="~{common/topnav::topnav}"></header>
 
-<!-- Add your site or application content here -->
-<main>
-    <div class="container">
-        <div class="row">
-            <h1 class="display-3 col-12">Schedule Data</h1>
-            <div class="col-10">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">Teams</h3>
-                        <div class="scrape-card">
-                            <div style="grid-column: 1;" th:text="${teams.size()+' teams.'}"></div>
-                            <a th:href="${'/admin/scrape/teams/view'}" class="btn btn-sm btn-primary">View<span
-                                    class="bi bi-eye px-1"></span></a>
-                            <a th:href="${'/admin/scrape/teams/index'}" class="btn btn-sm btn-primary">Edit<span
-                                    class="bi bi-pencil px-1"></span></a>
-                            <a th:href="${'/admin/scrape/teams/clear'}" class="btn btn-sm btn-danger">Clear<span
-                                    class="bi bi-x-circle px-1"></span></a>
+<div class="container-fluid">
+    <div th:include="~{common/qotd::qotd}"></div>
+<div class="row">
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">
+                        <span data-feather="home"></span>
+                        Dashboard <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span data-feather="file"></span>
+                        Teams
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span data-feather="users"></span>
+                        Players
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span data-feather="bar-chart-2"></span>
+                        Stats
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Teams</h3>
+                <div class="scrape-card">
+                    <div style="grid-column: 1;" th:text="${teams.size()+' teams.'}"></div>
+                    <a th:href="${'/admin/scrape/teams/view'}" class="btn btn-sm btn-primary">View<span
+                            class="bi bi-eye px-1"></span></a>
+                    <a th:href="${'/admin/scrape/teams/index'}" class="btn btn-sm btn-primary">Edit<span
+                            class="bi bi-pencil px-1"></span></a>
+                    <a th:href="${'/admin/scrape/teams/clear'}" class="btn btn-sm btn-danger">Clear<span
+                            class="bi bi-x-circle px-1"></span></a>
+                </div>
+                <h3 class="card-title">Conferences</h3>
+                <div class="scrape-card">
+                    <div style="grid-column: 1;" th:text="${conferences.size()+' conferences.'}"></div>
+                    <a th:href="${'/admin/scrape/conferences/view'}" class="btn btn-sm btn-primary">View<span
+                            class="bi bi-eye px-1"></span></a>
+                    <a th:href="${'/admin/scrape/conferences/index'}" class="btn btn-sm btn-primary">Edit<span
+                            class="bi bi-pencil px-1"></span></a>
+                    <a th:href="${'/admin/scrape/conferences/clear'}" class="btn btn-sm btn-danger">Clear<span
+                            class="bi bi-x-circle px-1"></span></a>
+                </div>
+                <h3 class="card-title">Seasons</h3>
+                <div class="scrape-card">
+                    <th:block th:each="season: ${seasons}">
+                        <div th:text="${season.getSeason()+': '+season.getGames().size()+' games. '+season.getGames().size()+' dates. '+season.numConferences()+' conferences. '+season.numTeams()+' teams.'}"></div>
+                        <a th:href="${'/admin/scrape/seasons/view/'+season.getId()}"
+                           class="btn btn-sm btn-primary">View<span class="bi bi-eye px-1"></span></a>
+                        <a th:href="${'/admin/scrape/seasons/index/'+season.getId()}"
+                           class="btn btn-sm btn-primary">Edit<span class="bi bi-pencil px-1"></span></a>
+                        <a th:href="${'/admin/scrape/seasons/delete/'+season.getId()}"
+                           class="btn btn-sm btn-danger">Clear<span class="bi bi-x-circle px-1"></span></a>
+                    </th:block>
+                    <form th:action="${'/admin/scrape/seasons/new'}" method="post">
+                        <div class="scrape-card"><input type="text" id="seasonYear" name="seasonYear" class=""
+                                                        style="max-width: 5em;" aria-label="Year">
+                            <button type="submit" style="max-width: fit-content;"
+                                    class="btn btn-sm btn-success">New<span class="bi bi-plus px-1"></span>
+                            </button>
+
                         </div>
-                        <h3 class="card-title">Conferences</h3>
-                        <div class="scrape-card">
-                            <div style="grid-column: 1;" th:text="${conferences.size()+' conferences.'}"></div>
-                            <a th:href="${'/admin/scrape/conferences/view'}" class="btn btn-sm btn-primary">View<span
-                                    class="bi bi-eye px-1"></span></a>
-                            <a th:href="${'/admin/scrape/conferences/index'}" class="btn btn-sm btn-primary">Edit<span
-                                    class="bi bi-pencil px-1"></span></a>
-                            <a th:href="${'/admin/scrape/conferences/clear'}" class="btn btn-sm btn-danger">Clear<span
-                                    class="bi bi-x-circle px-1"></span></a>
-                        </div>
-                        <h3 class="card-title">Seasons</h3>
-                        <div class="scrape-card">
-                            <th:block th:each="season: ${seasons}">
-                                <div th:text="${season.getSeason()+': '+season.getGames().size()+' games. '+season.getGames().size()+' dates. '+season.numConferences()+' conferences. '+season.numTeams()+' teams.'}"></div>
-                                <a th:href="${'/admin/scrape/seasons/view/'+season.getId()}"
-                                   class="btn btn-sm btn-primary">View<span class="bi bi-eye px-1"></span></a>
-                                <a th:href="${'/admin/scrape/seasons/index/'+season.getId()}"
-                                   class="btn btn-sm btn-primary">Edit<span class="bi bi-pencil px-1"></span></a>
-                                <a th:href="${'/admin/scrape/seasons/delete/'+season.getId()}"
-                                   class="btn btn-sm btn-danger">Clear<span class="bi bi-x-circle px-1"></span></a>
-                            </th:block>
-                            <form th:action="${'/admin/scrape/seasons/new'}" method="post">
-                                <div class="scrape-card"><input type="text" id="seasonYear" name="seasonYear" class=""
-                                                                style="max-width: 5em;" aria-label="Year">
-                                    <button type="submit" style="max-width: fit-content;"
-                                            class="btn btn-sm btn-success">New<span class="bi bi-plus px-1"></span>
-                                    </button>
-
-                                </div>
-                            </form>
-                        </div>
-
-
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </div>
-    <!--<script src="js/vendor/modernizr-3.11.2.min.js"></script>-->
-    <!--<script src="js/plugins.js"></script>-->
-    <!--<script src="js/main.js"></script>-->
-
-    <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-</main>
+    </main>
+</div>
+</div>
 </body>
 
 </html>
