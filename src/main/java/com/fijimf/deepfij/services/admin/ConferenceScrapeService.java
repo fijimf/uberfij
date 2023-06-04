@@ -67,7 +67,7 @@ public class ConferenceScrapeService {
     }
 
     public static ModelAndView conferencesIndexRedirect() {
-        return new ModelAndView("redirect:/admin/scrape/conferences/index");
+        return new ModelAndView("forward:/admin/scrape/conferences/index");
     }
 
 }

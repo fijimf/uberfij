@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title th:remove="all">Template for HTML email with inline image</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<p>
+    <img src="deepfij.png" alt="logo-img" th:src="|cid:${imageResourceName}|"/>
+</p>
+<p>The deepfij server was restarted on <span th:text="${hostname}"></span> at <span
+        th:text="${#temporals.format(time, 'YYYY-MM-dd hh:mm a')}">
+</span></p>
+
+<p>
+    The temporary password for <strong>admin</strong> is <strong th:text="${password}"></strong> and will expire in 10
+    minutes.
+</p>
+
+
+<h3>FRIDGE RULES</h3>
+</body>
+</html>

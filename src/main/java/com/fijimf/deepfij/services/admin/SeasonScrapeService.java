@@ -35,13 +35,13 @@ public class SeasonScrapeService {
     @PostMapping("/new")
     public ModelAndView createNewSeason(@RequestParam(name = "seasonYear") String year) {
         seasonMgr.createNewSeason(Integer.parseInt(year));
-        return new ModelAndView("redirect:/admin/scrape/index");
+        return new ModelAndView("forward:/admin/scrape/index");
     }
 
 
-    @GetMapping("/conferenceMappings/status")
+    @GetMapping("/conferenceMappings/index")
     public ModelAndView getConferenceMappingStatus() {
-        ModelAndView modelAndView = new ModelAndView("scrape/conferenceMapsStatus");
+        ModelAndView modelAndView = new ModelAndView("scrape/seasons/conferenceMapsIndex");
         modelAndView.addObject("mappings", standingsMgr.findAllConfMaps());
         modelAndView.addObject("standingsScrapes", standingsMgr.findAllStandingsScrapes());
         return modelAndView;
@@ -51,13 +51,13 @@ public class SeasonScrapeService {
     public ModelAndView scrapeConferenceMapping(@PathVariable("year") int year) {
         EspnStandingsScrape standingsScrape = standingsMgr.scrape(year);
         Season season = seasonMgr.findSeasonBySeason(standingsScrape.getSeason());
-        return new ModelAndView("redirect:/admin/scrape/seasons/index/" + season.getId());
+        return new ModelAndView("forward:/admin/scrape/seasons/index/" + season.getId());
     }
 
     @PostMapping("/games/scrape/{year}")
     public ModelAndView scrapeGames(@PathVariable("year") int year, @RequestParam(name="from", required = false) String from, @RequestParam(name="to", required = false) String to, @RequestParam(name="timeOutSec", required = false) String timeOutSec) {
         seasonMgr.scrapeSeasonByYear(year, from, to, timeOutSec);
-        return new ModelAndView("redirect:/admin/scrape/index" );
+        return new ModelAndView("forward:/admin/scrape/index" );
     }
 
     @GetMapping(value = "/conferenceMappings/raw/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -69,12 +69,12 @@ public class SeasonScrapeService {
     @GetMapping("/conferenceMappings/publishUpdate/{id}")
     public ModelAndView publishConferenceMappingUpdate(@PathVariable long id) {
         Season season = standingsMgr.publishConferenceMap(id, false);
-        return new ModelAndView("redirect:/admin/scrape/seasons/index/" + season.getId());
+        return new ModelAndView("forward:/admin/scrape/seasons/index/" + season.getId());
     }
 
     @GetMapping("/conferenceMappings/publishReplace/{id}")
     public ModelAndView publishConferenceMappingReplace(@PathVariable long id) {
         Season season = standingsMgr.publishConferenceMap(id, true);
-        return new ModelAndView("redirect:/admin/scrape/seasons/index/" + season.getId());
+        return new ModelAndView("forward:/admin/scrape/seasons/index/" + season.getId());
     }
 }
