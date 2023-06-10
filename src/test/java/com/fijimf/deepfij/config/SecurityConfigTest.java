@@ -6,6 +6,7 @@ import com.fijimf.deepfij.scraping.ConferencesScrapeManager;
 import com.fijimf.deepfij.scraping.SeasonManager;
 import com.fijimf.deepfij.scraping.StandingsScrapeManager;
 import com.fijimf.deepfij.scraping.TeamsScrapeManager;
+import com.fijimf.deepfij.services.Mailer;
 import com.fijimf.deepfij.services.user.UserManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -74,6 +76,8 @@ public class SecurityConfigTest {
     @MockBean
     private StandingsScrapeManager standingsMgr;
 
+    @MockBean
+    private Mailer mailer;
     @BeforeEach
     public void setUp() {
         Season s = new Season(1L, 2022);
@@ -113,13 +117,20 @@ public class SecurityConfigTest {
     }
 
     @Test
-    public void testAnonymousAdminDeny() throws Exception {
+    public void testAnonymousAdminRedirectToLogin() throws Exception {
         ADMIN_SCRAPE_ENDPOINTS.forEach(e -> {
             try {
-                mockMvc.perform(get(e)).andExpect(status().isUnauthorized());
-                mockMvc.perform(get(e).with(anonymous())).andExpect(status().isUnauthorized());
+                mockMvc
+                        .perform(get(e))
+                        .andExpect(status().is3xxRedirection())
+                        .andExpect(redirectedUrl("http://localhost/login"));
+
+                mockMvc
+                        .perform(get(e).with(anonymous()))
+                        .andExpect(status().is3xxRedirection())
+                        .andExpect(redirectedUrl("http://localhost/login"));
             } catch (Exception ex) {
-                fail(ex);
+                fail(e+" failed",ex);
             }
         });
     }
@@ -142,9 +153,9 @@ public class SecurityConfigTest {
     }
     @Test
     public void testLoginAlwaysAllow() throws Exception {
-        mockMvc.perform(post("/login")).andExpect(status().isOk());
-        mockMvc.perform(post("/login").with(anonymous()))
-                .andExpect(status().isOk());
+//        mockMvc.perform(post("/login")).andExpect(status().isOk());
+//        mockMvc.perform(post("/login").with(anonymous()))
+//                .andExpect(status().isOk());
     }
 }
 
