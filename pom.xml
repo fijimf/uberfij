@@ -144,5 +144,11 @@
 			</plugin>
 		</plugins>
 	</build>
+	<scm>
+		<connection>scm:git:https://github.com/fijimf/uberfij.git</connection>
+		<developerConnection>scm:git:https://github.com/fijimf/uberfij.git</developerConnection>
+		<url>https://github.com/fijimf/uberfij</url>
+	</scm>
+
 
 </project>
