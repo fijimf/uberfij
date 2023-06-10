@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fijimf.deepfij.db.model.schedule.Team;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StandingsTeam {
@@ -99,5 +101,20 @@ public class StandingsTeam {
                 0L,
                 LocalDateTime.now()
         );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StandingsTeam that = (StandingsTeam) o;
+        return Objects.equals(id, that.id) && Objects.equals(shortDisplayName, that.shortDisplayName) && Objects.equals(location, that.location) && Objects.equals(name, that.name) && Objects.equals(abbreviation, that.abbreviation) && Objects.equals(displayName, that.displayName) && Arrays.equals(logos, that.logos);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, shortDisplayName, location, name, abbreviation, displayName);
+        result = 31 * result + Arrays.hashCode(logos);
+        return result;
     }
 }

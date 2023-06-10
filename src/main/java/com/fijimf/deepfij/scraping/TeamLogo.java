@@ -3,6 +3,7 @@ package com.fijimf.deepfij.scraping;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TeamLogo {
@@ -74,5 +75,18 @@ public class TeamLogo {
 
     public void setHeight(Integer height) {
         this.height = height;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TeamLogo teamLogo = (TeamLogo) o;
+        return Objects.equals(href, teamLogo.href) && Objects.equals(alt, teamLogo.alt) && Objects.equals(rel, teamLogo.rel) && Objects.equals(width, teamLogo.width) && Objects.equals(height, teamLogo.height);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(href, alt, rel, width, height);
     }
 }
