@@ -148,6 +148,9 @@
                 <version>2.5.3</version>
                 <configuration>
                     <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <providerImplementations>
+                        <git>org.apache.maven.scm.provider.git.gitexe.GitExeScmProvider</git>
+                    </providerImplementations>
                 </configuration>
                 <dependencies>
                     <dependency>
