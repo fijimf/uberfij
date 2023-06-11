@@ -148,12 +148,8 @@
                 <version>3.0.0-M1</version>
                 <configuration>
                     <tagNameFormat>v@{project.version}</tagNameFormat>
-                    <providerImplementations>
-                        <git>github</git>
-                    </providerImplementations>
                 </configuration>
                 <dependencies>
-
                     <dependency>
                         <groupId>org.apache.maven.scm</groupId>
                         <artifactId>maven-scm-provider-gitexe</artifactId>
@@ -171,8 +167,8 @@
 
     </build>
     <scm>
-        <connection>scm:git:ssh://git@github.com/fijimf/uberfij.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/fijimf/uberfij.git</developerConnection>
+        <connection>scm:git:git@github.com/fijimf/uberfij.git</connection>
+        <developerConnection>scm:git:git@github.com/fijimf/uberfij.git</developerConnection>
         <url>https://github.com/fijimf/uberfij</url>
         <tag>uberfij-0.0.1</tag>
     </scm>
