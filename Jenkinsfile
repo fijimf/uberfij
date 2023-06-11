@@ -1,9 +1,10 @@
 pipeline {
     agent any
 
-tools {
-    jdk 'JDK 17'
-}
+    tools {
+        jdk 'JDK 17'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -13,7 +14,7 @@ tools {
 
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                sh 'mvn clean package -DskipTests'
             }
         }
 
@@ -22,5 +23,14 @@ tools {
                 sh 'mvn test'
             }
         }
+        stage('Release'){
+          when {
+            expression {
+               env.BRANCH_NAME == 'master'
+            }
+            steps {
+                            sh 'mvn release:prepare release:perform'
+                    }
+          }
     }
 }
