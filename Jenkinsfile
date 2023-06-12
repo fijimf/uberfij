@@ -23,14 +23,12 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        stage('Release'){
-          when {
-            expression {
-               env.BRANCH_NAME == 'master'
-            }
+
+        stage('Release') {
+            when { branch 'master' }
             steps {
-                            sh 'mvn release:prepare release:perform'
-                    }
-          }
+                sh 'mvn release:prepare release:perform'
+            }
+        }
     }
 }
