@@ -151,8 +151,8 @@
     </build>
     <scm>
         <url>https://github.com/fijimf/uberfij</url>
-        <connection>scm:git:ssh://git@github.com/fijimf/uberfij.git</connection>
-        <developerConnection>scm:git:git@github.com:fijimf/uberfij.git</developerConnection>
+        <connection>scm:git:https://github.com/fijimf/uberfij.git</connection>
+        <developerConnection>scm:https//:github.com:fijimf/uberfij.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 </project>
