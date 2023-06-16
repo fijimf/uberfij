@@ -31,9 +31,9 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-//            cleanWs() FUCKOFF
-        }
-    }
+//    post {
+//        always {
+//            cleanWs()
+//        }
+//    }
 }
