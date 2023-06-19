@@ -5,20 +5,19 @@ pipeline {
         jdk 'JDK 17'
     }
 
+
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'develop', url: 'https://github.com/fijimf/uberfij.git'
-            }
-            steps{
-                sh 'cat pom.xml'
+                // Checkout code from the current branch
+                checkout scm
             }
         }
 
         stage('Build') {
             steps {
                 withMaven {
-                    sh 'mvn clean package -DskipTests'
+                    sh 'mvn clean compile -DskipTests'
                 }
             }
         }
@@ -32,11 +31,12 @@ pipeline {
         }
 
         stage('Release') {
-            when { branch 'master' }
+            when { branch 'release-*' }
             steps {
-                withMaven {
-                    sh 'mvn release:prepare release:perform'
-                }
+                sh 'echo $BRANCH_NAME'
+//                withMaven {
+//                    sh 'mvn release:prepare release:perform'
+//                }
             }
         }
     }
@@ -45,6 +45,4 @@ pipeline {
             cleanWs()
         }
     }
-    //This is a change
-    //// New change
 }
