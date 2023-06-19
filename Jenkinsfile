@@ -32,6 +32,7 @@ pipeline {
             when { branch 'master' }
             steps {
                 withMaven {
+                    sh 'cat pom.xml'
                     sh 'mvn release:prepare release:perform'
                 }
             }
