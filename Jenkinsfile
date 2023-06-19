@@ -10,6 +10,9 @@ pipeline {
             steps {
                 git branch: 'develop', url: 'https://github.com/fijimf/uberfij.git'
             }
+            steps{
+                sh 'cat pom.xml'
+            }
         }
 
         stage('Build') {
@@ -32,7 +35,6 @@ pipeline {
             when { branch 'master' }
             steps {
                 withMaven {
-                    sh 'cat pom.xml'
                     sh 'mvn release:prepare release:perform'
                 }
             }
