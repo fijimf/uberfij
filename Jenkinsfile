@@ -37,11 +37,11 @@ pipeline {
             }
         }
     }
-//    post {
-//        always {
-//            cleanWs()
-//        }
-//    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
     //This is a change
     //// New change
 }
