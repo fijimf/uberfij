@@ -13,20 +13,20 @@ pipeline {
         }
 
         stage('Build') {
-            steps {
+            withMaven {
                 sh 'mvn clean package -DskipTests'
             }
         }
 
         stage('Test') {
-            steps {
+            withMaven {
                 sh 'mvn test'
             }
         }
 
         stage('Release') {
             when { branch 'master' }
-            steps {
+            withMaven {
                 sh 'mvn release:prepare release:perform'
             }
         }
