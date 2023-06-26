@@ -34,15 +34,13 @@ pipeline {
             when { branch 'release-*' }
             steps {
                 sh 'echo $BRANCH_NAME'
-//                withMaven {
-//                    sh 'mvn release:prepare release:perform'
-//                }
+                sh "docker build -t deepfij:latest -t deepfij:${BRANCH_NAME} ."
             }
         }
     }
-    post {
-        always {
-            cleanWs()
-        }
+}
+post {
+    always {
+        cleanWs()
     }
 }
