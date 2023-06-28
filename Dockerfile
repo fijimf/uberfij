@@ -16,4 +16,4 @@ VOLUME /tmp
 COPY --from=build /workspace/app/target/dependency/BOOT-INF/lib /app/lib
 COPY --from=build /workspace/app/target/dependency/META-INF /app/META-INF
 COPY --from=build /workspace/app/target/dependency/BOOT-INF/classes /app
-ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -cp app:app/lib/* com.fijimf.deepfijomega.DeepfijOmegaApplication ${0} ${@}"]
+ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -cp app:app/lib/* com.fijimf.deepfij.UberfijApplication ${0} ${@}"]

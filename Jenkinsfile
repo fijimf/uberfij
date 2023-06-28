@@ -34,7 +34,7 @@ pipeline {
             when { branch 'release-*' }
             steps {
                 sh 'echo $BRANCH_NAME'
-                sh "docker build -t deepfij:latest -t deepfij:${BRANCH_NAME} ."
+                sh "docker build -t uberfij:latest -t deepfij:${BRANCH_NAME} ."
             }
         }
     }
