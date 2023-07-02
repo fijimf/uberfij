@@ -2,11 +2,13 @@ package com.fijimf.deepfij.db.model.user;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "`user`")
@@ -103,13 +105,13 @@ public class User implements UserDetails {
         return activated;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+    public Collection<? extends GrantedAuthority> getRoles() {
+        return roles;
     }
 
-    private Collection<? extends GrantedAuthority> getRoles() {
-        return roles;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles == null ? null : roles.stream().map(a -> new SimpleGrantedAuthority("ROLE_" + a.getName())).collect(Collectors.toList());
     }
 
     public void setLocked(boolean locked) {

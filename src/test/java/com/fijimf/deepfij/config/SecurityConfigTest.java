@@ -91,7 +91,7 @@ public class SecurityConfigTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(roles = {"ADMIN", "USER"})
     public void testAdminRoleAdminAllow() throws Exception {
 
         ADMIN_SCRAPE_ENDPOINTS.forEach(e -> {
@@ -153,9 +153,12 @@ public class SecurityConfigTest {
     }
     @Test
     public void testLoginAlwaysAllow() throws Exception {
-//        mockMvc.perform(post("/login")).andExpect(status().isOk());
-//        mockMvc.perform(post("/login").with(anonymous()))
-//                .andExpect(status().isOk());
+        mockMvc.perform(post("/login")).andExpect(status().is3xxRedirection());
+        mockMvc.perform(get("/login")).andExpect(status().isOk());
+        mockMvc.perform(post("/login").with(anonymous()))
+                .andExpect(status().is3xxRedirection());
+        mockMvc.perform(get("/login").with(anonymous()))
+                .andExpect(status().isOk());
     }
 }
 

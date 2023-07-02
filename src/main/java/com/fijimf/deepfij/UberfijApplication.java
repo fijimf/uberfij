@@ -39,7 +39,7 @@ public class UberfijApplication {
 			u.setExpireCredentialsAt(LocalDateTime.now().plusMinutes(10));
 			userRepository.save(u);
 		} else {
-			String token = userMgr.createNewUser("admin", password, "deepfij@gmail.com", List.of("USER", "ADMIN"), 10);
+			String token = userMgr.createNewUser("admin", password, "deepfij@gmail.com", List.of("ROLE_USER", "ROLE_ADMIN"), 10);
 			userMgr.activateUser(token);
 		}
 		logger.info("admin password is {}", password);

@@ -71,7 +71,7 @@ public class UserRepoTest {
         assertThat(count).isEqualTo(1L);
         User v = userRepo.findFirstByUsername("fijimf").orElseThrow();
         assertThat(v.getAuthorities()).hasSize(2);
-        user.getAuthorities().removeIf(g -> g.getAuthority().equalsIgnoreCase("ADMIN"));
+        user.getRoles().removeIf(g -> g.getAuthority().equalsIgnoreCase("ADMIN"));
         assertThat(v.getAuthorities()).hasSize(1);
         userRepo.saveAndFlush(v);
         User w = userRepo.findFirstByUsername("fijimf").orElseThrow();

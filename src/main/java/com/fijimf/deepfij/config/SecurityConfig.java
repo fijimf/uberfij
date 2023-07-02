@@ -40,8 +40,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf()
-                .disable().authorizeHttpRequests()
+        http
+                .csrf()
+                .disable()
+                .authorizeHttpRequests()
                 .requestMatchers("/admin/**")
                 .hasRole("ADMIN")
                 .requestMatchers("/user/**")
@@ -50,11 +52,12 @@ public class SecurityConfig {
                 .anonymous()
                 .requestMatchers("/img/**", "/css/**", "/js/**", "/webjars/**")
                 .anonymous()
+                .requestMatchers("/**").anonymous()
                 .and()
                 .formLogin()
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
 
         return http.build();
     }
