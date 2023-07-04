@@ -2,6 +2,10 @@ package com.fijimf.deepfij.services;
 
 import com.fijimf.deepfij.db.model.user.User;
 import com.fijimf.deepfij.services.user.UserManager;
+import com.fijimf.deepfij.util.ui.ForgotPasswordForm;
+import jakarta.mail.MessagingException;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +27,8 @@ import java.util.Map;
 public class UserController {
 
     public static final Logger logger = LoggerFactory.getLogger(UserController.class);
-    public static final String USER_LOGIN_TEMPLATE = "user/login";
-    public static final String USER_FORGOT_PASSWORD_TEMPLATE = "user/forgotPassword";
+    public static final String USER_LOGIN_TEMPLATE = "user/login.html";
+    public static final String USER_FORGOT_PASSWORD_TEMPLATE = "user/forgotPassword.html";
     public static final String USER_CHANGE_PASSWORD_TEMPLATE = "user/changePassword";
     public static final String USER_SIGNUP_TEMPLATE = "user/signup";
     public static final String USER_SIGNUP_COMPLETE_TEMPLATE = "user/signupComplete";
@@ -112,30 +116,30 @@ public class UserController {
 //        }
 //    }
 
-//    @GetMapping("/forgotPassword")
-//    public String forgotPasswordForm(Model model, HttpServletRequest request) throws ServletException {
-//        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymous") {
-//            request.logout();
-//        }
-//        model.addAttribute("forgotPassword", new ForgotPasswordForm(""));
-//        return USER_FORGOT_PASSWORD_TEMPLATE;
-//    }
+    @GetMapping("/forgotPassword")
+    public String forgotPasswordForm(Model model, HttpServletRequest request) throws ServletException {
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymous") {
+            request.logout();
+        }
+        model.addAttribute("forgotPassword", new ForgotPasswordForm(""));
+        return USER_FORGOT_PASSWORD_TEMPLATE;
+    }
 
-//    @PostMapping("/forgotPassword")
-//    public String forgotPassword(@ModelAttribute ForgotPasswordForm forgotPassword) {
-//        String email = forgotPassword.getEmail();
-//        if (StringUtils.isNotBlank(email)) {
-//            userManager.forgottenPassword(email).ifPresent(password ->
-//                    userManager.forgottenUser(email).ifPresent(name -> {
-//                        try {
-//                            mailer.sendForgotPasswordEmail(email, name, password);
-//                        } catch (MessagingException e) {
-//                            logger.error("Failed to send password reset to {}", email, e);
-//                        }
-//                    }));
-//
-//        }
-//        return USER_LOGIN_TEMPLATE;
-//    }
+    @PostMapping("/forgotPassword")
+    public String forgotPassword(@ModelAttribute ForgotPasswordForm forgotPassword) {
+        String email = forgotPassword.getEmail();
+        if (StringUtils.isNotBlank(email)) {
+            userManager.forgottenPassword(email).ifPresent(password ->
+                    userManager.forgottenUser(email).ifPresent(name -> {
+                        try {
+                            mailer.sendForgotPasswordEmail(email, name, password);
+                        } catch (MessagingException e) {
+                            logger.error("Failed to send password reset to {}", email, e);
+                        }
+                    }));
+
+        }
+        return USER_LOGIN_TEMPLATE;
+    }
 
 }

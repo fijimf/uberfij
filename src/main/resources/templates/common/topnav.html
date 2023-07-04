@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>College Basketball Analysis</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -19,20 +20,60 @@
             <a class="navbar-brand" href="/index">
                 <div style="background-color: #d3d3d3; border-radius: 15%; width: 2em; height: 2em; display: inline-block; justify-content: center; align-items: center;">
                     <img th:src="${'/img/deepfij.png'}"
-                            src="https://raw.githubusercontent.com/fijimf/deepfij-2012/master/deepfij-web/src/main/webapp/images/deepfij.png" alt="icon" style="max-width: 100%; max-height: 100%; border-radius: 50%;padding-left: 2px;">
-                    </div>
+                         src="https://raw.githubusercontent.com/fijimf/deepfij-2012/master/deepfij-web/src/main/webapp/images/deepfij.png"
+                         alt="icon" style="max-width: 100%; max-height: 100%; border-radius: 50%;padding-left: 2px;">
+                </div>
 
-                </a>
+            </a>
             <button class="navbar-toggler bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li th:each="n: ${nav}" class="nav-item">
-                        <a class="nav-link" th:href="${n.link}" th:text="${n.display}" th:classappend="${n.isActive?'active':''}">Home</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index">Home</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/data/index">Data</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/stats/index">Stats</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/analysis/index">Analysis</a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Admin
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="adminDropdown">
+                            <a class="dropdown-item" href="/admin/users/index">Users</a>
+                            <a class="dropdown-item" href="/admin/scrape/index">Scraping</a>
+                        </div>
                     </li>
                 </ul>
+
+            </div>
+            <div sec:authorize="isAnonymous()" class="navbar-nav ml-auto">
+                <div class="nav-item">
+                    <div class="d-flex">
+                        <div>
+                            <a class="nav-link" href="/login">Log In</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div sec:authorize="isAuthenticated()" class="navbar-nav ml-auto">
+                <div class="nav-item dropdown">
+                    <div class="d-flex">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${#authentication.name}">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="/logout">Log Out</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -90,7 +131,8 @@
             <div class="hero-block bg-primary text-light py-5">
                 <div class="container text-center">
                     <h1 class="display-4">Welcome to Deep Fij</h1>
-                    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.</p>
+                    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse
+                        lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.</p>
                 </div>
             </div>
 

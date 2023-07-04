@@ -4,7 +4,6 @@ import com.fijimf.deepfij.db.model.schedule.Season;
 import com.fijimf.deepfij.scraping.ConferencesScrapeManager;
 import com.fijimf.deepfij.scraping.SeasonManager;
 import com.fijimf.deepfij.scraping.TeamsScrapeManager;
-import com.fijimf.deepfij.util.ui.NavItem;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +28,6 @@ public class ScrapeService {
     @GetMapping("/index")
     public ModelAndView showOverallStatus() {
         ModelAndView modelAndView = new ModelAndView("scrape/index");
-        modelAndView.addObject("nav", NavItem.NAVBAR_ADMIN);
         modelAndView.addObject("conferences", conferenceMgr.findAllConferences());
         modelAndView.addObject("teams", teamMgr.findAllTeams());
         List<Season> allSeasons = seasonMgr.findAllSeasons();
