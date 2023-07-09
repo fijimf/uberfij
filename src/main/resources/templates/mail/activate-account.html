@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title th:remove="all">Template for HTML email with inline image</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<p>
+    <img src="deepfij.png" alt="logo-img" th:src="|cid:${imageResourceName}|"/>
+</p>
+<p>Hello <span th:text="${username}"></span>!</p>
+
+<p>Please click the following <a
+        th:href="${'http://'+server+'/activate/'+token}"
+>link</a> to activate your account.</p>
+
+<h3>FRIDGE RULES</h3>
+</body>
+</html>

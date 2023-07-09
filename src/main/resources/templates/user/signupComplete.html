@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Deep Fij</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.0.2/dist/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/deepfij.css">
+</head>
+<body>
+<header th:replace="~{common/topnav::topnav}"></header>
+
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3 card">
+            <div class="card-body">
+                <h2 class="card-title">Activate Your Account</h2>
+
+                <p class="card-text" th:text="'You\'re almost there '+${username}+'!'">You're almost there Jim!</p>
+                <p class="card-text">An email has been sent to <span th:text="${email}"></span>. When it arrives, there
+                    will be a link for you to follow to activate your account.</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

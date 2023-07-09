@@ -69,7 +69,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return LocalDateTime.now().isBefore(expireCredentialsAt);
+        return (expireCredentialsAt == null) || LocalDateTime.now().isBefore(expireCredentialsAt);
     }
 
     public void setUsername(String username) {

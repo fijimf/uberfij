@@ -26,6 +26,7 @@ public class SecurityConfig {
     public RandomStringGenerator rsg() {
         return new RandomStringGenerator.Builder()
                 .withinRange('0', 'z')
+                .filteredBy(Character::isLetterOrDigit)
                 .build();
     }
 
@@ -49,6 +50,8 @@ public class SecurityConfig {
                 .requestMatchers("/user/**")
                 .hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/login/**")
+                .anonymous()
+                .requestMatchers("/signUp/**")
                 .anonymous()
                 .requestMatchers("/img/**", "/css/**", "/js/**", "/webjars/**")
                 .permitAll()

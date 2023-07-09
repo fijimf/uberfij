@@ -19,14 +19,19 @@
     <div class="row">
         <div class="col-lg-6 offset-lg-3 card">
             <div class="card-body">
-                <h2 class="card-title">Login</h2>
+                <h2 class="card-title">Sign up</h2>
                 <div th:if="${flash}" th:text="${flash}" class="alert alert-info">
                     Informational message
                 </div>
                 <div th:if="${error}" class="alert alert-danger">
                     Error message.
                 </div>
-                <form th:action="@{/login}" method="post" class="py-2">
+                <form th:action="@{/signup}" method="post">
+                    <div class="w-75">
+                        <label class="form-label w-100">Email Address<input class="form-control" type="text"
+                                                                            name="email"/>
+                        </label>
+                    </div>
                     <div class="w-75">
                         <label class="form-label w-100">User Name<input class="form-control" type="text"
                                                                         name="username"/>
@@ -34,14 +39,13 @@
                     </div>
                     <div class="w-75">
                         <label class="form-label w-100">Password<input class="form-control" type="password"
-                                                                       name="password"/> </label>
+                                                                       name="password"/>
+                        </label>
                     </div>
                     <div class="w-75 pt-3 pt-3">
-                        <input class="form-control btn-primary p-1" type="submit" value="Sign In"/>
+                        <input class="form-control btn-primary p-1" type="submit" value="Signup"/>
                     </div>
                 </form>
-                <a class="card-link" href="/forgotPassword">Forgot password?</a>
-                <a class="card-link" href="/signup">Sign up</a>
             </div>
         </div>
     </div>

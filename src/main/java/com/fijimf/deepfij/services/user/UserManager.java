@@ -94,7 +94,7 @@ public class UserManager implements UserDetailsService, UserDetailsPasswordServi
         if (roles == null || roles.isEmpty()) throw new IllegalArgumentException("roles must not be null or empty.");
     }
 
-    public void activateUser(String token) {
+    public Optional<User> activateUser(String token) {
         Optional<AuthToken> ot = authTokenRepository.findByToken(token);
         if (ot.isPresent()) {
             if (ot.get().getExpiresAt().isAfter(LocalDateTime.now())) {
@@ -107,10 +107,12 @@ public class UserManager implements UserDetailsService, UserDetailsPasswordServi
                     }
                     authTokenRepository.deleteById(ot.get().getId());
                 }
+                return ou;
             } else {
                 authTokenRepository.deleteById(ot.get().getId());
             }
         }
+        return Optional.empty();
     }
 
     public Optional<String> forgottenPassword(String email) {

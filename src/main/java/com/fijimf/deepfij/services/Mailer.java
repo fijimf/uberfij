@@ -76,7 +76,7 @@ public class Mailer {
         ctx.put("username", username);
         ctx.put("token", authCode);
         ctx.put("server", server);
-        sendMail(email, "Activate Deepfij account", "mail/activate-account.htmll", ctx);
+        sendMail(email, "Activate Deepfij account", "mail/activate-account.html", ctx);
     }
 
     public void sendForgotPasswordEmail(String email, String name, String password) throws MessagingException {
