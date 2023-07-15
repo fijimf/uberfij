@@ -118,7 +118,7 @@ public class UserManager implements UserDetailsService, UserDetailsPasswordServi
     public Optional<String> forgottenPassword(String email) {
         String password = rsg.generate(15);
         return userRepository.findFirstByEmail(email).map(u -> {
-            if (u.isEnabled() && u.isCredentialsNonExpired()) {
+            if (u.isEnabled()) {
                 u.setPassword(passwordEncoder.encode(password));
                 u.setExpireCredentialsAt(LocalDateTime.now().plusMinutes(10));
                 userRepository.save(u);
@@ -150,4 +150,7 @@ public class UserManager implements UserDetailsService, UserDetailsPasswordServi
         return null;
     }
 
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
 }

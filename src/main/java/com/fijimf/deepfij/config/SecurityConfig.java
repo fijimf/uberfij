@@ -1,6 +1,11 @@
 package com.fijimf.deepfij.config;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.text.RandomStringGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,14 +13,20 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.WebAttributes;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+
+import java.io.IOException;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
+    private final static Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -40,6 +51,15 @@ public class SecurityConfig {
     }
 
     @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return (request, response, exception) -> {
+            logger.warn("Exception authorizing " + exception.getMessage(), exception);
+            request.setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, exception);
+            request.getRequestDispatcher("/badLogin").forward(request, response);
+        };
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf()
@@ -55,14 +75,14 @@ public class SecurityConfig {
                 .anonymous()
                 .requestMatchers("/img/**", "/css/**", "/js/**", "/webjars/**")
                 .permitAll()
-                .requestMatchers("/**","/")
+                .requestMatchers("/**", "/")
                 .permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/index", true)
-                .failureUrl("/login?error=true")
+                .defaultSuccessUrl("/goodLogin", true)
+                .failureHandler(authenticationFailureHandler())
                 .and()
                 .logout()
                 .logoutUrl("/logout")

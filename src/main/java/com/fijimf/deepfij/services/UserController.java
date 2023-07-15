@@ -14,7 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -82,8 +85,38 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login() {
-        return USER_LOGIN_TEMPLATE;
+    public ModelAndView login(HttpServletRequest req) {
+        Object attribute = req.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+        if (attribute instanceof AuthenticationException) {
+            return new ModelAndView(USER_LOGIN_TEMPLATE, Map.of(FLASHING_ERROR_KEY, ((AuthenticationException) attribute).getMessage()));
+        } else {
+            return new ModelAndView(USER_LOGIN_TEMPLATE);
+        }
+    }
+
+    @PostMapping("/badLogin")
+    public ModelAndView badLogin(HttpServletRequest req) {
+        Object attribute = req.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+        if (attribute instanceof AuthenticationException) {
+            return new ModelAndView(USER_LOGIN_TEMPLATE, Map.of(FLASHING_ERROR_KEY, ((AuthenticationException) attribute).getMessage()));
+        } else {
+            return new ModelAndView(USER_LOGIN_TEMPLATE);
+        }
+    }
+
+    @GetMapping("/goodLogin")
+    public ModelAndView goodLogin(RedirectAttributes redirectAttributes) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof User u) {
+            if (u.getExpireCredentialsAt() == null) {
+                return new ModelAndView("redirect:/index");
+            } else {
+                redirectAttributes.addFlashAttribute("flash","Please rest your temporary password");
+                return new ModelAndView("redirect:/changePassword");
+            }
+        } else {
+            return new ModelAndView("redirect:/index");
+        }
     }
 
     @GetMapping("/activate/{token}")
@@ -112,15 +145,15 @@ public class UserController {
                     return new ModelAndView("redirect:/index");
                 } catch (BadCredentialsException bce) {
                     logger.error("Bad credentials given", bce);
-                    return new ModelAndView(USER_LOGIN_TEMPLATE, Map.of(FLASHING_ERROR_KEY,"Bad credentials given."));
+                    return new ModelAndView(USER_LOGIN_TEMPLATE, Map.of(FLASHING_ERROR_KEY, "Bad credentials given."));
                 }
             } else {
                 logger.warn("Attempt to change password while not logged in.");
-                return new ModelAndView(USER_LOGIN_TEMPLATE, Map.of(FLASHING_ERROR_KEY,"No user is logged in.  Cannot Change password"));
+                return new ModelAndView(USER_LOGIN_TEMPLATE, Map.of(FLASHING_ERROR_KEY, "No user is logged in.  Cannot Change password"));
             }
         } else {
             logger.warn("Attempt to change password while not logged in.");
-            return new ModelAndView(USER_LOGIN_TEMPLATE, Map.of(FLASHING_ERROR_KEY,"No user is logged in.  Cannot Change password"));
+            return new ModelAndView(USER_LOGIN_TEMPLATE, Map.of(FLASHING_ERROR_KEY, "No user is logged in.  Cannot Change password"));
         }
     }
 
