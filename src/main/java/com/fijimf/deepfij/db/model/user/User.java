@@ -97,7 +97,7 @@ public class User implements UserDetails {
         return isActivated() && !isLocked();
     }
 
-    private boolean isLocked() {
+    public boolean isLocked() {
         return locked;
     }
 
@@ -134,4 +134,7 @@ public class User implements UserDetails {
         roles = rs;
     }
 
+    public String getRolesString() {
+        return roles.stream().map(Role::getName).collect(Collectors.joining(", "));
+    }
 }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -20,25 +20,37 @@
         <div class="col-lg-10 offset-lg-1 card">
             <div class="card-body">
                 <h2 class="card-title">Users</h2>
-<table>
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Email</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="u: ${users}">
-        <td th:text="${u.id}"></td>
-        <td th:text="${u.username}"></td>
-        <td th:text="${u.email}"></td>
-    </tr>
-    </tbody>
-</table>
-                <p class="card-text" th:text="'You\'re almost there '+${username}+'!'">You're almost there Jim!</p>
-                <p class="card-text">An email has been sent to <span th:text="${email}"></span>. When it arrives, there
-                    will be a link for you to follow to activate your account.</p>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Activated</th>
+                        <th>Locked</th>
+                        <th>Expire</th>
+                        <th>Roles</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="u: ${users}">
+                        <td th:text="${u.id}"></td>
+                        <td th:text="${u.username}"></td>
+                        <td th:text="${u.email}"></td>
+                        <td th:text="${u.activated ? 'Y':'N'}"></td>
+                        <td th:text="${u.locked ? 'Y':'N'}"></td>
+                        <td th:text="${u.expireCredentialsAt}"></td>
+                        <td th:text="${u.getRolesString()}"></td>
+                        <td>
+                            <a href="lock/unlock" class="bi bi-unlock"></a>
+                            <a href="activate" class="bi bi-lightning"></a>
+                            <a href="toggle/expire" class="bi bi-clock"></a>
+                            <a href="delete" class="bi bi-x danger"></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
