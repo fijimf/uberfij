@@ -153,10 +153,10 @@ public class SecurityConfigTest {
     }
     @Test
     public void testLoginAlwaysAllow() throws Exception {
-        mockMvc.perform(post("/login")).andExpect(status().is3xxRedirection());
+        mockMvc.perform(post("/login")).andExpect(status().isOk());
         mockMvc.perform(get("/login")).andExpect(status().isOk());
         mockMvc.perform(post("/login").with(anonymous()))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().isOk());
         mockMvc.perform(get("/login").with(anonymous()))
                 .andExpect(status().isOk());
     }
