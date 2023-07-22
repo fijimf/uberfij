@@ -10,113 +10,108 @@
     <title>Deep Fij</title>
     <!--    <link href="webjars/bootstrap/5.2.3/css/bootstrap.min.css"-->
     <!--          rel="stylesheet">-->
-    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap/5.0.2/dist/css/bootstrap.min.css">
+    <!--    <script src="/webjars//jquery-3.6.0.min.js"></script>-->
+    <script src="/webjars/bootstrap/5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/css/deepfij.css">
-
-
-    <!--    <meta property="og:title" content="">-->
-    <!--    <meta property="og:type" content="">-->
-    <!--    <meta property="og:url" content="">-->
-    <!--    <meta property="og:image" content="">-->
-
-    <!--    <link rel="manifest" href="site.webmanifest">-->
-    <!--    <link rel="apple-touch-icon" href="icon.png">-->
-    <!-- Place favicon.ico in the root directory -->
-
-    <!--    <link rel="stylesheet" href="css/normalize.css">-->
-    <!--    <link rel="stylesheet" href="css/main.css">-->
-
-    <!--    <meta name="theme-color" content="#fafafa">-->
+    <style>
+        .scrape-card {
+            display: grid;
+            column-gap: .75em;
+            row-gap: 5px;
+            grid-template-columns: 40% 5em 5em 5em;
+            align-items: baseline;
+        }
+    </style>
 </head>
-<header>
-    <div class="navbar navbar-expand-lg">
-        <div class="container">
-            <ul class="nav ">
-                <li class="nav-item"><a th:href="${'/admin/scrape/index'}">Admin</a></li>
-            </ul>
-        </div>
-    </div>
-</header>
 
 <body>
+<header th:include="~{common/topnav::topnav}"></header>
 
-<!-- Add your site or application content here -->
 <div class="container">
+    <h1>Teams Admin</h1>
     <div class="row">
-        <h1 class="display-3">Teams</h1>
-        <h3>Team Scrapes</h3>
-        <a class="btn btn-primary btn-sm col-1" th:href="@{/admin/scrape/teams/scrape}">Scrape
-            <i class="px-1 bi-cloud-arrow-down-fill"></i>
-        </a>
-        <table class="table table-bordered table-sm">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Retrieved At</th>
-                <th>URL</th>
-                <th>Response Time</th>
-                <th>Response Code</th>
-                <th>Status</th>
-                <th>View Raw</th>
-                <th>Update</th>
-                <th>Replace</th>
-                <th>Drop</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="scrape: ${teamsScrapes}">
-                <td th:text="${scrape.id}"></td>
-                <td th:text="${#temporals.format(scrape.retrievedAt, 'yyyy-MMM-dd HH:mm:ss')}"></td>
-                <td><a th:href="${scrape.url}" th:title="${scrape.url}" th:text="${scrape.displayUrl()}"
-                       target="_blank"></a><i class="px-1 bold-bi bi-box-arrow-up-right"></i></td>
-                <td th:text="${scrape.responseTimeMs}"></td>
-                <td th:text="${scrape.responseCode}"></td>
-                <td th:text="${scrape.status}"></td>
-                <td class="text-center"><a th:href="${'/admin/scrape/teams/raw/'+scrape.id}"
-                                           target="_blank"><i class="bi-search bold-bi"></i></a></td>
-                <td class="text-center"><a th:href="${'/admin/scrape/teams/publishUpdate/'+scrape.id}"><i
-                        class="bi-database bold-bi"></i></a></td>
-                <td class="text-center"><a th:href="${'/admin/scrape/teams/publishReplace/'+scrape.id}"><i
-                        class="bi-database-exclamation bold-bi"></i></a></td>
-                <td class="text-center"><a th:href="${'/admin/scrape/conferences/delete/'+scrape.id}"><i
-                        class="bi-x-circle bold-bi text-danger"></i></a></td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title"><h3>Staged Data</h3></div>
+                <a class="card-link" th:href="@{/admin/scrape/teams/scrape}">Scrape
+                    <i class="px-1 bi-cloud-arrow-down-fill"></i>
+                </a>
+                <table class="table table-bordered table-sm" style="font-size: 85%;">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Retrieved At</th>
+                        <th>URL</th>
+                        <th>Response Time</th>
+                        <th>Response Code</th>
+                        <th>Status</th>
+                        <th>View Raw</th>
+                        <th>Update</th>
+                        <th>Replace</th>
+                        <th>Drop</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="scrape: ${teamsScrapes}">
+                        <td th:text="${scrape.id}"></td>
+                        <td th:text="${#temporals.format(scrape.retrievedAt, 'yyyy-MMM-dd HH:mm:ss')}"></td>
+                        <td><a th:href="${scrape.url}" th:title="${scrape.url}" th:text="${scrape.displayUrl()}"
+                               target="_blank"></a><i class="px-1 bold-bi bi-box-arrow-up-right"></i></td>
+                        <td th:text="${scrape.responseTimeMs}"></td>
+                        <td th:text="${scrape.responseCode}"></td>
+                        <td th:text="${scrape.status}"></td>
+                        <td class="text-center"><a th:href="${'/admin/scrape/teams/raw/'+scrape.id}"
+                                                   target="_blank"><i class="bi-search bold-bi"></i></a></td>
+                        <td class="text-center"><a th:href="${'/admin/scrape/teams/publishUpdate/'+scrape.id}"><i
+                                class="bi-database bold-bi"></i></a></td>
+                        <td class="text-center"><a th:href="${'/admin/scrape/teams/publishReplace/'+scrape.id}"><i
+                                class="bi-database-exclamation bold-bi"></i></a></td>
+                        <td class="text-center"><a th:href="${'/admin/scrape/conferences/delete/'+scrape.id}"><i
+                                class="bi-x-circle bold-bi text-danger"></i></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <div class="row">
-        <h3>Team Data</h3>
-        <table class="table table-bordered table-sm">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th colspan="2">Name</th>
-                <th>Key</th>
-                <th>Nickname</th>
-                <th>Long Name</th>
-                <th>Alt Name 1</th>
-                <th>ESPN Id</th>
-                <th>Scrape Id</th>
-                <th>Created At</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="team: ${teams}" >
-                <td class="w-auto align-middle" th:text="${team.id}"></td>
-                <td style="max-width: 2em;"><img class="img-fluid img-thumbnail" th:src="${team.logoUrl}"/></td>
-                <td class="w-auto align-middle" th:text="${team.name}" th:style="${'background-color: #'+team.color+'80'}"></td>
-                <td class="w-auto align-middle" th:text="${team.key}"></td>
-                <td class="w-auto align-middle" th:text="${team.nickname}"></td>
-                <td class="w-auto align-middle" th:text="${team.longName}"></td>
-                <td class="w-auto align-middle" th:text="${team.altName1}"></td>
-                <td class="w-auto align-middle" th:text="${team.espnId}"></td>
-                <td class="w-auto align-middle" th:text="${team.scrapeSrcId}"></td>
-                <td class="w-auto align-middle"
-                    th:text="${#temporals.format(team.publishedAt, 'yyyy-MMM-dd HH:mm:ss')}"></td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="row pt-2">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title"><h3>Published Data</h3></div>
+                <div class="card-text table-responsive" style="max-height:500px">
+                    <table class="table table-bordered table-sm" style="font-size: 85%;">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th colspan="2">Name</th>
+                            <th>Key</th>
+                            <th>Nickname</th>
+                            <th>Long Name</th>
+                            <th>Alt Name 1</th>
+                            <th>ESPN Id</th>
+                            <th>Scrape Id</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="team: ${teams}">
+                            <td class="w-auto align-middle" th:text="${team.id}"></td>
+                            <td style="max-width: 3em;"><img class="img-fluid" th:src="${team.logoUrl}"/></td>
+                            <td class="w-auto align-middle" th:text="${team.name}"
+                                th:style="${'background-image: linear-gradient(to right, #'+team.color+'20, #'+team.color+'FF );'}"></td>
+                            <td class="w-auto align-middle" th:text="${team.key}"></td>
+                            <td class="w-auto align-middle" th:text="${team.nickname}"></td>
+                            <td class="w-auto align-middle" th:text="${team.longName}"></td>
+                            <td class="w-auto align-middle" th:text="${team.altName1}"></td>
+                            <td class="w-auto align-middle" th:text="${team.espnId}"></td>
+                            <td class="w-auto align-middle" th:text="${team.scrapeSrcId}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <!--<script src="js/vendor/modernizr-3.11.2.min.js"></script>-->
