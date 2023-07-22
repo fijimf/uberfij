@@ -153,4 +153,28 @@ public class UserManager implements UserDetailsService, UserDetailsPasswordServi
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
+
+    public void lock(Long id) {
+        userRepository.lock(id);
+    }
+
+    public void unlock(Long id) {
+        userRepository.unlock(id);
+    }
+
+    public void persistCreds(Long id) {
+        userRepository.persistCreds(id);
+    }
+
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public void forceActivate(Long id) {
+        userRepository.activate(id);
+    }
+
+    public void expireCreds(Long id, LocalDateTime expireAt) {
+        userRepository.expireCreds(id, expireAt);
+    }
 }

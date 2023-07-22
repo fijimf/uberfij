@@ -43,10 +43,12 @@
                         <td th:text="${u.expireCredentialsAt}"></td>
                         <td th:text="${u.getRolesString()}"></td>
                         <td>
-                            <a href="lock/unlock" class="bi bi-unlock"></a>
-                            <a href="activate" class="bi bi-lightning"></a>
-                            <a href="toggle/expire" class="bi bi-clock"></a>
-                            <a href="delete" class="bi bi-x danger"></a>
+                            <a th:if="${u.locked}" th:href="${'/admin/user/unlock/'+u.id}" class="bi bi-unlock"></a>
+                            <a th:unless="${u.locked}" th:href="${'/admin/user/lock/'+u.id}" class="bi bi-lock"></a>
+                            <a th:unless="${u.activated}" th:href="${'/admin/user/activate/'+u.id}" class="bi bi-lightning"></a>
+                            <a th:if="${u.expireCredentialsAt==null}" th:href="${'/admin/user/expireCreds/'+u.id}" class="bi bi-clock"></a>
+                            <a th:unless="${u.expireCredentialsAt==null}" th:href="${'/admin/user/persistCreds/'+u.id}" class="bi bi-clock-fill"></a>
+                            <a th:href="${'/admin/user/delete/'+u.id}" class="bi bi-x danger"></a>
                         </td>
                     </tr>
                     </tbody>
