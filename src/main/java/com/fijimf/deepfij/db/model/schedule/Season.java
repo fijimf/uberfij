@@ -2,6 +2,7 @@ package com.fijimf.deepfij.db.model.schedule;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -98,5 +99,9 @@ public class Season {
 
     public List<Map.Entry<Conference, List<Team>>> conferenceList() {
         return conferenceToTeams.entrySet().stream().sorted(Comparator.comparing(e->e.getKey().getName())).toList();
+    }
+
+    public List<LocalDate> gameDates(){
+        return games.stream().map(Game::getDate).distinct().sorted().toList();
     }
 }
