@@ -30,132 +30,132 @@
 <header th:include="~{common/topnav::topnav}"></header>
 
 <div class="container">
-        <div class="row">
-            <h1 class="display-3 col-12">Seasons</h1>
-        </div>
-        <h3>Standings Scrapes</h3>
-        <a class="btn btn-primary btn-sm col-1"
-           th:href="${'/admin/scrape/seasons/conferenceMappings/scrape/'+season.getSeason()}">Scrape
-            <i class="px-1 bi-cloud-arrow-down-fill"></i>
-        </a>
-        <table class="table table-bordered table-sm">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Retrieved At</th>
-                <th>URL</th>
-                <th>Response Time</th>
-                <th>Response Code</th>
-                <th>Status</th>
-                <th>View Raw</th>
-                <th>Update</th>
-                <th>Replace</th>
-                <th>Drop</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="scrape: ${standingsScrapes}">
-                <td th:text="${scrape.id}"></td>
-                <td th:text="${#temporals.format(scrape.retrievedAt, 'yyyy-MMM-dd HH:mm:ss')}"></td>
-                <td><a th:href="${scrape.url}" th:title="${scrape.url}" th:text="${scrape.displayUrl()}"
-                       target="_blank"></a><i class="px-1 bold-bi bi-box-arrow-up-right"></i></td>
-                <td th:text="${scrape.responseTimeMs}"></td>
-                <td th:text="${scrape.responseCode}"></td>
-                <td th:text="${scrape.status}"></td>
-                <td class="text-center"><a th:href="${'/admin/scrape/seaasons/conferenceMappings/raw/'+scrape.id}"
-                                           target="_blank"><i class="bi-search bold-bi"></i></a></td>
-                <td class="text-center"><a
-                        th:href="${'/admin/scrape/seasons/conferenceMappings/publishUpdate/'+scrape.id}"><i
-                        class="bi-database bold-bi"></i></a></td>
-                <td class="text-center"><a
-                        th:href="${'/admin/scrape/seasons/conferenceMappings/publishReplace/'+scrape.id}"><i
-                        class="bi-database-exclamation bold-bi"></i></a></td>
-                <td class="text-center"><a th:href="${'/admin/scrape/seasons/conferenceMappings/delete/'+scrape.id}"><i
-                        class="bi-x-circle bold-bi text-danger"></i></a></td>
-            </tr>
-            </tbody>
-        </table>
-        <div><p th:text='${"Conferemnces:"+season.numConferences()}'></p>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#conferencesTable"
-                    aria-expanded="false" aria-controls="conferencesTable">
-                Show/Hide
-            </button></div>
-
-        <div class="collapse" id="conferencesTable">
-            <table class="table table-bordered table-sm">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Teams</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="ce: ${season.conferenceList()}">
-                    <td th:text="${ce.getKey().id}"></td>
-                    <td th:text="${ce.getKey().name}"></td>
-                    <td>
-                        <img class="img-fluid img-thumbnail" style="max-width: 2em;" th:each="t: ${ce.getValue()}"
-                             th:src="${t.getLogoUrl()}"/>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <form th:action="${'/admin/scrape/seasons/games/scrape/'+season.getSeason()}" method="post">
-            <div class="scrape-card">
-                <input type="text" id="from" name="from" class=""
-                       style="max-width: 5em;" aria-label="From">
-                <input type="text" id="to" name="to" class=""
-                       style="max-width: 5em;" aria-label="To">
-                <input type="text" id="timeOutSec" name="timeOutSec" class=""
-                       style="max-width: 3em;" aria-label="TimeoutSec">
-                <button type="submit" style="max-width: fit-content;"
-                        class="btn btn-sm btn-success">Scrape<span class="bi bi-cloud-arrow-down-fill px-1"></span>
-                </button>
-
-            </div>
-        </form>
-
-        <table class="table table-bordered table-sm">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Season</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Started</th>
-                <th>Completed</th>
-                <th>OK</th>
-                <th>Err</th>
-                <th>Status</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="ssc: ${seasonScrapes}">
-                <td th:text="${ssc.getId()}"></td>
-                <td th:text="${ssc.getSeason()}"></td>
-                <td th:text="${ssc.getFrom()}"></td>
-                <td th:text="${ssc.getTo()}"></td>
-                <td th:text="${ssc.getStartedAt()}"></td>
-                <td th:text="${ssc.getCompletedAt()}"></td>
-
-                <td th:text="${ssc.okCount()}"></td>
-                <td th:text="${ssc.errCount()}"></td>
-                <td th:text="${ssc.getStatus()}"></td>
-            </tr>
-            </tbody>
-        </table>
-
+    <div class="row">
+        <h1 class="display-3 col-12">Seasons</h1>
+    </div>
+    <h3>Standings Scrapes</h3>
+    <a class="btn btn-primary btn-sm col-1"
+       th:href="${'/admin/scrape/seasons/conferenceMappings/scrape/'+season.getSeason()}">Scrape
+        <i class="px-1 bi-cloud-arrow-down-fill"></i>
+    </a>
+    <table class="table table-bordered table-sm">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Retrieved At</th>
+            <th>URL</th>
+            <th>Response Time</th>
+            <th>Response Code</th>
+            <th>Status</th>
+            <th>View Raw</th>
+            <th>Update</th>
+            <th>Replace</th>
+            <th>Drop</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="scrape: ${standingsScrapes}">
+            <td th:text="${scrape.id}"></td>
+            <td th:text="${#temporals.format(scrape.retrievedAt, 'yyyy-MMM-dd HH:mm:ss')}"></td>
+            <td><a th:href="${scrape.url}" th:title="${scrape.url}" th:text="${scrape.displayUrl()}"
+                   target="_blank"></a><i class="px-1 bold-bi bi-box-arrow-up-right"></i></td>
+            <td th:text="${scrape.responseTimeMs}"></td>
+            <td th:text="${scrape.responseCode}"></td>
+            <td th:text="${scrape.status}"></td>
+            <td class="text-center"><a th:href="${'/admin/scrape/seaasons/conferenceMappings/raw/'+scrape.id}"
+                                       target="_blank"><i class="bi-search bold-bi"></i></a></td>
+            <td class="text-center"><a
+                    th:href="${'/admin/scrape/seasons/conferenceMappings/publishUpdate/'+scrape.id}"><i
+                    class="bi-database bold-bi"></i></a></td>
+            <td class="text-center"><a
+                    th:href="${'/admin/scrape/seasons/conferenceMappings/publishReplace/'+scrape.id}"><i
+                    class="bi-database-exclamation bold-bi"></i></a></td>
+            <td class="text-center"><a th:href="${'/admin/scrape/seasons/conferenceMappings/delete/'+scrape.id}"><i
+                    class="bi-x-circle bold-bi text-danger"></i></a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div><p th:text='${"Conferences: "+season.numConferences()}'></p>
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#conferencesTable"
+                aria-expanded="false" aria-controls="conferencesTable">
+            Show/Hide
+        </button>
     </div>
 
-    <!--<script src="js/vendor/modernizr-3.11.2.min.js"></script>-->
-    <!--<script src="js/plugins.js"></script>-->
-    <!--<script src="js/main.js"></script>-->
+    <div class="collapse" id="conferencesTable">
+        <table class="table table-bordered table-sm">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Teams</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="ce: ${season.conferenceList()}">
+                <td th:text="${ce.getKey().id}"></td>
+                <td th:text="${ce.getKey().name}"></td>
+                <td>
+                    <img class="img-fluid img-thumbnail" style="max-width: 2em;" th:each="t: ${ce.getValue()}"
+                         th:src="${t.getLogoUrl()}" th:alt="${t.getName()}"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-</main>
+    <form th:action="${'/admin/scrape/seasons/games/scrape/'+season.getSeason()}" method="post">
+        <div class="scrape-card">
+            <input type="text" id="from" name="from" class=""
+                   style="max-width: 5em;" aria-label="From">
+            <input type="text" id="to" name="to" class=""
+                   style="max-width: 5em;" aria-label="To">
+            <input type="text" id="timeOutSec" name="timeOutSec" class=""
+                   style="max-width: 3em;" aria-label="TimeoutSec">
+            <button type="submit" style="max-width: fit-content;"
+                    class="btn btn-sm btn-success">Scrape<span class="bi bi-cloud-arrow-down-fill px-1"></span>
+            </button>
+
+        </div>
+    </form>
+
+    <table class="table table-bordered table-sm">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Season</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Started</th>
+            <th>Completed</th>
+            <th>OK</th>
+            <th>Err</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ssc: ${seasonScrapes}">
+            <td th:text="${ssc.getId()}"></td>
+            <td th:text="${ssc.getSeason()}"></td>
+            <td th:text="${ssc.getFrom()}"></td>
+            <td th:text="${ssc.getTo()}"></td>
+            <td th:text="${ssc.getStartedAt()}"></td>
+            <td th:text="${ssc.getCompletedAt()}"></td>
+
+            <td th:text="${ssc.okCount()}"></td>
+            <td th:text="${ssc.errCount()}"></td>
+            <td th:text="${ssc.getStatus()}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<!--<script src="js/vendor/modernizr-3.11.2.min.js"></script>-->
+<!--<script src="js/plugins.js"></script>-->
+<!--<script src="js/main.js"></script>-->
+
+<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
 </body>
 
 </html>
