@@ -116,59 +116,62 @@
                 </table>
             </div>
         </div>
-        <form th:action="${'/admin/scrape/seasons/games/scrape/'+season.getSeason()}" method="post">
-            <div class="scrape-card">
-                <input type="text" id="from" name="from" class=""
-                       style="max-width: 5em;" aria-label="From">
-                <input type="text" id="to" name="to" class=""
-                       style="max-width: 5em;" aria-label="To">
-                <input type="text" id="timeOutSec" name="timeOutSec" class=""
-                       style="max-width: 3em;" aria-label="TimeoutSec">
-                <button type="submit" style="max-width: fit-content;"
-                        class="btn btn-sm btn-success">Scrape<span
-                        class="bi bi-cloud-arrow-down-fill px-1"></span>
-                </button>
+        <div class="row pt-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <h3>Staged Data: Daily Scoreboards</h3>
+                    </div>
+                    <form th:action="${'/admin/scrape/seasons/games/scrape/'+season.getSeason()}" method="post">
+                        <div class="card-text pb-2">
+                            <label>From</label>
+                            <input type="text" id="from" name="from" class="me-2"
+                                   style="max-width: 5em;" aria-label="From">
+                            <label>To</label>
+                            <input type="text" id="to" name="to" class="me-2"
+                                   style="max-width: 5em;" aria-label="To">
+                            <label class="me-1">Timeout (sec)</label><input type="text" id="timeOutSec" name="timeOutSec" class="me-2"
+                                   style="max-width: 3em;" aria-label="TimeoutSec">
+                            <button type="submit" style="max-width: fit-content;"
+                                    class="btn btn-sm btn-success">Scrape<span
+                                    class="bi bi-cloud-arrow-down-fill px-1"></span>
+                            </button>
+                        </div>
+                    </form>
 
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Season</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Started</th>
+                            <th>Completed</th>
+                            <th>OK</th>
+                            <th>Err</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="ssc: ${seasonScrapes}">
+                            <td th:text="${ssc.getId()}"></td>
+                            <td th:text="${ssc.getSeason()}"></td>
+                            <td th:text="${ssc.getFrom()}"></td>
+                            <td th:text="${ssc.getTo()}"></td>
+                            <td th:text="${ssc.getStartedAt()}"></td>
+                            <td th:text="${ssc.getCompletedAt()}"></td>
+
+                            <td th:text="${ssc.okCount()}"></td>
+                            <td th:text="${ssc.errCount()}"></td>
+                            <td th:text="${ssc.getStatus()}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </form>
-
-        <table class="table table-bordered table-sm">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Season</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Started</th>
-                <th>Completed</th>
-                <th>OK</th>
-                <th>Err</th>
-                <th>Status</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="ssc: ${seasonScrapes}">
-                <td th:text="${ssc.getId()}"></td>
-                <td th:text="${ssc.getSeason()}"></td>
-                <td th:text="${ssc.getFrom()}"></td>
-                <td th:text="${ssc.getTo()}"></td>
-                <td th:text="${ssc.getStartedAt()}"></td>
-                <td th:text="${ssc.getCompletedAt()}"></td>
-
-                <td th:text="${ssc.okCount()}"></td>
-                <td th:text="${ssc.errCount()}"></td>
-                <td th:text="${ssc.getStatus()}"></td>
-            </tr>
-            </tbody>
-        </table>
-
+        </div>
     </div>
-
-    <!--<script src="js/vendor/modernizr-3.11.2.min.js"></script>-->
-    <!--<script src="js/plugins.js"></script>-->
-    <!--<script src="js/main.js"></script>-->
-
-    <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
 </div>
 </body>
 
