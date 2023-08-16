@@ -3,36 +3,22 @@
 
 <head>
     <meta charset="utf-8">
-    <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <title>Deep Fij</title>
-    <!--    <link href="webjars/bootstrap/5.2.3/css/bootstrap.min.css"-->
-    <!--          rel="stylesheet">-->
     <link rel="stylesheet" href="/webjars/bootstrap/5.0.2/dist/css/bootstrap.min.css">
-    <!--    <script src="/webjars//jquery-3.6.0.min.js"></script>-->
     <script src="/webjars/bootstrap/5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/css/deepfij.css">
-    <style>
-        .scrape-card {
-            display: grid;
-            column-gap: .75em;
-            row-gap: 5px;
-            grid-template-columns: 40% 5em 5em 5em;
-            align-items: baseline;
-        }
-    </style>
 </head>
-
 <body>
-<header th:include="~{common/topnav::topnav}"></header>
+<header th:replace="~{common/topnav::topnav}"></header>
 
 <div class="container">
-    <div class="row">
-        <h1 class="display-3 col-12" th:text="${season.getSeason()}"></h1>
-    </div>
+
+        <h1 th:text="${'Seasons Admin ['+season.getSeason()+']'}"></h1>
+
     <div class="row">
         <div class="card">
             <div class="card-body">
@@ -92,38 +78,44 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div><p th:text='${"Conferences: "+season.numConferences()}'></p>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#conferencesTable"
-                    aria-expanded="false" aria-controls="conferencesTable">
-                Show/Hide
-            </button>
-        </div>
+    <div class="row pt-2">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">
+                    <h3>Published Data: Conference Mapping</h3>
+                </div>
 
-        <div class="collapse" id="conferencesTable">
-            <table class="table table-bordered table-sm">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Teams</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="ce: ${season.conferenceList()}">
-                    <td th:text="${ce.getKey().id}"></td>
-                    <td th:text="${ce.getKey().name}"></td>
-                    <td>
-                        <img class="img-fluid img-thumbnail" style="max-width: 2em;"
-                             th:each="t: ${ce.getValue()}"
-                             th:src="${t.getLogoUrl()}" th:alt="${t.getName()}"/>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+                <div class="card-text"><p th:text='${"Conferences: "+season.numConferences()}'></p></div>
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#conferencesTable"
+                        aria-expanded="false" aria-controls="conferencesTable">
+                    Show/Hide
+                </button>
+            </div>
 
+            <div class="collapse" id="conferencesTable">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Teams</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="ce: ${season.conferenceList()}">
+                        <td th:text="${ce.getKey().id}"></td>
+                        <td th:text="${ce.getKey().name}"></td>
+                        <td>
+                            <img class="img-fluid img-thumbnail" style="max-width: 2em;"
+                                 th:each="t: ${ce.getValue()}"
+                                 th:src="${t.getLogoUrl()}" th:alt="${t.getName()}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <form th:action="${'/admin/scrape/seasons/games/scrape/'+season.getSeason()}" method="post">
             <div class="scrape-card">
                 <input type="text" id="from" name="from" class=""
