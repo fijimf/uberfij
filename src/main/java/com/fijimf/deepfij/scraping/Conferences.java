@@ -27,7 +27,7 @@ public class Conferences {
     }
 
     public List<Conference> values() {
-        List<Conference> conferenceStream = Arrays.stream(conferences).map(ConferencesConference::getConference).collect(Collectors.toList());
+        List<Conference> conferenceStream = Arrays.stream(conferences).map(ConferencesConference::getConference).toList();
         return conferenceStream.stream().filter(Conference::isValid).collect(Collectors.toList());
     }
 }
