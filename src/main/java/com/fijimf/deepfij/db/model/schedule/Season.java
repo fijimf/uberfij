@@ -1,5 +1,7 @@
 package com.fijimf.deepfij.db.model.schedule;
 
+import com.fijimf.deepfij.scraping.ScoreboardScrapeManager;
+import com.fijimf.deepfij.scraping.SeasonManager;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -103,5 +105,13 @@ public class Season {
 
     public List<LocalDate> gameDates(){
         return games.stream().map(Game::getDate).distinct().sorted().toList();
+    }
+
+    public LocalDate defaultStartDate() {
+        return SeasonManager.defaultStartDate(season);
+    }
+
+    public LocalDate defaultEndDate() {
+        return SeasonManager.defaultEndDate(season);
     }
 }

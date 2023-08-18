@@ -126,12 +126,12 @@
                         <div class="card-text pb-2">
                             <label>From</label>
                             <input type="text" id="from" name="from" class="me-2"
-                                   style="max-width: 5em;" aria-label="From">
+                                   style="max-width: 6em;" aria-label="From" th:value="${#temporals.format(season.defaultStartDate(),'yyyyMMdd')}">
                             <label>To</label>
                             <input type="text" id="to" name="to" class="me-2"
-                                   style="max-width: 5em;" aria-label="To">
+                                   style="max-width: 6em;" aria-label="To" th:value="${#temporals.format(season.defaultEndDate(),'yyyyMMdd')}">
                             <label class="me-1">Timeout (sec)</label><input type="text" id="timeOutSec" name="timeOutSec" class="me-2"
-                                   style="max-width: 3em;" aria-label="TimeoutSec">
+                                   style="max-width: 3em;" aria-label="TimeoutSec" th:value="3600">
                             <button type="submit" style="max-width: fit-content;"
                                     class="btn btn-sm btn-success">Scrape<span
                                     class="bi bi-cloud-arrow-down-fill px-1"></span>
