@@ -86,7 +86,7 @@ public class TeamsScrapeManager {
             try {
                 List<Team> teams = objectMapper.readValue(s.getResponse(), Teams.class).values();
                 teams.forEach(t -> {
-                    System.err.println(t);
+                    logger.info(t.toString());
                     Optional<Team> optionalTeam = repo.findByEspnIdEquals(t.getEspnId());
                     if (optionalTeam.isPresent()) {
                         Team team = optionalTeam.get();
@@ -116,10 +116,6 @@ public class TeamsScrapeManager {
             }
         });
 
-    }
-
-    public void deleteAll() {
-        repo.deleteAll();
     }
 
     public String showRawConferencesScrape(long id) {

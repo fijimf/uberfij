@@ -45,12 +45,6 @@ public class TeamScrapeService {
         return teamsIndexRedirect();
     }
 
-    @GetMapping("/publishReplace/{id}")
-    public ModelAndView publishTeamsReplace(@PathVariable long id) {
-        teamMgr.publishTeams(id, true);
-        return teamsIndexRedirect();
-    }
-
     public static ModelAndView teamsIndexRedirect() {
         return new ModelAndView("redirect:/admin/scrape/teams/index");
     }

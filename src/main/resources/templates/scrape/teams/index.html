@@ -33,10 +33,7 @@
                         <th>Response Time</th>
                         <th>Response Code</th>
                         <th>Status</th>
-                        <th>View Raw</th>
-                        <th>Update</th>
-                        <th>Replace</th>
-                        <th>Drop</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -48,14 +45,10 @@
                         <td th:text="${scrape.responseTimeMs}"></td>
                         <td th:text="${scrape.responseCode}"></td>
                         <td th:text="${scrape.status}"></td>
-                        <td class="text-center"><a th:href="${'/admin/scrape/teams/raw/'+scrape.id}"
-                                                   target="_blank"><i class="bi-search bold-bi"></i></a></td>
-                        <td class="text-center"><a th:href="${'/admin/scrape/teams/publishUpdate/'+scrape.id}"><i
-                                class="bi-database bold-bi"></i></a></td>
-                        <td class="text-center"><a th:href="${'/admin/scrape/teams/publishReplace/'+scrape.id}"><i
-                                class="bi-database-exclamation bold-bi"></i></a></td>
-                        <td class="text-center"><a th:href="${'/admin/scrape/conferences/delete/'+scrape.id}"><i
-                                class="bi-x-circle bold-bi text-danger"></i></a></td>
+                        <td>
+                            <a th:href="${'/admin/scrape/teams/raw/'+scrape.id}" target="_blank">View Raw</a>
+                            <a th:href="${'/admin/scrape/teams/publishUpdate/'+scrape.id}">Publish</a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -83,7 +76,7 @@
                         <tbody>
                         <tr th:each="team: ${teams}">
                             <td class="w-auto align-middle" th:text="${team.id}"></td>
-                            <td style="max-width: 3em;"><img class="img-fluid" th:src="${team.logoUrl}"/></td>
+                            <td style="max-width: 3em;"><img class="img-fluid" th:src="${team.logoUrl}" th:alt="${team.getKey()}"/></td>
                             <td class="w-auto align-middle" th:text="${team.name}"
                                 th:style="${'background-image: linear-gradient(to right, #'+team.color+'20, #'+team.color+'FF );'}"></td>
                             <td class="w-auto align-middle" th:text="${team.key}"></td>
