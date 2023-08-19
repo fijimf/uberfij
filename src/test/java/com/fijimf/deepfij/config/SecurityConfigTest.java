@@ -58,8 +58,6 @@ public class SecurityConfigTest {
             // "/admin/scrape/conferences/view",
             "/admin/scrape/conferences/publishUpdate/100",
             "/admin/scrape/conferences/publishReplace/100",
-//            "/admin/scrape/seasons/conferenceMappings/clear",
-            "/admin/scrape/seasons/conferenceMappings/index",
             "/admin/scrape/seasons/conferenceMappings/scrape/2022",
             "/admin/scrape/seasons/conferenceMappings/raw/100",
             // "/admin/scrape/conferences/view",
@@ -91,7 +89,7 @@ public class SecurityConfigTest {
 
     @Test
     @WithMockUser(roles = {"ADMIN", "USER"})
-    public void testAdminRoleAdminAllow() throws Exception {
+    public void testAdminRoleAdminAllow() {
 
         ADMIN_SCRAPE_ENDPOINTS.forEach(e -> {
             try {
@@ -104,7 +102,7 @@ public class SecurityConfigTest {
 
     @Test
     @WithMockUser(roles = "USER")
-    public void testUserRoleAdminDeny() throws Exception {
+    public void testUserRoleAdminDeny() {
 
         ADMIN_SCRAPE_ENDPOINTS.forEach(e -> {
             try {
@@ -116,7 +114,7 @@ public class SecurityConfigTest {
     }
 
     @Test
-    public void testAnonymousAdminRedirectToLogin() throws Exception {
+    public void testAnonymousAdminRedirectToLogin() {
         ADMIN_SCRAPE_ENDPOINTS.forEach(e -> {
             try {
                 mockMvc

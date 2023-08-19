@@ -38,15 +38,6 @@ public class SeasonScrapeService {
         return new ModelAndView("forward:/admin/scrape/index");
     }
 
-
-    @GetMapping("/conferenceMappings/index")
-    public ModelAndView getConferenceMappingStatus() {
-        ModelAndView modelAndView = new ModelAndView("scrape/seasons/conferenceMapsIndex");
-        modelAndView.addObject("mappings", standingsMgr.findAllConfMaps());
-        modelAndView.addObject("standingsScrapes", standingsMgr.findAllStandingsScrapes());
-        return modelAndView;
-    }
-
     @GetMapping("/conferenceMappings/scrape/{year}")
     public ModelAndView scrapeConferenceMapping(@PathVariable("year") int year) {
         EspnStandingsScrape standingsScrape = standingsMgr.scrape(year);
