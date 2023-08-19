@@ -22,9 +22,8 @@
                 <div class="card-title">
                     <h3>Staged Data</h3>
                 </div>
-                <div class="card-text">
-                    <a th:href="@{/admin/scrape/conferences/scrape}">Scrape
-                        <i class="px-1 bi-cloud-arrow-down-fill"></i>
+                <div class="card-link">
+                    <a th:href="@{/admin/scrape/conferences/scrape}">Scrape Conferences
                     </a>
                 </div>
                 <table class="table table-bordered table-sm">
@@ -36,10 +35,7 @@
                         <th>Response Time</th>
                         <th>Response Code</th>
                         <th>Status</th>
-                        <th>View Raw</th>
-                        <th>Update</th>
-                        <th>Replace</th>
-                        <th>Drop</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -51,14 +47,10 @@
                         <td th:text="${scrape.responseTimeMs}"></td>
                         <td th:text="${scrape.responseCode}"></td>
                         <td th:text="${scrape.status}"></td>
-                        <td class="text-center"><a th:href="${'/admin/scrape/conferences/raw/'+scrape.id}"
-                                                   target="_blank"><i class="bi-search bold-bi"></i></a></td>
-                        <td class="text-center"><a th:href="${'/admin/scrape/conferences/publishUpdate/'+scrape.id}"><i
-                                class="bi-database bold-bi"></i></a></td>
-                        <td class="text-center"><a th:href="${'/admin/scrape/conferences/publishReplace/'+scrape.id}"><i
-                                class="bi-database-exclamation bold-bi"></i></a></td>
-                        <td class="text-center"><a th:href="${'/admin/scrape/conferences/delete/'+scrape.id}"><i
-                                class="bi-x-circle bold-bi text-danger"></i></a></td>
+                        <td>
+                            <a th:href="${'/admin/scrape/conferences/raw/'+scrape.id}" target="_blank">View Raw</a>
+                            <a th:href="${'/admin/scrape/conferences/publishUpdate/'+scrape.id}">Publish</a>
+                       </td>
                     </tr>
                     </tbody>
                 </table>
@@ -86,7 +78,7 @@
                         <tbody>
                         <tr th:each="conf: ${conferences}">
                             <td class="w-auto align-middle" th:text="${conf.id}"></td>
-                            <td style="max-width: 2em;"><img class="img-fluid" th:src="${conf.logoUrl}"/></td>
+                            <td style="max-width: 2em;"><img class="img-fluid" th:src="${conf.logoUrl}" th:alt="${conf.getKey()}"/></td>
                             <td class="w-auto align-middle" th:text="${conf.name}"></td>
                             <td class="w-auto align-middle" th:text="${conf.key}"></td>
                             <td class="w-auto align-middle" th:text="${conf.espnId}"></td>
