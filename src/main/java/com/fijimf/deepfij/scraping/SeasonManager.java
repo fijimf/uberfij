@@ -81,18 +81,18 @@ public class SeasonManager {
         Random random = new Random();
         EspnSeasonScrape seasonScrape = seasonScrapeRepo.saveAndFlush(new EspnSeasonScrape(0L, season.getSeason(), start, end, LocalDateTime.now(), null, "STARTING"));
         ExecutorService executorService = Executors.newFixedThreadPool(1);
-        start.datesUntil(end).forEach(d -> {
-            executorService.submit( () -> {
-                long sleepDelay = random.nextLong(500L, 2000L);
-                logger.info("Loading "+d+" - delay is "+sleepDelay+" ms");
-                try {
-                    Thread.sleep(sleepDelay);
-                } catch (InterruptedException e) {
+        start.datesUntil(end).forEach(d -> executorService.submit( () -> {
+            long sleepDelay = random.nextLong(500L, 2000L);
+            logger.info("Loading "+d+" - delay is "+sleepDelay+" ms");
+            try {
+                Thread.sleep(sleepDelay);
+            } catch (InterruptedException e) {
 //                    throw new RuntimeException(e);
-                }
-                scrapeDate(d, seasonScrape.getSeason(), seasonScrape.getId());
-            });
-        });
+            }
+            scrapeDate(d, seasonScrape.getId());
+            seasonScrapeRepo.updateStatusById(seasonScrape.getId(),"RUNNING");
+
+        }));
 
         executorService.shutdown();
         Executors.newSingleThreadExecutor().submit(() -> {
@@ -120,7 +120,7 @@ public class SeasonManager {
         });
     }
 
-    private void scrapeDate(LocalDate date, int season, long seasonScrapeId) {
+    private void scrapeDate(LocalDate date, long seasonScrapeId) {
         scoreboardMgr.scrapeScoreboardDate(date, seasonScrapeId);
     }
 

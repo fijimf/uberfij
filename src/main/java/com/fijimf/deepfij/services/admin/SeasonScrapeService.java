@@ -48,8 +48,8 @@ public class SeasonScrapeService {
     @PostMapping("/games/scrape/{year}")
     public ModelAndView scrapeGames(@PathVariable("year") int year, @RequestParam(name="from", required = false) String from, @RequestParam(name="to", required = false) String to, @RequestParam(name="timeOutSec", required = false) String timeOutSec) {
         Season season = seasonMgr.findSeasonBySeason(year);
-        seasonMgr.scrapeSeasonByYear(year, from, to, timeOutSec);
-        return new ModelAndView("forward:/admin/scrape/seasons/index/" + season.getId());
+        Long seasonScrapeId = seasonMgr.scrapeSeasonByYear(year, from, to, timeOutSec);
+        return new ModelAndView("forward:/admin/scrape/seasons/detail/" + seasonScrapeId);
     }
 
     @GetMapping(value = "/conferenceMappings/raw/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

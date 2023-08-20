@@ -105,20 +105,8 @@ public class EspnSeasonScrape {
         return this;
     }
 
-    public EspnSeasonScrape success() {
-        return complete("SUCCESS");
-    }
-
-    public EspnSeasonScrape cancel() {
-        return complete("CANCELLED");
-    }
-
     public EspnSeasonScrape error() {
         return complete("ERROR");
-    }
-
-    public EspnSeasonScrape timeout() {
-        return complete("TIMEOUT");
     }
 
     public LocalDate fromDate() {
@@ -152,5 +140,18 @@ public class EspnSeasonScrape {
         } else {
             return (int) scoreboardScrapes.stream().filter(s -> s.getResponseCode() != 200).count();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "EspnSeasonScrape{" +
+                "id=" + id +
+                ", season=" + season +
+                ", from=" + from +
+                ", to=" + to +
+                ", startedAt=" + startedAt +
+                ", completedAt=" + completedAt +
+                ", status='" + status + '\'' +
+                '}';
     }
 }
