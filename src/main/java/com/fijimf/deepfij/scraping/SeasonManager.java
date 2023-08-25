@@ -5,6 +5,7 @@ import com.fijimf.deepfij.db.model.scrape.EspnSeasonScrape;
 import com.fijimf.deepfij.db.model.scrape.EspnStandingsScrape;
 import com.fijimf.deepfij.db.repo.schedule.SeasonRepo;
 import com.fijimf.deepfij.db.repo.scrape.EspnSeasonScrapeRepo;
+import jakarta.annotation.PostConstruct;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,17 +17,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
-/*
-TODO Check against running jobs -- only one per season
-TODO Test timeouts
-TODO Cancel
-TODO Progress methods
-TODO publish methods
- */
 @Component
 public class SeasonManager {
     private final Logger logger = LoggerFactory.getLogger(SeasonManager.class);
@@ -36,6 +28,7 @@ public class SeasonManager {
     private final StandingsScrapeManager standingsMgr;
     private final ScoreboardScrapeManager scoreboardMgr;
 
+    private final ConcurrentMap<Long, ExecutorService> executors = new ConcurrentHashMap<>();
     public SeasonManager(SeasonRepo repo, EspnSeasonScrapeRepo seasonScrapeRepo, StandingsScrapeManager standingsMgr, ScoreboardScrapeManager scoreboardMgr) {
         this.repo = repo;
         this.seasonScrapeRepo = seasonScrapeRepo;
@@ -43,6 +36,19 @@ public class SeasonManager {
         this.scoreboardMgr = scoreboardMgr;
     }
 
+    @PostConstruct
+    public void init() {
+        logger.info("Cleaning up scrape table on startup.");
+        seasonScrapeRepo.findByCompletedAtIsNull().forEach(ss->{
+            logger.info("Abandoning unfinished season scrape "+ss.getId());
+            seasonScrapeRepo.saveAndFlush(ss.complete("ABANDONED"));
+        });
+        seasonScrapeRepo.findByCompletedAtIsNotNullAndStatus("RUNNING").forEach(ss->{
+            logger.info("Setting scrape "+ss.getId()+" with completion at "+ ss.getCompletedAt()+" and status 'RUNNING' to 'COMPLETED'");
+            seasonScrapeRepo.saveAndFlush(ss.complete("COMPLETE"));
+        });
+
+    }
     public List<Season> findAllSeasons() {
         return repo.findAll(Sort.by("season"));
     }
@@ -81,6 +87,7 @@ public class SeasonManager {
         Random random = new Random();
         EspnSeasonScrape seasonScrape = seasonScrapeRepo.saveAndFlush(new EspnSeasonScrape(0L, season.getSeason(), start, end, LocalDateTime.now(), null, "STARTING"));
         ExecutorService executorService = Executors.newFixedThreadPool(1);
+        executors.put(seasonScrape.getId(),executorService);
         start.datesUntil(end).forEach(d -> executorService.submit( () -> {
             long sleepDelay = random.nextLong(500L, 2000L);
             logger.info("Loading "+d+" - delay is "+sleepDelay+" ms");
@@ -95,28 +102,44 @@ public class SeasonManager {
         }));
 
         executorService.shutdown();
+
         Executors.newSingleThreadExecutor().submit(() -> {
             try {
                 boolean b = executorService.awaitTermination(timeout, TimeUnit.SECONDS);
                 if (b) {
                     updateSeasonScrapeStatus(seasonScrape, "COMPLETED");
+                    executors.remove(seasonScrape.getId());
                 } else {
                     updateSeasonScrapeStatus(seasonScrape, "TIMED OUT");
                     executorService.shutdownNow();
+                    executors.remove(seasonScrape.getId());
                 }
             } catch (InterruptedException e) {
                 updateSeasonScrapeStatus(seasonScrape, "ABORTED");
+                executors.remove(seasonScrape.getId());
             }
 
         });
         return seasonScrape.getId();
     }
 
+    public void cancelSeasonScrape(Long id) {
+        ExecutorService executorService = executors.remove(id);
+        if (executorService!=null){
+            executorService.shutdownNow();
+            seasonScrapeRepo.findById(id).ifPresent(s->updateSeasonScrapeStatus(s,"CANCELLED"));
+        }
+    }
     private void updateSeasonScrapeStatus(EspnSeasonScrape seasonScrape, String status) {
         seasonScrapeRepo.findById(seasonScrape.getId()).ifPresent(s -> {
-            s.setCompletedAt(LocalDateTime.now());
-            s.setStatus(status);
-            seasonScrapeRepo.saveAndFlush(s);
+            logger.info("Setting scrape "+seasonScrape.getId()+" from "+s.getStatus()+" to "+status);
+            if (s.getCompletedAt()!=null) {
+                logger.warn("Trying to set completion status on complete season scrape. Ignoring");
+            } else {
+                s.setCompletedAt(LocalDateTime.now());
+                s.setStatus(status);
+                seasonScrapeRepo.saveAndFlush(s);
+            }
         });
     }
 
@@ -133,6 +156,15 @@ public class SeasonManager {
     }
 
     public List<EspnSeasonScrape> findSeasonScrapesBySeason(Season season) {
-        return seasonScrapeRepo.findAllBySeason(season.getSeason());
+        return seasonScrapeRepo.findAllBySeasonOrderByStartedAt(season.getSeason());
+    }
+
+    public Season publishSeasonScrape(long seasonId, long seasonScrapeId) {
+        logger.error("Not implemented yet");
+        return null;
+    }
+
+    public EspnSeasonScrape findSeasonScrapeById(long id) {
+       return seasonScrapeRepo.findById(id).orElseThrow();
     }
 }

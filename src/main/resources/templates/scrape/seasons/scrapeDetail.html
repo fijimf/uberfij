@@ -115,16 +115,12 @@
                         <div class="card-text pb-2">
                             <label>From</label>
                             <input type="text" id="from" name="from" class="me-2"
-                                   style="max-width: 6em;" aria-label="From"
-                                   th:value="${#temporals.format(season.defaultStartDate(),'yyyyMMdd')}">
+                                   style="max-width: 6em;" aria-label="From" th:value="${#temporals.format(season.defaultStartDate(),'yyyyMMdd')}">
                             <label>To</label>
                             <input type="text" id="to" name="to" class="me-2"
-                                   style="max-width: 6em;" aria-label="To"
-                                   th:value="${#temporals.format(season.defaultEndDate(),'yyyyMMdd')}">
-                            <label class="me-1">Timeout (sec)</label><input type="text" id="timeOutSec"
-                                                                            name="timeOutSec" class="me-2"
-                                                                            style="max-width: 3em;"
-                                                                            aria-label="TimeoutSec" th:value="3600">
+                                   style="max-width: 6em;" aria-label="To" th:value="${#temporals.format(season.defaultEndDate(),'yyyyMMdd')}">
+                            <label class="me-1">Timeout (sec)</label><input type="text" id="timeOutSec" name="timeOutSec" class="me-2"
+                                                                            style="max-width: 3em;" aria-label="TimeoutSec" th:value="3600">
                             <button type="submit" style="max-width: fit-content;"
                                     class="btn btn-sm btn-success">Scrape<span
                                     class="bi bi-cloud-arrow-down-fill px-1"></span>
@@ -144,7 +140,6 @@
                             <th>OK</th>
                             <th>Err</th>
                             <th>Status</th>
-                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -153,19 +148,12 @@
                             <td th:text="${ssc.getSeason()}"></td>
                             <td th:text="${ssc.getFrom()}"></td>
                             <td th:text="${ssc.getTo()}"></td>
-                            <td th:text="${#temporals.format(ssc.getStartedAt(),'yyyy-MM-dd HH:mm:ss')}"></td>
-                            <td th:if="${ssc.getCompletedAt()!=null}"
-                                th:text="${#temporals.format(ssc.getCompletedAt(),'yyyy-MM-dd HH:mm:ss')}"></td>
-                            <td th:if="${ssc.getCompletedAt()==null}"
-                                th:text="${#temporals.format(ssc.getCompletedAt(),'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td th:text="${ssc.getStartedAt()}"></td>
+                            <td th:text="${ssc.getCompletedAt()}"></td>
+
                             <td th:text="${ssc.okCount()}"></td>
                             <td th:text="${ssc.errCount()}"></td>
                             <td th:text="${ssc.getStatus()}"></td>
-                            <td>
-                                <a th:href="${'/admin/scrape/seasons/detail/'+ season.getId()+'/'+ssc.getId()}">Detail</a>
-                                <a th:unless="${ssc.getStatus().equals('RUNNING')}" th:href="${'/admin/scrape/seasons/publish/'+ season.getId()+'/'+ssc.getId()}">Publish</a>
-                                <a th:if="${ssc.getStatus().equals('RUNNING')}" th:href="${'/admin/scrape/seasons/cancel/'+ season.getId()+'/'+ssc.getId()}">Cancel</a>
-                            </td>
                         </tr>
                         </tbody>
                     </table>

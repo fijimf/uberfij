@@ -99,14 +99,10 @@ public class EspnSeasonScrape {
         this.status = status;
     }
 
-    private EspnSeasonScrape complete(String status) {
+    public EspnSeasonScrape complete(String status) {
         setCompletedAt(LocalDateTime.now());
         setStatus(status);
         return this;
-    }
-
-    public EspnSeasonScrape error() {
-        return complete("ERROR");
     }
 
     public LocalDate fromDate() {

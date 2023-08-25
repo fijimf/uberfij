@@ -13,10 +13,13 @@ import java.util.List;
 @Repository
 public interface EspnSeasonScrapeRepo extends JpaRepository<EspnSeasonScrape, Long> {
 
-    List<EspnSeasonScrape> findAllBySeason(int season);
+    List<EspnSeasonScrape> findAllBySeasonOrderByStartedAt(int season);
+    List<EspnSeasonScrape> findByCompletedAtIsNull();
+    List<EspnSeasonScrape> findByCompletedAtIsNotNullAndStatus(String status);
+
 
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query(value = "update EspnSeasonScrape s set s.status = :status where s.id = :id")
+    @Query(value = "update EspnSeasonScrape s set s.status = :status where s.id = :id and s.completedAt is null")
     int updateStatusById(@Param("id") long id, @Param("status") String status);
 }
