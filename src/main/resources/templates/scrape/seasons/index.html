@@ -80,96 +80,99 @@
                         aria-expanded="false" aria-controls="conferencesTable">
                     Show/Hide
                 </button>
-            </div>
-
-            <div class="collapse" id="conferencesTable">
-                <table class="table table-bordered table-sm">
-                    <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Teams</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="ce: ${season.conferenceList()}">
-                        <td th:text="${ce.getKey().id}"></td>
-                        <td th:text="${ce.getKey().name}"></td>
-                        <td>
-                            <img class="img-fluid img-thumbnail" style="max-width: 2em;"
-                                 th:each="t: ${ce.getValue()}"
-                                 th:src="${t.getLogoUrl()}" th:alt="${t.getName()}"/>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row pt-2">
-            <div class="card">
-                <div class="card-body">
-                    <div class="card-title">
-                        <h3>Staged Data: Daily Scoreboards</h3>
-                    </div>
-                    <form method="get" th:action="${'/admin/scrape/seasons/games/scrape/'+season.getSeason()}">
-                        <div class="card-text pb-2">
-                            <label>From</label>
-                            <input type="text" id="from" name="from" class="me-2"
-                                   style="max-width: 6em;" aria-label="From"
-                                   th:value="${#temporals.format(season.defaultStartDate(),'yyyyMMdd')}">
-                            <label>To</label>
-                            <input type="text" id="to" name="to" class="me-2"
-                                   style="max-width: 6em;" aria-label="To"
-                                   th:value="${#temporals.format(season.defaultEndDate(),'yyyyMMdd')}">
-                            <label class="me-1">Timeout (sec)</label><input type="text" id="timeOutSec"
-                                                                            name="timeOutSec" class="me-2"
-                                                                            style="max-width: 3em;"
-                                                                            aria-label="TimeoutSec" th:value="3600">
-                            <button type="submit" style="max-width: fit-content;"
-                                    class="btn btn-sm btn-success">Scrape<span
-                                    class="bi bi-cloud-arrow-down-fill px-1"></span>
-                            </button>
-                        </div>
-                    </form>
-
+                <div class="collapse" id="conferencesTable">
                     <table class="table table-bordered table-sm">
                         <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Season</th>
-                            <th>From</th>
-                            <th>To</th>
-                            <th>Started</th>
-                            <th>Completed</th>
-                            <th>OK</th>
-                            <th>Err</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th>Name</th>
+                            <th>Teams</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="ssc: ${seasonScrapes}">
-                            <td th:text="${ssc.getId()}"></td>
-                            <td th:text="${ssc.getSeason()}"></td>
-                            <td th:text="${ssc.getFrom()}"></td>
-                            <td th:text="${ssc.getTo()}"></td>
-                            <td th:text="${#temporals.format(ssc.getStartedAt(),'yyyy-MM-dd HH:mm:ss')}"></td>
-                            <td th:if="${ssc.getCompletedAt()!=null}"
-                                th:text="${#temporals.format(ssc.getCompletedAt(),'yyyy-MM-dd HH:mm:ss')}"></td>
-                            <td th:if="${ssc.getCompletedAt()==null}"
-                                th:text="${#temporals.format(ssc.getCompletedAt(),'yyyy-MM-dd HH:mm:ss')}"></td>
-                            <td th:text="${ssc.okCount()}"></td>
-                            <td th:text="${ssc.errCount()}"></td>
-                            <td th:text="${ssc.getStatus()}"></td>
+                        <tr th:each="ce: ${season.conferenceList()}">
+                            <td th:text="${ce.getKey().id}"></td>
+                            <td th:text="${ce.getKey().name}"></td>
                             <td>
-                                <a th:href="${'/admin/scrape/seasons/detail/'+ season.getId()+'/'+ssc.getId()}">Detail</a>
-                                <a th:unless="${ssc.getStatus().equals('RUNNING')}" th:href="${'/admin/scrape/seasons/publish/'+ season.getId()+'/'+ssc.getId()}">Publish</a>
-                                <a th:if="${ssc.getStatus().equals('RUNNING')}" th:href="${'/admin/scrape/seasons/cancel/'+ season.getId()+'/'+ssc.getId()}">Cancel</a>
+                                <img class="img-fluid img-thumbnail" style="max-width: 2em;"
+                                     th:each="t: ${ce.getValue()}"
+                                     th:src="${t.getLogoUrl()}" th:alt="${t.getName()}"/>
                             </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="row pt-2">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">
+                    <h3>Staged Data: Daily Scoreboards</h3>
+                </div>
+                <form method="get" th:action="${'/admin/scrape/seasons/games/scrape/'+season.getSeason()}">
+                    <div class="card-text pb-2">
+                        <label>From</label>
+                        <input type="text" id="from" name="from" class="me-2"
+                               style="max-width: 6em;" aria-label="From"
+                               th:value="${#temporals.format(season.defaultStartDate(),'yyyyMMdd')}">
+                        <label>To</label>
+                        <input type="text" id="to" name="to" class="me-2"
+                               style="max-width: 6em;" aria-label="To"
+                               th:value="${#temporals.format(season.defaultEndDate(),'yyyyMMdd')}">
+                        <label class="me-1">Timeout (sec)</label><input type="text" id="timeOutSec"
+                                                                        name="timeOutSec" class="me-2"
+                                                                        style="max-width: 3em;"
+                                                                        aria-label="TimeoutSec" th:value="3600">
+                        <button type="submit" style="max-width: fit-content;"
+                                class="btn btn-sm btn-success">Scrape<span
+                                class="bi bi-cloud-arrow-down-fill px-1"></span>
+                        </button>
+                    </div>
+                </form>
+
+                <table class="table table-bordered table-sm">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Season</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Started</th>
+                        <th>Completed</th>
+                        <th>OK</th>
+                        <th>Err</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="ssc: ${seasonScrapes}">
+                        <td th:text="${ssc.getId()}"></td>
+                        <td th:text="${ssc.getSeason()}"></td>
+                        <td th:text="${ssc.getFrom()}"></td>
+                        <td th:text="${ssc.getTo()}"></td>
+                        <td th:text="${#temporals.format(ssc.getStartedAt(),'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td th:if="${ssc.getCompletedAt()!=null}"
+                            th:text="${#temporals.format(ssc.getCompletedAt(),'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td th:if="${ssc.getCompletedAt()==null}"
+                            th:text="${#temporals.format(ssc.getCompletedAt(),'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td th:text="${ssc.okCount()}"></td>
+                        <td th:text="${ssc.errCount()}"></td>
+                        <td th:text="${ssc.getStatus()}"></td>
+                        <td>
+                            <a th:href="${'/admin/scrape/seasons/detail/'+ season.getId()+'/'+ssc.getId()}">Detail</a>
+                            <a th:unless="${ssc.getStatus().equals('RUNNING')}"
+                               th:href="${'/admin/scrape/seasons/publish/'+ season.getId()+'/'+ssc.getId()}">Publish</a>
+                            <a th:if="${ssc.getStatus().equals('RUNNING')}"
+                               th:href="${'/admin/scrape/seasons/cancel/'+ season.getId()+'/'+ssc.getId()}">Cancel</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
