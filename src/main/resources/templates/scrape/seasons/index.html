@@ -111,7 +111,7 @@
                     <div class="card-title">
                         <h3>Staged Data: Daily Scoreboards</h3>
                     </div>
-                    <form th:action="${'/admin/scrape/seasons/games/scrape/'+season.getSeason()}" method="post">
+                    <form method="get" th:action="${'/admin/scrape/seasons/games/scrape/'+season.getSeason()}">
                         <div class="card-text pb-2">
                             <label>From</label>
                             <input type="text" id="from" name="from" class="me-2"

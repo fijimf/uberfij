@@ -25,10 +25,9 @@ public class SeasonScrapeService {
     @GetMapping("/index/{id}")
     public ModelAndView getSeasonsStatus(@PathVariable("id") Long id) {
         ModelAndView modelAndView = new ModelAndView("scrape/seasons/index");
-        Season season = seasonMgr.findById(id);
-        modelAndView.addObject("standingsScrapes", seasonMgr.findStandingsScrapesBySeason(season.getSeason()));
-        modelAndView.addObject("season", season);
-        modelAndView.addObject("seasonScrapes", seasonMgr.findSeasonScrapesBySeason(season));
+        modelAndView.addObject("standingsScrapes", seasonMgr.findStandingsScrapesBySeason(seasonMgr.findById(id).getSeason()));
+        modelAndView.addObject("season", seasonMgr.findById(id));
+        modelAndView.addObject("seasonScrapes", seasonMgr.findSeasonScrapesBySeason(seasonMgr.findById(id)));
         return modelAndView;
     }
 
@@ -45,11 +44,11 @@ public class SeasonScrapeService {
         return new ModelAndView("forward:/admin/scrape/seasons/index/" + season.getId());
     }
 
-    @PostMapping("/games/scrape/{year}")
+    @GetMapping("/games/scrape/{year}")
     public ModelAndView scrapeGames(@PathVariable("year") int year, @RequestParam(name = "from", required = false) String from, @RequestParam(name = "to", required = false) String to, @RequestParam(name = "timeOutSec", required = false) String timeOutSec) {
         Season season = seasonMgr.findSeasonBySeason(year);
         Long seasonScrapeId = seasonMgr.scrapeSeasonByYear(year, from, to, timeOutSec);
-        return new ModelAndView("forward:/admin/scrape/seasons/detail/" + seasonScrapeId);
+        return new ModelAndView("redirect:/admin/scrape/seasons/detail/" +season.getId()+"/"+ seasonScrapeId);
     }
 
     @GetMapping(value = "/conferenceMappings/raw/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -73,7 +72,7 @@ public class SeasonScrapeService {
     @GetMapping("/cancel/{seasonId}/{id}")
     public ModelAndView cancelSeasonScrape(@PathVariable long seasonId, @PathVariable long id) {
         seasonMgr.cancelSeasonScrape(id);
-        return new ModelAndView("forward:/admin/scrape/seasons/index/" + seasonId);
+        return new ModelAndView("redirect:/admin/scrape/seasons/index/" + seasonId);
     }
 
     @GetMapping("/publish/{seasonId}/{id}")
