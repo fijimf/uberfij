@@ -50,7 +50,7 @@ public class EspnSeasonScrapeRepoTest {
     @Test
     void updateStatus() {
         EspnSeasonScrape espnSeasonScrape = espnSeasonScrapeRepo.saveAndFlush(
-                new EspnSeasonScrape(0L, 2022, LocalDate.of(2012, 11, 1), LocalDate.of(2021, 12, 1), LocalDateTime.now().minusMinutes(5), LocalDateTime.now(), "STARTING"));
+                new EspnSeasonScrape(0L, 2022, LocalDate.of(2012, 11, 1), LocalDate.of(2021, 12, 1), LocalDateTime.now().minusMinutes(5), null, "STARTING"));
         assertThat(espnSeasonScrape.getId()).isGreaterThan(0L);
         assertThat(espnSeasonScrape.getStatus()).isEqualTo("STARTING");
         int n = espnSeasonScrapeRepo.updateStatusById(espnSeasonScrape.getId(), "RUNNING");
