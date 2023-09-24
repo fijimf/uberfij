@@ -14,60 +14,97 @@
 </head>
 <body>
 <header th:replace="~{common/topnav::topnav}"></header>
-
 <div class="container pt-4">
-    <div class="row row-cols-2">
+    <div class="row row-cols-1">
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="card-title">Teams</h3>
+                    <h3 class="card-title">Scraping Explained</h3>
                     <div class="card-text">
-                        <p th:text="${'Published '+teams.size()+' teams.'}"></p>
-                        <a th:href="${'/admin/scrape/teams/index'}" class="btn btn-sm btn-primary">Manage</a>
+                        <p>The most important idea to understand about scraping is that for each type of data item
+                            (Teams, Conferences, etc.) there are two stages: scraping, which gets raw data from
+                            internet sites and stages it in an intermediate database; and, publishing, which parses
+                            what has been staged and puts it into the application database.</p>
+                        <p>It's important to note that multiple scrapes can be run and saved. Because they access
+                            rources
+                            outside our control, there is no guarantee that the result will be the same, even for
+                            accessing
+                            resource. (In fact for the current season we rely on the same scoreboard resource being
+                            updated to capture game results.</p>
+                        <p>Publishing on the other hans should be both idem potent and repeatable. That is, having
+                            staged the data we expect that if we publish it multiple tiomes the result will be
+                            identical.</p>
+                        <p>The data items we need to scrape and publish are:
+                        <ul>
+                            <li>Non-Seasonal</li>
+                            <ul>
+                                <li>Conferences</li>
+                                <li>Teams</li>
+                            </ul>
+                            <li>Seasonal</li>
+                            <ul>
+                                <li>ConferenceMaps(Standings)</li>
+                                <li>Games</li>
+                            </ul>
+                        </ul>
+                        </p>
+                        <p>Note that Seasons are not scraped, they are simply created.</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Conferences</h3>
-                    <div class="card-text">
-                        <p th:text="${'Published '+conferences.size()+' conferences.'}"></p>
-                        <a th:href="${'/admin/scrape/conferences/index'}"
-                           class="btn btn-sm btn-primary">Manage</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <div class="row row-cols-1 pt-5">
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Seasons</h3>
-                    <h4>Create New</h4>
-                    <form th:action="${'/admin/scrape/seasons/new'}" method="post">
-                        <div class="card-text"><input type="text" id="seasonYear" name="seasonYear" class=""
-                                                      aria-label="Year">
-                            <button type="submit" class="btn btn-sm btn-success">New</button>
+        <div class="row row-cols-2">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Teams</h3>
+                        <div class="card-text">
+                            <p th:text="${'Published '+teams.size()+' teams.'}"></p>
+                            <a th:href="${'/admin/scrape/teams/index'}" class="btn btn-sm btn-primary">Manage</a>
                         </div>
-                    </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Conferences</h3>
+                        <div class="card-text">
+                            <p th:text="${'Published '+conferences.size()+' conferences.'}"></p>
+                            <a th:href="${'/admin/scrape/conferences/index'}"
+                               class="btn btn-sm btn-primary">Manage</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row row-cols-1 pt-5">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Seasons</h3>
+                        <h4>Create New</h4>
+                        <form th:action="${'/admin/scrape/seasons/new'}" method="post">
+                            <div class="card-text"><input type="text" id="seasonYear" name="seasonYear" class=""
+                                                          aria-label="Year">
+                                <button type="submit" class="btn btn-sm btn-success">New</button>
+                            </div>
+                        </form>
 
 
-                    <div class="card-text" th:each="season: ${seasons}">
-                        <h4 th:text="${season.getSeason()}"></h4>
-                        <p th:text="${'Published '+season.numTeams()+' teams in '+season.numConferences()+' conferences.'+season.getGames().size()+' games.' +season.gameDates().size()+' dates.' }"></p>
-                        <a th:href="${'/admin/scrape/seasons/index/'+season.getId()}"
-                           class="btn btn-sm btn-primary">Manage</a>
+                        <div class="card-text" th:each="season: ${seasons}">
+                            <h4 th:text="${season.getSeason()}"></h4>
+                            <p th:text="${'Published '+season.numTeams()+' teams in '+season.numConferences()+' conferences.'+season.getGames().size()+' games.' +season.gameDates().size()+' dates.' }"></p>
+                            <a th:href="${'/admin/scrape/seasons/index/'+season.getId()}"
+                               class="btn btn-sm btn-primary">Manage</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
->
+    >
 </div>
 </div>
 </body>
