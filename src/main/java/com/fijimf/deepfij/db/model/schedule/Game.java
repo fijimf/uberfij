@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Table(name = "games") //FIXME
@@ -15,16 +17,16 @@ public class Game {
     private Long id;
     private LocalDate date;
 
+    @Column(name = "scoreboard_key")
+    private LocalDate scoreboardKey;
     @ManyToOne
     @JoinColumn(name = "season_id")
     private Season season;
-    @PrimaryKeyJoinColumn(name = "home_team_id")
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "home_team_id")
     private Team homeTeam;
-    @PrimaryKeyJoinColumn(name = "away_team_id")
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "away_team_id")
     private Team awayTeam;
     @Column(name = "home_score")
     private Integer homeScore;
@@ -33,7 +35,7 @@ public class Game {
     @Column(name = "num_periods")
     private Integer numPeriods;
     @Column(name = "is_neutral_site")
-    private Boolean isNeutral_site;
+    private Boolean isNeutralSite;
     private String location;
     private Double spread;
     @Column(name = "over_under")
@@ -52,16 +54,17 @@ public class Game {
     public Game() {
     }
 
-    public Game(Long id, LocalDate date, Season season, Team homeTeam, Team awayTeam, Integer homeScore, Integer awayScore, Integer numPeriods, Boolean isNeutral_site, String location, Double spread, Double overUnder, Boolean isConfTournament, Boolean isNcaaTournament, String espnId, Long scrapeSrcId, LocalDateTime publishedAt) {
+    public Game(Long id, LocalDate date, LocalDate scoreboardKey, Season season, Team homeTeam, Team awayTeam, Integer homeScore, Integer awayScore, Integer numPeriods, Boolean isNeutralSite, String location, Double spread, Double overUnder, Boolean isConfTournament, Boolean isNcaaTournament, String espnId, Long scrapeSrcId, LocalDateTime publishedAt) {
         this.id = id;
         this.date = date;
+        this.scoreboardKey = scoreboardKey;
         this.season = season;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.homeScore = homeScore;
         this.awayScore = awayScore;
         this.numPeriods = numPeriods;
-        this.isNeutral_site = isNeutral_site;
+        this.isNeutralSite = isNeutralSite;
         this.location = location;
         this.spread = spread;
         this.overUnder = overUnder;
@@ -86,6 +89,14 @@ public class Game {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public LocalDate getScoreboardKey() {
+        return scoreboardKey;
+    }
+
+    public void setScoreboardKey(LocalDate scoreboardKey) {
+        this.scoreboardKey = scoreboardKey;
     }
 
     public Season getSeason() {
@@ -136,12 +147,12 @@ public class Game {
         this.numPeriods = numPeriods;
     }
 
-    public Boolean getNeutral_site() {
-        return isNeutral_site;
+    public Boolean getNeutralSite() {
+        return isNeutralSite;
     }
 
-    public void setNeutral_site(Boolean neutral_site) {
-        isNeutral_site = neutral_site;
+    public void setNeutralSite(Boolean neutral_site) {
+        isNeutralSite = neutral_site;
     }
 
     public String getLocation() {
@@ -206,5 +217,34 @@ public class Game {
 
     public void setPublishedAt(LocalDateTime publishedAt) {
         this.publishedAt = publishedAt;
+    }
+
+    public LocalDate scoreboardKey() {
+        return date;
+    }
+
+    public boolean isEffectivelyEqual(Game game) {
+        return Objects.equals(getDate(), game.getDate()) && Objects.equals(getSeason(), game.getSeason()) && Objects.equals(getHomeTeam(), game.getHomeTeam()) && Objects.equals(getAwayTeam(), game.getAwayTeam()) && Objects.equals(getHomeScore(), game.getHomeScore()) && Objects.equals(getAwayScore(), game.getAwayScore()) && Objects.equals(getNumPeriods(), game.getNumPeriods()) && Objects.equals(isNeutralSite, game.isNeutralSite) && Objects.equals(getLocation(), game.getLocation()) && Objects.equals(getSpread(), game.getSpread()) && Objects.equals(getOverUnder(), game.getOverUnder()) && Objects.equals(isConfTournament, game.isConfTournament) && Objects.equals(isNcaaTournament, game.isNcaaTournament);
+    }
+
+    public Optional<Game> createUpdate(Game target) {
+        if (isEffectivelyEqual(target)) {
+            return Optional.empty();
+        } else {
+            target.setDate(date);
+            target.setSeason(season);
+            target.setHomeTeam(homeTeam);
+            target.setAwayTeam(awayTeam);
+            target.setHomeScore(homeScore);
+            target.setAwayScore(awayScore);
+            target.setNumPeriods(numPeriods);
+            target.setNeutralSite(isNeutralSite);
+            target.setLocation(location);
+            target.setSpread(spread);
+            target.setOverUnder(overUnder);
+            target.setConfTournament(isConfTournament);
+            target.setNcaaTournament(isNcaaTournament);
+            return Optional.of(target);
+        }
     }
 }

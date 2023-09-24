@@ -18,48 +18,36 @@
 <div class="container">
 
     <h1 th:text="${'Seasons Admin ['+season.getSeason()+']'}"></h1>
+    <h2 th:text="${'Detail of Scrape ID ['+seasonScrape.getId()}"></h2>
 
     <div class="row">
         <div class="card">
             <div class="card-body">
                 <div class="card-title">
-                    <h3>Staged Data: Standings</h3>
-                </div>
-                <div class="card-subtitle"><p>Standings are scraped to generate the conference to team mappings for a
-                    particular season</p>
-                </div>
-                <div class="card-link">
-                    <a class="btn btn-primary mb-3"
-                       th:href="${'/admin/scrape/seasons/conferenceMappings/scrape/'+season.getSeason()}">Scrape
-                    </a>
+                    <h3>Staged Data: Dates</h3>
                 </div>
                 <div class="card-text">
                     <table class="table table-bordered table-sm">
                         <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Retrieved At</th>
-                            <th>URL</th>
-                            <th>Response Time</th>
+                            <th>Key</th>
+                            <th>Flavor</th>
                             <th>Response Code</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th># of Gamese</th>
+                            <th># of Published Games</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="scrape: ${standingsScrapes}">
-                            <td th:text="${scrape.id}"></td>
-                            <td th:text="${#temporals.format(scrape.retrievedAt, 'yyyy-MMM-dd HH:mm:ss')}"></td>
-                            <td><a th:href="${scrape.url}" th:title="${scrape.url}" th:text="${scrape.displayUrl()}"
-                                   target="_blank"></a><i class="px-1 bold-bi bi-box-arrow-up-right"></i></td>
-                            <td th:text="${scrape.responseTimeMs}"></td>
-                            <td th:text="${scrape.responseCode}"></td>
-                            <td th:text="${scrape.status}"></td>
-                            <td class="text-center">
-                                <a th:href="${'/admin/scrape/seaasons/conferenceMappings/raw/'+scrape.id}"
-                                   target="_blank">Show Raw</a>
-                                <a th:href="${'/admin/scrape/seasons/conferenceMappings/publishUpdate/'+scrape.id}">Publish</a>
-                            </td>
+                        <tr th:each="sb: ${seasonScrape.getScoreboardScrapes()}">
+                            <td th:text="${sb.getId()}"></td>
+                            <td th:text="${#temporals.format(sb.getScoreboardKey(),'yyyy-MM-dd')}"></td>
+                            <td th:text="${sb.getFlavor()}"></td>
+                            <td th:text="${sb.getResponseCode()}"></td>
+                            <td th:text="${sb.getNumberOfGames()}"></td>
+                            <td th:text="${season.getDamesForKey(sb.getScoreboardKey()).size()}"></td>
+                            <td><a th:href="${'/admin/scrape/seasons/publishScoreboard/'+sb.getId()}">Publish</a></td>
                         </tr>
                         </tbody>
                     </table>
@@ -115,12 +103,16 @@
                         <div class="card-text pb-2">
                             <label>From</label>
                             <input type="text" id="from" name="from" class="me-2"
-                                   style="max-width: 6em;" aria-label="From" th:value="${#temporals.format(season.defaultStartDate(),'yyyyMMdd')}">
+                                   style="max-width: 6em;" aria-label="From"
+                                   th:value="${#temporals.format(season.defaultStartDate(),'yyyyMMdd')}">
                             <label>To</label>
                             <input type="text" id="to" name="to" class="me-2"
-                                   style="max-width: 6em;" aria-label="To" th:value="${#temporals.format(season.defaultEndDate(),'yyyyMMdd')}">
-                            <label class="me-1">Timeout (sec)</label><input type="text" id="timeOutSec" name="timeOutSec" class="me-2"
-                                                                            style="max-width: 3em;" aria-label="TimeoutSec" th:value="3600">
+                                   style="max-width: 6em;" aria-label="To"
+                                   th:value="${#temporals.format(season.defaultEndDate(),'yyyyMMdd')}">
+                            <label class="me-1">Timeout (sec)</label><input type="text" id="timeOutSec"
+                                                                            name="timeOutSec" class="me-2"
+                                                                            style="max-width: 3em;"
+                                                                            aria-label="TimeoutSec" th:value="3600">
                             <button type="submit" style="max-width: fit-content;"
                                     class="btn btn-sm btn-success">Scrape<span
                                     class="bi bi-cloud-arrow-down-fill px-1"></span>

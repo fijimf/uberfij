@@ -18,7 +18,7 @@ CREATE TABLE team
     color         VARCHAR(12)  NULL,
     alt_color     VARCHAR(12)  NULL,
     logo_url      VARCHAR(256) NULL,
-    espn_id       VARCHAR(24)  NULL,
+    espn_id       VARCHAR(36)  NULL,
     scrape_src_id BIGINT       NOT NULL,
     published_at  TIMESTAMP    NOT NULL
 );
@@ -33,7 +33,7 @@ CREATE TABLE conference
     name          VARCHAR(64)  NOT NULL UNIQUE,
     alt_name      VARCHAR(32)  NULL,
     logo_url      varchar(256) NULL,
-    espn_id       VARCHAR(24)  NULL,
+    espn_id       VARCHAR(36)  NULL,
     scrape_src_id BIGINT       NOT NULL,
     published_at  TIMESTAMP    NOT NULL
 );
@@ -58,6 +58,7 @@ CREATE TABLE games
 (
     id                 BIGSERIAL PRIMARY KEY,
     date               DATE        NOT NULL,
+    scoreboard_key     DATE        NOT NULL,
     season_id          BIGINT      NOT NULL REFERENCES season (id),
     home_team_id       BIGINT      NOT NULL REFERENCES team (id),
     away_team_id       BIGINT      NOT NULL REFERENCES team (id),
@@ -70,7 +71,7 @@ CREATE TABLE games
     over_under         FLOAT       NULL,
     is_conf_tournament BOOLEAN     NULL,
     is_ncaa_tournament BOOLEAN     NULL,
-    espn_id            VARCHAR(24) NOT NULL,
+    espn_id            VARCHAR(36) NOT NULL,
     scrape_src_id      BIGINT      NOT NULL,
     published_at       TIMESTAMP   NOT NULL
 );

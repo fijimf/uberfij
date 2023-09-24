@@ -1,6 +1,5 @@
 package com.fijimf.deepfij.db.model.schedule;
 
-import com.fijimf.deepfij.scraping.ScoreboardScrapeManager;
 import com.fijimf.deepfij.scraping.SeasonManager;
 import jakarta.persistence.*;
 
@@ -18,10 +17,10 @@ public class Season {
     private int season;
 
     @OneToMany()
-    @JoinColumn(name="season_id")
-    private Set<ConferenceMap> conferenceMaps= new HashSet<>();
+    @JoinColumn(name = "season_id")
+    private Set<ConferenceMap> conferenceMaps = new HashSet<>();
     @OneToMany(mappedBy = "id")
-    private Set<Game> games= new HashSet<>();
+    private Set<Game> games = new HashSet<>();
 
 
     @Transient
@@ -80,11 +79,15 @@ public class Season {
             teams.add(cm.getTeam());
             conferenceToTeams.put(key, teams);
         });
-        conferenceToTeams.forEach((k,v)->v.sort(Comparator.comparing(Team::getName)));
+        conferenceToTeams.forEach((k, v) -> v.sort(Comparator.comparing(Team::getName)));
     }
 
     public Set<Game> getGames() {
         return games;
+    }
+
+    public Set<Game> getDamesForKey(LocalDate key) {
+        return games.stream().filter(g -> g.scoreboardKey().equals(key)).collect(Collectors.toSet());
     }
 
     public void setGames(Set<Game> games) {
@@ -100,10 +103,10 @@ public class Season {
     }
 
     public List<Map.Entry<Conference, List<Team>>> conferenceList() {
-        return conferenceToTeams.entrySet().stream().sorted(Comparator.comparing(e->e.getKey().getName())).toList();
+        return conferenceToTeams.entrySet().stream().sorted(Comparator.comparing(e -> e.getKey().getName())).toList();
     }
 
-    public List<LocalDate> gameDates(){
+    public List<LocalDate> gameDates() {
         return games.stream().map(Game::getDate).distinct().sorted().toList();
     }
 

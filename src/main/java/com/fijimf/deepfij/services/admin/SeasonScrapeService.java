@@ -77,7 +77,7 @@ public class SeasonScrapeService {
 
     @GetMapping("/publish/{seasonId}/{id}")
     public ModelAndView publishSeasonScrape(@PathVariable long seasonId, @PathVariable long id) {
-        Season season = seasonMgr.publishSeasonScrape(seasonId, id);
+         seasonMgr.publishSeasonScrape( id);
         return new ModelAndView("forward:/admin/scrape/seasons/index/" + seasonId);
     }
 
@@ -87,5 +87,11 @@ public class SeasonScrapeService {
         modelAndView.addObject("season", seasonMgr.findById(seasonId));
         modelAndView.addObject("seasonScrape",seasonMgr.findSeasonScrapeById(id));
         return modelAndView;
+    }
+
+    @GetMapping("/publishScoreboard/{id}")
+    public ModelAndView publishScoreboardScrape(@PathVariable long id) {
+        seasonMgr.publishScoreboardScrape(id);
+        return new ModelAndView("resdirect:");
     }
 }
