@@ -247,4 +247,55 @@ public class Game {
             return Optional.of(target);
         }
     }
+
+    public boolean isWinner(Team team) {
+        if (team == null || homeScore == null || awayScore == null) {
+            return false;
+        } else {
+            return ((homeScore < awayScore && team.getId() == awayTeam.getId()) ||
+                    (homeScore > awayScore && team.getId() == homeTeam.getId()));
+        }
+    }
+
+    public boolean isLoser(Team team) {
+        if (team == null || homeScore == null || awayScore == null) {
+            return false;
+        } else {
+            return ((homeScore > awayScore && team.getId() == awayTeam.getId()) ||
+                    (homeScore < awayScore && team.getId() == homeTeam.getId()));
+        }
+    }
+
+    public boolean isHomeTeam(Team team, boolean trueHome) {
+        if (trueHome) {
+            return team.getId() == homeTeam.getId();
+        } else {
+            return (team.getId() == homeTeam.getId()) && isNeutralSite != Boolean.TRUE;
+        }
+    }
+    public boolean isAwayTeam(Team team, boolean trueAway) {
+        if (trueAway) {
+            return team.getId() == awayTeam.getId();
+        } else {
+            return (team.getId() == awayTeam.getId()) && isNeutralSite != Boolean.TRUE;
+        }
+    }
+
+    public boolean isNeutralSite() {
+        return isNeutralSite==Boolean.TRUE; // null is treated as false
+    }
+
+    public boolean hasTeam(Team team) {
+        return homeTeam.getId() == team.getId() || awayTeam.getId() == team.getId();
+    }
+
+    public Team getOpponent(Team t) {
+        if (t.getId()==homeTeam.getId()){
+            return awayTeam;
+        } else if (t.getId()==awayTeam.getId()){
+            return homeTeam;
+        } else {
+            throw new RuntimeException();
+        }
+    }
 }

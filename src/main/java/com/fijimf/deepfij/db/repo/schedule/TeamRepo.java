@@ -11,4 +11,6 @@ public interface TeamRepo extends JpaRepository<Team, Long> {
     Optional<Team> findByEspnIdEquals(String espnId);
 
     void deleteByScrapeSrcIdNot(long scrapeSrcId);
+
+    Optional<Team> findByKey(String key);
 }

@@ -19,7 +19,8 @@ public class Season {
     @OneToMany()
     @JoinColumn(name = "season_id")
     private Set<ConferenceMap> conferenceMaps = new HashSet<>();
-    @OneToMany(mappedBy = "id")
+    @OneToMany()
+    @JoinColumn(name = "season_id")
     private Set<Game> games = new HashSet<>();
 
 
@@ -106,6 +107,10 @@ public class Season {
         return conferenceToTeams.entrySet().stream().sorted(Comparator.comparing(e -> e.getKey().getName())).toList();
     }
 
+    public Conference getConference(Team team) {
+        return teamToConference.get(team);
+    }
+
     public List<LocalDate> gameDates() {
         return games.stream().map(Game::getDate).distinct().sorted().toList();
     }
@@ -116,5 +121,15 @@ public class Season {
 
     public LocalDate defaultEndDate() {
         return SeasonManager.defaultEndDate(season);
+    }
+
+    public Set<Game> getConferenceGames() {
+        return games.stream().filter(this::isConferenceGame).collect(Collectors.toSet());
+    }
+
+    private boolean isConferenceGame(Game g) {
+        return teamToConference.containsKey(g.getHomeTeam()) &&
+                teamToConference.containsKey(g.getAwayTeam()) &&
+                teamToConference.get(g.getHomeTeam()).getId() == teamToConference.get(g.getAwayTeam()).getId();
     }
 }

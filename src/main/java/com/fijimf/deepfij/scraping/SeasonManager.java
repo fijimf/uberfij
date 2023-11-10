@@ -42,6 +42,7 @@ public class SeasonManager {
     private final ScoreboardScrapeManager scoreboardMgr;
 
     private final ConcurrentMap<Long, ExecutorService> executors = new ConcurrentHashMap<>();
+    private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     public SeasonManager(SeasonRepo repo, GameRepo gameRepo, TeamRepo teamRepo, EspnSeasonScrapeRepo seasonScrapeRepo, EspnScoreboardScrapeRepo scoreboardScrapeRepo, StandingsScrapeManager standingsMgr, ScoreboardScrapeManager scoreboardMgr) {
         this.repo = repo;
@@ -189,16 +190,25 @@ public class SeasonManager {
 
     public void publishScoreboardScrape(EspnScoreboardScrape sbs) {
         LocalDate scoreboardKey = sbs.getScoreboardKey();
-        Map<String, Game> gameMap = gameRepo.findAllByScoreboardKey(scoreboardKey).stream().collect(Collectors.toMap(Game::getEspnId, Function.identity()));
-        Map<String, Team> teamMap = teamRepo.findAll().stream().collect(Collectors.toMap(Team::getEspnId, Function.identity()));
+
+        Map<String, Game> gameMap = gameRepo
+                .findAllByScoreboardKey(scoreboardKey)
+                .stream()
+                .collect(Collectors.toMap(Game::getEspnId, Function.identity()));
+        Map<String, Team> teamMap = teamRepo
+                .findAll()
+                .stream()
+                .collect(Collectors.toMap(Team::getEspnId, Function.identity()));
         long sbsId = sbs.getId();
-        logger.info("For scoreboard scrape " + sbsId + " found " + gameMap.size() + " existing games for key " + scoreboardKey.format(DateTimeFormatter.ISO_LOCAL_DATE));
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        logger.info("For scoreboard scrape " + sbsId + "(" + scoreboardKey.format(DateTimeFormatter.ISO_LOCAL_DATE) + ") found " + gameMap.size() + " existing games.");
+
         try {
             Scoreboard scoreboard = objectMapper.readValue(sbs.getResponse(), Scoreboard.class);
-             List<ScoreboardGame> scoreboardGames = scoreboard.unpackGames();
-             List<ScoreboardGame> oldGames = scoreboardGames.stream().filter(g -> gameMap.containsKey(g.getUid())).toList();
-             List<ScoreboardGame> newGames = scoreboardGames.stream().filter(g -> !gameMap.containsKey(g.getUid())).toList();
+            List<ScoreboardGame> scoreboardGames = scoreboard.unpackGames();
+            logger.info("Unpacked "+scoreboardGames.size()+ " from the scraped JSON "+sbs.getId());
+
+            List<ScoreboardGame> oldGames = scoreboardGames.stream().filter(g -> gameMap.containsKey(g.getUid())).toList();
+            List<ScoreboardGame> newGames = scoreboardGames.stream().filter(g -> !gameMap.containsKey(g.getUid())).toList();
 
 
             logger.info("For scoreboard scrape " + sbsId + " found " + scoreboardGames.size() + " games for scrape.");
@@ -208,8 +218,8 @@ public class SeasonManager {
                             .flatMap(h -> h.createUpdate(gameMap.get(g.getUid())).stream())).toList();
             List<Game> updatedGames = gameRepo.saveAllAndFlush(toBeUpdated);
             logger.info("For " + scoreboardKey + " " + updatedGames.size() + " games updated");
-
-            Set<String> knownKeys = scoreboardGames.stream().map(ScoreboardGame::getUid).collect(Collectors.toSet());
+//fixme
+            Set<String> knownKeys = scoreboardGames.stream().filter(ScoreboardGame::isPlayable).map(ScoreboardGame::getUid).collect(Collectors.toSet());
             Set<String> toBeDeleted = gameMap.keySet().stream().filter(k -> !knownKeys.contains(k)).collect(Collectors.toSet());
             int deleteCount = gameRepo.deleteAllByEspnIdIn(toBeDeleted);
             logger.info("For " + scoreboardKey + " " + deleteCount + " games deleted");
@@ -227,6 +237,10 @@ public class SeasonManager {
     }
 
     private Optional<Game> makeGame(ScoreboardGame s, Map<String, Team> teams, LocalDateTime now, LocalDate sbKey, long id) {
+        if (s.getSummary().toLowerCase().contains("canceled")) {
+            logger.info("Skipping " + s.getUid() + " listed as canceled");
+            return Optional.empty();
+        }
         List<ScoreboardTeam> competitors = s.getCompetitors();
         if (competitors == null || competitors.size() != 2) {
             logger.info("Skipping " + s.getUid() + " missing or wrong number of competitors");
@@ -250,7 +264,7 @@ public class SeasonManager {
             g.setDate(s.getDate().toLocalDate());
             g.setSeason(findSeasonBySeason(s.getSeason()));
             g.setEspnId(s.getUid());
-            g.setLocation(StringUtils.truncate(s.getLocation(),48));
+            g.setLocation(StringUtils.truncate(s.getLocation(), 48));
             g.setNcaaTournament(s.getSeasonType().equalsIgnoreCase("3"));
             if (t0.getHomeAway().equalsIgnoreCase("home")) {
                 setTeamInfo(s, teams, g, t0, t1);
@@ -271,7 +285,7 @@ public class SeasonManager {
     private static void setTeamInfo(ScoreboardGame s, Map<String, Team> teams, Game g, ScoreboardTeam t0, ScoreboardTeam t1) {
         g.setHomeTeam(teams.get(t0.getId()));
         g.setAwayTeam(teams.get(t1.getId()));
-        if (s.getSummary().equalsIgnoreCase("Final")) {
+        if (s.getSummary().toLowerCase().contains("final")) {
             if (StringUtils.isNotBlank(t0.getScore())) g.setHomeScore(Integer.parseInt(t0.getScore()));
             if (StringUtils.isNotBlank(t1.getScore())) g.setAwayScore(Integer.parseInt(t1.getScore()));
             g.setNumPeriods(Integer.parseInt(s.getPeriod()));

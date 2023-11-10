@@ -146,4 +146,20 @@ public class ScoreboardGame {
     public void setCompetitors(List<ScoreboardTeam> competitors) {
         this.competitors = competitors;
     }
+
+    public boolean isCanceled() {
+        return summary.toLowerCase().startsWith("canceled");
+    }
+
+    public boolean isPostponed() {
+        return summary.toLowerCase().startsWith("postponed");
+    }
+
+    public boolean isForfeit() {
+        return summary.toLowerCase().startsWith("forfeit");
+    }
+
+    public boolean isPlayable() {
+        return !isCanceled() && !isPostponed() && !isForfeit();
+    }
 }
