@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "espn_scoreboard_scrape")
 public class EspnScoreboardScrape {
@@ -17,22 +18,22 @@ public class EspnScoreboardScrape {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "espn_season_scrape_id")
     private EspnSeasonScrape espnSeasonScrape;
-    @Column(name= "scoreboard_key")
+    @Column(name = "scoreboard_key")
     private LocalDate scoreboardKey;
 
     private String flavor;
     private String url;
 
-    @Column( name="retrieved_at")
+    @Column(name = "retrieved_at")
     private LocalDateTime retrievedAt;
 
-    @Column(name="response_time_ms")
+    @Column(name = "response_time_ms")
     private Long responseTimeMs;
-    @Column(name="response_code")
+    @Column(name = "response_code")
     private Integer responseCode;
 
     private String response;
-    @Column(name="number_of_games")
+    @Column(name = "number_of_games")
     private Integer numberOfGames;
 
     public EspnScoreboardScrape() {

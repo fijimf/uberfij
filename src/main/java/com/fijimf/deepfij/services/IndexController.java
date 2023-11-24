@@ -11,6 +11,7 @@ public class IndexController {
     public ModelAndView slash() {
         return new ModelAndView("redirect:/index");
     }
+
     @GetMapping("/index")
     public ModelAndView index() {
         return new ModelAndView("index.html");

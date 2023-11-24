@@ -14,7 +14,9 @@ import java.util.List;
 public interface EspnSeasonScrapeRepo extends JpaRepository<EspnSeasonScrape, Long> {
 
     List<EspnSeasonScrape> findAllBySeasonOrderByStartedAt(int season);
+
     List<EspnSeasonScrape> findByCompletedAtIsNull();
+
     List<EspnSeasonScrape> findByCompletedAtIsNotNullAndStatus(String status);
 
 

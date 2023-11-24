@@ -48,6 +48,6 @@ public class TeamsSport {
     }
 
     public List<Team> values() {
-       return Arrays.stream(leagues).findFirst().map(TeamsLeague::values).orElse(Collections.emptyList());
+        return Arrays.stream(leagues).findFirst().map(TeamsLeague::values).orElse(Collections.emptyList());
     }
 }

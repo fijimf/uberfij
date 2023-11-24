@@ -68,7 +68,6 @@ public class MailConfig implements ApplicationContextAware, EnvironmentAware {
     }
 
 
-
     @Bean
     public TemplateEngine emailTemplateEngine() {
         final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
@@ -118,7 +117,7 @@ public class MailConfig implements ApplicationContextAware, EnvironmentAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext=applicationContext;
+        this.applicationContext = applicationContext;
     }
 
     @Override

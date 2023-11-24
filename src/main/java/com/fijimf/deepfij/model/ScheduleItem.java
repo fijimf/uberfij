@@ -44,7 +44,10 @@ public class ScheduleItem {
         return game.getOpponent(subject).getName();
     }
 
-    public String getTeamKey() {return game.getOpponent(subject).getKey(); }
+    public String getTeamKey() {
+        return game.getOpponent(subject).getKey();
+    }
+
     public String getOvertimes() {
         if (isComplete() && game.getNumPeriods() == 3) {
             return "OT";

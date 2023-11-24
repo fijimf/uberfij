@@ -84,7 +84,7 @@ public class TeamPage {
     }
 
     public Map<Integer, List<Record>> getSeasonalRecords() {
-        return seasons.stream().filter(s->s.getConference(team)!=null).collect(Collectors.toMap(
+        return seasons.stream().filter(s -> s.getConference(team) != null).collect(Collectors.toMap(
                 Season::getSeason,
                 s -> {
                     Set<Game> games = s.getGames();

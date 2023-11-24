@@ -125,7 +125,8 @@ public class TeamsScrapeManager {
     public List<Team> findAllTeams() {
         return repo.findAll();
     }
-   public List<EspnTeamsScrape> findAllTeamScrapes() {
+
+    public List<EspnTeamsScrape> findAllTeamScrapes() {
         return scrapeRepo.findAll();
     }
 }

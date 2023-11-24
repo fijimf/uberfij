@@ -45,7 +45,8 @@ public class TeamsLeague {
     public void setTeams(TeamsTeam[] teams) {
         this.teams = teams;
     }
-    public List<Team> values(){
-       return Arrays.stream(teams).map(TeamsTeam::value).collect(Collectors.toList());
+
+    public List<Team> values() {
+        return Arrays.stream(teams).map(TeamsTeam::value).collect(Collectors.toList());
     }
 }

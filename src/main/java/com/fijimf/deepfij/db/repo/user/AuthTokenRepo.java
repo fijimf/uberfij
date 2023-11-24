@@ -10,5 +10,6 @@ import java.util.Optional;
 @Repository
 public interface AuthTokenRepo extends JpaRepository<AuthToken, Long> {
     Optional<AuthToken> findByToken(String token);
+
     List<AuthToken> findAllByUserId(long userId);
 }

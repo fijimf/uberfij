@@ -61,9 +61,9 @@ public class ScoreboardSport {
         if (leagues == null || leagues.isEmpty()) {
             return Collections.emptyList();
         } else {
-            if (leagues.size()>1) logger.warn("Found multiple 'League's unpacking games in 'Sport'");
+            if (leagues.size() > 1) logger.warn("Found multiple 'League's unpacking games in 'Sport'");
             List<ScoreboardGame> events = leagues.get(0).getEvents();
-            return events == null ? Collections.emptyList(): events;
+            return events == null ? Collections.emptyList() : events;
         }
     }
 }

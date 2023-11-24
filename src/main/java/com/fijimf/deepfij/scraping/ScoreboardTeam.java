@@ -5,22 +5,22 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ScoreboardTeam {
 
-        private String id;
-        private String uid;
+    private String id;
+    private String uid;
 
-        private String homeAway;
-        private Boolean winner;
-        private String score;
+    private String homeAway;
+    private Boolean winner;
+    private String score;
 
-        private String logo;
-        private String logoDark;
-        private String displayName;
-        private String name;
-        private String abbreviation;
-        private String location;
-        private String color;
-        private String alternateColor;
-        private String group;
+    private String logo;
+    private String logoDark;
+    private String displayName;
+    private String name;
+    private String abbreviation;
+    private String location;
+    private String color;
+    private String alternateColor;
+    private String group;
 
     public ScoreboardTeam() {
     }

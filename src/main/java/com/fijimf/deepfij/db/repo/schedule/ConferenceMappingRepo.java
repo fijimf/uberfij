@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 public interface ConferenceMappingRepo extends JpaRepository<ConferenceMap, Long> {
     Optional<ConferenceMap> findBySeasonIdAndTeamId(Long seasonId, Long teamId);
+
     Optional<ConferenceMap> findBySeasonAndTeam(Season season, Team team);
 
     void deleteBySeasonIdAndScrapeSrcIdNot(Long seasonId, Long srcScrapeId);

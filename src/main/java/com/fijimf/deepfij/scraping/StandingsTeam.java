@@ -86,9 +86,10 @@ public class StandingsTeam {
     public void setLogos(TeamLogo[] logos) {
         this.logos = logos;
     }
+
     public Team value() {
         return new Team(0L,
-                displayName.toLowerCase().replace(' ','-').replaceAll("[^a-z\\-]",""),
+                displayName.toLowerCase().replace(' ', '-').replaceAll("[^a-z\\-]", ""),
                 shortDisplayName,
                 name,
                 displayName,

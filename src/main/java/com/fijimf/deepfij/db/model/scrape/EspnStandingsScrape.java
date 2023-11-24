@@ -14,11 +14,11 @@ public class EspnStandingsScrape {
     private long id;
     private int season;
     private String url;
-    @Column(name="retrieved_at")
+    @Column(name = "retrieved_at")
     private LocalDateTime retrievedAt;
-    @Column(name="response_time_ms")
+    @Column(name = "response_time_ms")
     private Long responseTimeMs;
-    @Column(name="response_code")
+    @Column(name = "response_code")
     private Integer responseCode;
 
     private String response;

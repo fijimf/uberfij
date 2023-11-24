@@ -44,28 +44,28 @@ public class Standings {
 
     public Map<String, List<StandingsTeam>> mapValues() {
         return Arrays.stream(children)
-                .peek(c->logger.info(c.getName()+"["+c.getId()+"]"))
+                .peek(c -> logger.info(c.getName() + "[" + c.getId() + "]"))
                 .collect(Collectors.toMap(
                         StandingsConference::getId,
                         c -> c.consolidatedStandings()
                                 .stream()
-                                .peek(e->logger.info(" -> "+e.getTeam().getShortDisplayName()+"["+e.getTeam().getId()+"]"))
+                                .peek(e -> logger.info(" -> " + e.getTeam().getShortDisplayName() + "[" + e.getTeam().getId() + "]"))
                                 .map(StandingsLine::getTeam)
                                 .collect(Collectors.toList())
                 ));
     }
 
-    public Conference conferenceFromStandings(String espnId){
+    public Conference conferenceFromStandings(String espnId) {
         return Arrays.stream(children)
-                .filter(sc->sc.getId().equalsIgnoreCase(espnId))
-                .map(sc->new Conference(0L,sc.getAbbreviation(),sc.getName(),sc.getShortName(),guessLogoUrl(sc),espnId,-1L, LocalDateTime.now()))
+                .filter(sc -> sc.getId().equalsIgnoreCase(espnId))
+                .map(sc -> new Conference(0L, sc.getAbbreviation(), sc.getName(), sc.getShortName(), guessLogoUrl(sc), espnId, -1L, LocalDateTime.now()))
                 .findFirst().orElseThrow();
 
     }
 
-    public String guessLogoUrl(StandingsConference sc){
+    public String guessLogoUrl(StandingsConference sc) {
 //        https://a.espncdn.com/i/teamlogos/ncaa_conf/500/independents.png
-        String s = sc.getShortName().toLowerCase().trim().replace(' ','_');
-        return "https://a.espncdn.com/i/teamlogos/ncaa_conf/500/"+s+".png";
+        String s = sc.getShortName().toLowerCase().trim().replace(' ', '_');
+        return "https://a.espncdn.com/i/teamlogos/ncaa_conf/500/" + s + ".png";
     }
 }

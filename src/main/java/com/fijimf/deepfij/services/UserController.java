@@ -111,7 +111,7 @@ public class UserController {
             if (u.getExpireCredentialsAt() == null) {
                 return new ModelAndView("redirect:/index");
             } else {
-                redirectAttributes.addFlashAttribute("flash","Please rest your temporary password");
+                redirectAttributes.addFlashAttribute("flash", "Please rest your temporary password");
                 return new ModelAndView("redirect:/changePassword");
             }
         } else {

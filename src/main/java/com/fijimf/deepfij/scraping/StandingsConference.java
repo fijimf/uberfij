@@ -25,7 +25,7 @@ public class StandingsConference {
     public StandingsConference() {
     }
 
-    public StandingsConference(String id, String name, String abbreviation, String shortName, StandingsConference[]  children, ConferenceStandings standings) {
+    public StandingsConference(String id, String name, String abbreviation, String shortName, StandingsConference[] children, ConferenceStandings standings) {
         this.id = id;
         this.name = name;
         this.abbreviation = abbreviation;
@@ -83,12 +83,12 @@ public class StandingsConference {
     }
 
     public List<StandingsLine> consolidatedStandings() {
-        if (standings==null && children!=null){
-            return Arrays.stream(children).flatMap(c->c.consolidatedStandings().stream()).collect(Collectors.toList());
-        } else if (standings!=null && children==null){
+        if (standings == null && children != null) {
+            return Arrays.stream(children).flatMap(c -> c.consolidatedStandings().stream()).collect(Collectors.toList());
+        } else if (standings != null && children == null) {
             return Arrays.stream(standings.getEntries()).toList();
         } else {
-            logger.warn("Conference "+getName()+" has no teams");
+            logger.warn("Conference " + getName() + " has no teams");
             return Collections.emptyList();
         }
     }

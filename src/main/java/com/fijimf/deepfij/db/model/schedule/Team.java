@@ -3,6 +3,7 @@ package com.fijimf.deepfij.db.model.schedule;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "team")
 public class Team {

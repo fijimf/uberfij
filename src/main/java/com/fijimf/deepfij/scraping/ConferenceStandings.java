@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ConferenceStandings {
     private int season;
-   private StandingsLine[] entries;
+    private StandingsLine[] entries;
 
     public ConferenceStandings() {
     }
 
     public ConferenceStandings(int season, StandingsLine[] entries) {
         this.season = season;
-       this.entries = entries;
+        this.entries = entries;
     }
 
     public int getSeason() {

@@ -106,6 +106,6 @@ public class Conference {
     }
 
     public boolean isValid() {
-        return !Arrays.stream(new String[]{"top-25",  "all"}).toList().contains(key);
+        return !Arrays.stream(new String[]{"top-25", "all"}).toList().contains(key);
     }
 }

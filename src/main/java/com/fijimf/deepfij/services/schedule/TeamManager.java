@@ -19,9 +19,10 @@ public class TeamManager {
     }
 
     public Optional<TeamPage> loadTeamPage(String key) {
-        return teamRepo.findByKey(key).map(t -> new TeamPage( t, seasonRepo.findAll()));
+        return teamRepo.findByKey(key).map(t -> new TeamPage(t, seasonRepo.findAll()));
     }
+
     public Optional<TeamPage> loadTeamPage(String key, int year) {
-        return teamRepo.findByKey(key).map(t -> new TeamPage( year, t, seasonRepo.findAll()));
+        return teamRepo.findByKey(key).map(t -> new TeamPage(year, t, seasonRepo.findAll()));
     }
 }

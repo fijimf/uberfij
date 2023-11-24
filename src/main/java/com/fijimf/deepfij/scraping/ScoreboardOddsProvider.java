@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ScoreboardOddsProvider {
 
-         private String id;
+    private String id;
     private String name;
     private String priority;
 

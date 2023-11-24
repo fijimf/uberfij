@@ -13,20 +13,20 @@ public class EspnSeasonScrape {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private int season;
-    @Column(name="from_date")
+    @Column(name = "from_date")
     private LocalDate from;
-    @Column(name="to_date")
+    @Column(name = "to_date")
     private LocalDate to;
 
-    @Column(name="started_at")
+    @Column(name = "started_at")
     private LocalDateTime startedAt;
-    @Column(name="completed_at")
+    @Column(name = "completed_at")
     private LocalDateTime completedAt;
 
     private String status;
 
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name="espn_season_scrape_id")
+    @JoinColumn(name = "espn_season_scrape_id")
     private List<EspnScoreboardScrape> scoreboardScrapes;
 
 
@@ -123,15 +123,16 @@ public class EspnSeasonScrape {
         this.scoreboardScrapes = scoreboardScrapes;
     }
 
-    public int okCount(){
-        if (scoreboardScrapes==null) {
+    public int okCount() {
+        if (scoreboardScrapes == null) {
             return 0;
         } else {
             return (int) scoreboardScrapes.stream().filter(s -> s.getResponseCode() == 200).count();
         }
     }
-    public int errCount(){
-        if (scoreboardScrapes==null) {
+
+    public int errCount() {
+        if (scoreboardScrapes == null) {
             return 0;
         } else {
             return (int) scoreboardScrapes.stream().filter(s -> s.getResponseCode() != 200).count();

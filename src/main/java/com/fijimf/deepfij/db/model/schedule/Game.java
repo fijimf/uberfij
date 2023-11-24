@@ -273,6 +273,7 @@ public class Game {
             return (team.getId() == homeTeam.getId()) && isNeutralSite != Boolean.TRUE;
         }
     }
+
     public boolean isAwayTeam(Team team, boolean trueAway) {
         if (trueAway) {
             return team.getId() == awayTeam.getId();
@@ -282,7 +283,7 @@ public class Game {
     }
 
     public boolean isNeutralSite() {
-        return isNeutralSite==Boolean.TRUE; // null is treated as false
+        return isNeutralSite == Boolean.TRUE; // null is treated as false
     }
 
     public boolean hasTeam(Team team) {
@@ -290,9 +291,9 @@ public class Game {
     }
 
     public Team getOpponent(Team t) {
-        if (t.getId()==homeTeam.getId()){
+        if (t.getId() == homeTeam.getId()) {
             return awayTeam;
-        } else if (t.getId()==awayTeam.getId()){
+        } else if (t.getId() == awayTeam.getId()) {
             return homeTeam;
         } else {
             throw new RuntimeException();

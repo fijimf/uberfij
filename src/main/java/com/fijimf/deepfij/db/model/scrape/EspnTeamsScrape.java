@@ -12,18 +12,18 @@ public class EspnTeamsScrape {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-        private String url;
-        @Column(name="retrieved_at")
-        private LocalDateTime retrievedAt;
-        @Column(name="response_time_ms")
-        private Long responseTimeMs;
-        @Column(name="response_code")
-        private Integer responseCode;
+    private String url;
+    @Column(name = "retrieved_at")
+    private LocalDateTime retrievedAt;
+    @Column(name = "response_time_ms")
+    private Long responseTimeMs;
+    @Column(name = "response_code")
+    private Integer responseCode;
 
-        private String response;
+    private String response;
 
-        private String digest;
-        private String status;
+    private String digest;
+    private String status;
 
     public EspnTeamsScrape() {
     }

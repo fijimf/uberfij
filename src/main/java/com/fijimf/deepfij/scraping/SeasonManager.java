@@ -205,7 +205,7 @@ public class SeasonManager {
         try {
             Scoreboard scoreboard = objectMapper.readValue(sbs.getResponse(), Scoreboard.class);
             List<ScoreboardGame> scoreboardGames = scoreboard.unpackGames();
-            logger.info("Unpacked "+scoreboardGames.size()+ " from the scraped JSON "+sbs.getId());
+            logger.info("Unpacked " + scoreboardGames.size() + " from the scraped JSON " + sbs.getId());
 
             List<ScoreboardGame> oldGames = scoreboardGames.stream().filter(g -> gameMap.containsKey(g.getUid())).toList();
             List<ScoreboardGame> newGames = scoreboardGames.stream().filter(g -> !gameMap.containsKey(g.getUid())).toList();

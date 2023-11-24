@@ -12,7 +12,6 @@ import com.fijimf.deepfij.db.repo.schedule.ConferenceRepo;
 import com.fijimf.deepfij.db.repo.schedule.SeasonRepo;
 import com.fijimf.deepfij.db.repo.schedule.TeamRepo;
 import com.fijimf.deepfij.db.repo.scrape.EspnStandingsScrapeRepo;
-import com.fijimf.deepfij.scraping.util.TeamNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +89,7 @@ public class StandingsScrapeManager {
 
     @Transactional
     public Season publishConferenceMap(long id, boolean cleanUp) {
-       return  publishConferenceMap(scrapeRepo.findById(id).orElseThrow(), cleanUp);
+        return publishConferenceMap(scrapeRepo.findById(id).orElseThrow(), cleanUp);
     }
 
     @Transactional
@@ -100,9 +99,9 @@ public class StandingsScrapeManager {
             Standings standings = objectMapper.readValue(scrape.getResponse(), Standings.class);
             Map<String, List<StandingsTeam>> confMap = standings.mapValues();
             confMap.keySet().forEach(c -> {
-                Conference conf = conferenceRepo.findByEspnIdEquals(c).orElseGet(()->conferenceRepo.saveAndFlush(standings.conferenceFromStandings(c)));
+                Conference conf = conferenceRepo.findByEspnIdEquals(c).orElseGet(() -> conferenceRepo.saveAndFlush(standings.conferenceFromStandings(c)));
                 confMap.get(c).forEach(t -> {
-                    Team team = teamRepo.findByEspnIdEquals(t.getId()).orElseGet(()->populateStubTeamFromStandings(t));
+                    Team team = teamRepo.findByEspnIdEquals(t.getId()).orElseGet(() -> populateStubTeamFromStandings(t));
                     Optional<ConferenceMap> optMapping = conferenceMappingRepo.findBySeasonAndTeam(season, team);
                     if (optMapping.isPresent()) {
                         ConferenceMap conferenceMap = optMapping.get();
@@ -126,9 +125,9 @@ public class StandingsScrapeManager {
     }
 
     private Team populateStubTeamFromStandings(StandingsTeam t) {
-        logger.info("Team ["+t.getId()+"] not found.  Creating from standings");
+        logger.info("Team [" + t.getId() + "] not found.  Creating from standings");
         Team team = teamRepo.saveAndFlush(t.value());
-        logger.info("Team "+team.getKey()+" created");
+        logger.info("Team " + team.getKey() + " created");
         return team;
     }
 

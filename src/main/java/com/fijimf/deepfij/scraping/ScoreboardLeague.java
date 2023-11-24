@@ -6,14 +6,14 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ScoreboardLeague {
-    private  String id;
-    private  String uid;
-    private  String name;
-    private  String abbreviation;
-    private  String shortName;
-    private  String slug;
-    private  boolean isTournament;
-    private  List<ScoreboardGame> events;
+    private String id;
+    private String uid;
+    private String name;
+    private String abbreviation;
+    private String shortName;
+    private String slug;
+    private boolean isTournament;
+    private List<ScoreboardGame> events;
 
     public ScoreboardLeague() {
     }
