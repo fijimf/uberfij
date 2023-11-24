@@ -28,21 +28,7 @@ public class UberfijApplication {
 		UserRepo userRepository = context.getBean(UserRepo.class);
 		PasswordEncoder passwordEncoder = context.getBean(PasswordEncoder.class);
 		RandomStringGenerator rsg = context.getBean(RandomStringGenerator.class);
-		String password = getTempAdminPassword(rsg);
-		Optional<User> ou = userRepository.findFirstByUsername("admin");
-		if (ou.isPresent()) {
-			User u = ou.get();
-			String encode = passwordEncoder.encode(password);
-			u.setPassword(encode);
-			u.setActivated(true);
-			u.setLocked(false);
-			u.setExpireCredentialsAt(LocalDateTime.now().plusMinutes(10));
-			userRepository.save(u);
-		} else {
-			String token = userMgr.createNewUser("admin", password, "deepfij@gmail.com", List.of("ROLE_USER", "ROLE_ADMIN"), 10);
-			userMgr.activateUser(token);
-		}
-		logger.info("admin password is {}", password);
+		String password = userMgr.setAdminPassword(getTempAdminPassword(rsg));
 		Mailer mailer = context.getBean(Mailer.class);
 		try {
 			mailer.sendStartupMessage(password);
@@ -50,6 +36,8 @@ public class UberfijApplication {
 			logger.error("Failed mailing server startup message", e);
 		}
 	}
+
+
 
 	private static String getTempAdminPassword(RandomStringGenerator rsg) {
 		String p = System.getProperty("admin.password");

@@ -8,6 +8,8 @@ import com.fijimf.deepfij.db.repo.user.RoleRepo;
 import com.fijimf.deepfij.db.repo.user.UserRepo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.RandomStringGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,10 +28,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserManager implements UserDetailsService, UserDetailsPasswordService {
+    public static final Logger logger = LoggerFactory.getLogger(UserManager.class);
     private final UserRepo userRepository;
     private final RoleRepo roleRepository;
     private final AuthTokenRepo authTokenRepository;
-
     private final PasswordEncoder passwordEncoder;
     private final RandomStringGenerator rsg;
     public static final String EMAIL_REGEX = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+){0,4}@(?:[a-zA-Z0-9-]+\\.){1,6}[a-zA-Z]{2,6}$";
@@ -143,6 +145,24 @@ public class UserManager implements UserDetailsService, UserDetailsPasswordServi
                 throw new BadCredentialsException("Bad credentials for " + principal);
             }
         });
+    }
+
+    public String setAdminPassword(String password) {
+        Optional<User> ou = userRepository.findFirstByUsername("admin");
+        if (ou.isPresent()) {
+            User u = ou.get();
+            String encode = passwordEncoder.encode(password);
+            u.setPassword(encode);
+            u.setActivated(true);
+            u.setLocked(false);
+            u.setExpireCredentialsAt(LocalDateTime.now().plusMinutes(10));
+            userRepository.save(u);
+        } else {
+            String token = createNewUser("admin", password, "deepfij@gmail.com", List.of("USER", "ADMIN"), 10);
+            activateUser(token);
+        }
+        logger.info("admin password is {}", password);
+        return password;
     }
 
     @Override
