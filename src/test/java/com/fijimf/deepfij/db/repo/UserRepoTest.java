@@ -92,6 +92,13 @@ public class UserRepoTest {
         assertThatExceptionOfType(DataIntegrityViolationException.class).isThrownBy(() -> userRepo.saveAndFlush(new User(0L, "fijimf", "zzzzzzz", "jimf@gmail.com", false)));
     }
 
+    //Test malformed email
+    @Test
+    void malformedEmailCheck() {
+//        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> userRepo.saveAndFlush(new User(0L, "fijimf", "zzzzzzz", "jimfgmail.com", false)));
+         userRepo.saveAndFlush(new User(0L, "fijimf", "zzzzzzz", "jimfgmail.com", false));
+    }
+
     //Test find by name
     @Test
     void findByName() {

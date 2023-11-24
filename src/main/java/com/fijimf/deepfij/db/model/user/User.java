@@ -5,12 +5,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
+@Valid
 @Table(name = "`user`")
 public class User implements UserDetails {
     @Id
@@ -18,6 +21,7 @@ public class User implements UserDetails {
     private long id;
     private String username;
     private String password;
+    @Email(regexp = ".+[@].+[\\.].+")
     private String email;
     private boolean locked;
     private boolean activated;

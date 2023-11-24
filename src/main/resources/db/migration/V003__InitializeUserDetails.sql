@@ -40,8 +40,8 @@ CREATE TABLE user_role
 CREATE UNIQUE INDEX ON user_role (user_id, role_id);
 
 insert into role(name)
-values ('ROLE_ADMIN');
+values ('ADMIN');
 insert into role(name)
-values ('ROLE_USER');
+values ('USER');
 
 

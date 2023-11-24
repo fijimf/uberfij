@@ -7,6 +7,7 @@ import com.fijimf.deepfij.scraping.SeasonManager;
 import com.fijimf.deepfij.scraping.StandingsScrapeManager;
 import com.fijimf.deepfij.scraping.TeamsScrapeManager;
 import com.fijimf.deepfij.services.Mailer;
+import com.fijimf.deepfij.services.schedule.TeamManager;
 import com.fijimf.deepfij.services.user.UserManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,8 +29,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -71,20 +72,24 @@ public class SecurityConfigTest {
     private SeasonManager seasonManager;
 
     @MockBean
+    private TeamManager teamManager;
+
+    @MockBean
     private StandingsScrapeManager standingsMgr;
 
     @MockBean
     private Mailer mailer;
+
     @BeforeEach
     public void setUp() {
         Season s = new Season(1L, 2022);
         Mockito.when(seasonManager.findSeasonBySeason(Mockito.anyInt()))
                 .thenReturn(s);
 
-        Mockito.when(standingsMgr.publishConferenceMap(Mockito.anyLong(),Mockito.anyBoolean()))
+        Mockito.when(standingsMgr.publishConferenceMap(Mockito.anyLong(), Mockito.anyBoolean()))
                 .thenReturn(s);
         Mockito.when(standingsMgr.scrape(Mockito.anyInt()))
-                .thenReturn(new EspnStandingsScrape(1L, 2022,"xxx", LocalDateTime.now(),23L,200,"xxx","XXX","XXX"));
+                .thenReturn(new EspnStandingsScrape(1L, 2022, "xxx", LocalDateTime.now(), 23L, 200, "xxx", "XXX", "XXX"));
     }
 
     @Test
@@ -127,7 +132,7 @@ public class SecurityConfigTest {
                         .andExpect(status().is3xxRedirection())
                         .andExpect(redirectedUrl("http://localhost/login"));
             } catch (Exception ex) {
-                fail(e+" failed",ex);
+                fail(e + " failed", ex);
             }
         });
     }
@@ -148,6 +153,7 @@ public class SecurityConfigTest {
         mockMvc.perform(get("/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css").with(anonymous()))
                 .andExpect(status().isOk());
     }
+
     @Test
     public void testLoginAlwaysAllow() throws Exception {
         mockMvc.perform(post("/login")).andExpect(status().isOk());
