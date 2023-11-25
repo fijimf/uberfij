@@ -81,14 +81,14 @@ public class UserRepoTest {
     //Test duplicate nae
     @Test
     void duplicateNameCheck() {
-        User u = userRepo.saveAndFlush(new User(0L, "fijimf", "zzzzzzz", "jimf2@gmail.com", false));
+        userRepo.saveAndFlush(new User(0L, "fijimf", "zzzzzzz", "jimf2@gmail.com", false));
         assertThatExceptionOfType(DataIntegrityViolationException.class).isThrownBy(() -> userRepo.saveAndFlush(new User(0L, "fijimf", "zzzzzzz", "jimf@gmail.com", false)));
     }
 
     //Test duplicate email
     @Test
     void duplicateEmailCheck() {
-        User u = userRepo.saveAndFlush(new User(0L, "fujimf", "zzzzzzz", "jimf@gmail.com", false));
+        userRepo.saveAndFlush(new User(0L, "fujimf", "zzzzzzz", "jimf@gmail.com", false));
         assertThatExceptionOfType(DataIntegrityViolationException.class).isThrownBy(() -> userRepo.saveAndFlush(new User(0L, "fijimf", "zzzzzzz", "jimf@gmail.com", false)));
     }
 

@@ -2,7 +2,6 @@ package com.fijimf.deepfij.uberfij.scraping;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fijimf.deepfij.db.model.schedule.Conference;
 import com.fijimf.deepfij.db.model.schedule.Team;
 import com.fijimf.deepfij.scraping.Conferences;
 import com.fijimf.deepfij.scraping.ConferencesConference;
@@ -39,7 +38,7 @@ public class TeamScrapeTest {
             ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
             Conferences mapped = objectMapper.readValue(inputStream, Conferences.class);
             assertThat(mapped).isNotNull();
-            List<Conference> conferences = mapped.values();
+            assertThat(mapped.values()).hasSize(33);
             objectMapper.writerFor(Conferences.class).writeValueAsString(mapped);
         }
 

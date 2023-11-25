@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.RandomStringGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsPasswordService;
@@ -37,7 +36,6 @@ public class UserManager implements UserDetailsService, UserDetailsPasswordServi
     public static final String EMAIL_REGEX = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+){0,4}@(?:[a-zA-Z0-9-]+\\.){1,6}[a-zA-Z]{2,6}$";
     public static final Predicate<String> emailMatches = Pattern.compile(EMAIL_REGEX).asMatchPredicate();
 
-    @Autowired
     public UserManager(UserRepo userRepository, RoleRepo roleRepository, AuthTokenRepo authTokenRepository, PasswordEncoder passwordEncoder, RandomStringGenerator rsg) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;

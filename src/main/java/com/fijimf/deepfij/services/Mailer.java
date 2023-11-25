@@ -3,7 +3,6 @@ package com.fijimf.deepfij.services;
 import com.fijimf.deepfij.db.model.user.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -28,7 +27,6 @@ public class Mailer {
 
     private final TemplateEngine templateEngine;
 
-    @Autowired
     public Mailer(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
         try {
             InputStream resource = ClassLoader

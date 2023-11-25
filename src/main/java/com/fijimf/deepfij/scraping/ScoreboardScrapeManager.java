@@ -1,17 +1,6 @@
 package com.fijimf.deepfij.scraping;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fijimf.deepfij.db.model.scrape.EspnScoreboardScrape;
-import com.fijimf.deepfij.db.model.scrape.EspnSeasonScrape;
-import com.fijimf.deepfij.db.repo.scrape.EspnScoreboardScrapeRepo;
-import com.fijimf.deepfij.db.repo.scrape.EspnSeasonScrapeRepo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.DigestUtils;
+import static java.time.temporal.ChronoUnit.SECONDS;
 
 import java.io.IOException;
 import java.net.URI;
@@ -24,7 +13,18 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-import static java.time.temporal.ChronoUnit.SECONDS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fijimf.deepfij.db.model.scrape.EspnScoreboardScrape;
+import com.fijimf.deepfij.db.model.scrape.EspnSeasonScrape;
+import com.fijimf.deepfij.db.repo.scrape.EspnScoreboardScrapeRepo;
+import com.fijimf.deepfij.db.repo.scrape.EspnSeasonScrapeRepo;
 
 
 @Component
@@ -57,7 +57,6 @@ public class ScoreboardScrapeManager {
 
             HttpResponse<byte[]> response = client.send(request, HttpResponse.BodyHandlers.ofByteArray());
             int status = response.statusCode();
-            String digest = DigestUtils.md5DigestAsHex(response.body());
             long duration = ChronoUnit.MILLIS.between(start, LocalDateTime.now());
             logger.info("Scrape response Code: " + response.statusCode() + " Bytes: " + response.body().length + " Duration: " + duration);
             try {

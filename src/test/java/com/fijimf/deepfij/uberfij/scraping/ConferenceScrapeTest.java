@@ -37,7 +37,7 @@ public class ConferenceScrapeTest {
             ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
             Conferences mapped = objectMapper.readValue(inputStream, Conferences.class);
             assertThat(mapped).isNotNull();
-            List<Conference> conferences = mapped.values();
+            assertThat(mapped.values()).hasSize(33);
             objectMapper.writerFor(Conferences.class).writeValueAsString(mapped);
         }
 

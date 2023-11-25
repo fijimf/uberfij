@@ -14,7 +14,6 @@ import com.fijimf.deepfij.db.repo.schedule.TeamRepo;
 import com.fijimf.deepfij.db.repo.scrape.EspnStandingsScrapeRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
@@ -45,7 +44,6 @@ public class StandingsScrapeManager {
     private ConferenceRepo conferenceRepo;
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    @Autowired
     public StandingsScrapeManager(EspnStandingsScrapeRepo scrapeRepo, ConferenceMappingRepo conferenceMappingRepo, SeasonRepo seasonRepo, TeamRepo teamRepo, ConferenceRepo conferenceRepo) {
         this.scrapeRepo = scrapeRepo;
         this.conferenceMappingRepo = conferenceMappingRepo;

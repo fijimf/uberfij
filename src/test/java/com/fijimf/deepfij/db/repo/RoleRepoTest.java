@@ -45,7 +45,7 @@ public class RoleRepoTest {
 
     @Test
     void duplicateNameCheck() {
-        Role r = roleRepo.saveAndFlush(new Role(0L, "GUEST"));
+        roleRepo.saveAndFlush(new Role(0L, "GUEST"));
         assertThatExceptionOfType(DataIntegrityViolationException.class).isThrownBy(() -> roleRepo.saveAndFlush(new Role(0L, "GUEST")));
     }
 }

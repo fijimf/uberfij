@@ -1,9 +1,7 @@
 package com.fijimf.deepfij.db.repo;
 
 import com.fijimf.deepfij.db.model.user.AuthToken;
-import com.fijimf.deepfij.db.model.user.Role;
 import com.fijimf.deepfij.db.repo.user.AuthTokenRepo;
-import com.fijimf.deepfij.db.repo.user.RoleRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +49,7 @@ public class AuthTokenRepoTest {
     @Test
     void duplicateTokenCheck() {
         String token = UUID.randomUUID().toString();
-        AuthToken t = authTokenRepo.saveAndFlush(new AuthToken(0L, token, LocalDateTime.now().plusMinutes(1)));
+        authTokenRepo.saveAndFlush(new AuthToken(0L, token, LocalDateTime.now().plusMinutes(1)));
         assertThatExceptionOfType(DataIntegrityViolationException.class).isThrownBy(() -> authTokenRepo.saveAndFlush(new AuthToken(0L, token, LocalDateTime.now().plusMinutes(1))));
     }
 }

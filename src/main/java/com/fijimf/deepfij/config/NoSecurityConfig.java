@@ -1,8 +1,6 @@
 package com.fijimf.deepfij.config;
 
 import org.apache.commons.text.RandomStringGenerator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -17,7 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Profile("insecure")
 public class NoSecurityConfig {
 
-    private final static Logger logger = LoggerFactory.getLogger(NoSecurityConfig.class);
 
     @Bean
     public PasswordEncoder passwordEncoder() {
