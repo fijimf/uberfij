@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <title th:remove="all">Template for HTML email with inline image</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+    <p>
+        <img src="deepfij.png" alt="logo-img" th:src="|cid:${imageResourceName}|" />
+    </p>
+    <p>At <span th:text="${#temporals.format(startedAt, 'YYYY-MM-dd hh:mm a')}"></span>
+        the DeepFij server ran an scrape from <span th:text="${#temporals.format(from,'YYYY-MM-dd')}"></span>
+        to <span th:text="${#temporals.format(to,'YYYY-MM-dd')}"></span> and completed at <span
+            th:text="${#temporals.format(completedAt, 'YYYY-MM-dd hh:mm a')}"></span>
+    </p>
+    <p>The following results were published to the database:</p>
+    <ul>
+        <li th:each="result:${results}">
+            <span th:text="${result.getKey()}"></span>:
+            <span th:text="${result.getGamesInserted()}"></span> games inserted,
+            <span th:text="${result.getGamesUpdated()}"></span> games updated,
+            <span th:text="${result.getGamesDeleted()}"></span>games deleted.
+        </li>
+    </ul>
+    <h3>FRIDGE RULES</h3>
+</body>
+
+</html>
