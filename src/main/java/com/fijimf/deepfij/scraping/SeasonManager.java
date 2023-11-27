@@ -330,7 +330,7 @@ public class SeasonManager {
         return seasonScrapeRepo.findById(id).orElseThrow();
     }
 
-    @Scheduled(cron = "0 0 2,4 * * *")
+    @Scheduled(cron = "0 0 2,4 * * *", zone = "America/New_York")
     public void updateCurrentSeason() {
         Season currentSeason = repo.findFirstByOrderBySeasonDesc().orElseThrow();
         LocalDate today = LocalDate.now();
