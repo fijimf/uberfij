@@ -84,6 +84,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="card-title">Seasons</h3>
+            
                         <h4>Create New</h4>
                         <form th:action="${'/admin/scrape/seasons/new'}" method="post">
                             <div class="card-text"><input type="text" id="seasonYear" name="seasonYear" class=""
@@ -91,7 +92,12 @@
                                 <button type="submit" class="btn btn-sm btn-success">New</button>
                             </div>
                         </form>
-
+                        <h4>Update Current</h4>
+                        <form th:action="${'/admin/scrape/seasons/updateCurrent'}" method="post">
+                            <div class="card-text">
+                                <button type="submit" class="btn btn-sm btn-success">Update Current</button>
+                            </div>
+                        </form>
 
                         <div class="card-text" th:each="season: ${seasons}">
                             <h4 th:text="${season.getSeason()}"></h4>

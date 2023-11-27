@@ -132,4 +132,8 @@ public class Season {
                 teamToConference.containsKey(g.getAwayTeam()) &&
                 teamToConference.get(g.getHomeTeam()).getId() == teamToConference.get(g.getAwayTeam()).getId();
     }
+
+    public boolean includesDate(LocalDate today) {
+        return !(today.isBefore(defaultStartDate()) || today.isAfter(defaultEndDate()));
+    }
 }

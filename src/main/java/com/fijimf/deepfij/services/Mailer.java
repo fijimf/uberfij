@@ -1,8 +1,14 @@
 package com.fijimf.deepfij.services;
 
+import com.fijimf.deepfij.db.model.scrape.EspnSeasonScrape;
 import com.fijimf.deepfij.db.model.user.User;
+import com.fijimf.deepfij.scraping.PublishResult;
+
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -15,12 +21,13 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 @Component
 public class Mailer {
-
+    private static final Logger logger = LoggerFactory.getLogger(Mailer.class);
     private byte[] imgBytes;
 
     private final JavaMailSender javaMailSender;
@@ -40,7 +47,8 @@ public class Mailer {
         this.templateEngine = templateEngine;
     }
 
-    public void sendMail(String to, String subject, String template, Map<String, Object> context) throws MessagingException {
+    public void sendMail(String to, String subject, String template, Map<String, Object> context)
+            throws MessagingException {
         final Context ctx = new Context(Locale.getDefault());
         ctx.setVariable("imageResourceName", "deepfij.png");
         ctx.setVariables(context);
@@ -90,6 +98,22 @@ public class Mailer {
             ctx.put("username", u.getUsername());
             sendMail(u.getEmail(), "Deepfij password changed", "mail/password-changed.html", ctx);
         } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendGamesUpdatedMessage(EspnSeasonScrape ss, List<PublishResult> results) {
+        final Map<String, Object> ctx = new HashMap<>();
+        ctx.put("username", ss.getFrom());
+        ctx.put("username", ss.getTo());
+        ctx.put("startedAt", ss.getStartedAt());
+        ctx.put("completedAt", ss.getCompletedAt());
+        ctx.put("id", ss.getId());
+        ctx.put("results", results);
+        try {
+            sendMail("fijimf@gmail.com", "Schedule Updated", "mail/schedule-updated.html", ctx);
+        } catch (MessagingException e) {
+            logger.error("Failed to send mail", e);
             e.printStackTrace();
         }
     }

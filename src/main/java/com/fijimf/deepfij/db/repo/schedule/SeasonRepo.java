@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface SeasonRepo extends JpaRepository<Season, Long> {
     Optional<Season> findBySeason(int season);
+    Optional<Season> findFirstByOrderBySeasonDesc();
 }

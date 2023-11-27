@@ -21,7 +21,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
@@ -35,12 +34,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-@ExtendWith(SpringExtension.class)
 @MockBeans({
         @MockBean(ConferencesScrapeManager.class),
         @MockBean(TeamsScrapeManager.class),
-//        @MockBean(StandingsScrapeManager.class),
-//        @MockBean(SeasonManager.class),
         @MockBean(UserManager.class)
 })
 @WebMvcTest()
@@ -56,12 +52,10 @@ public class SecurityConfigTest {
             "/admin/scrape/conferences/index",
             "/admin/scrape/conferences/scrape",
             "/admin/scrape/conferences/raw/100",
-            // "/admin/scrape/conferences/view",
             "/admin/scrape/conferences/publishUpdate/100",
             "/admin/scrape/conferences/publishReplace/100",
             "/admin/scrape/seasons/conferenceMappings/scrape/2022",
             "/admin/scrape/seasons/conferenceMappings/raw/100",
-            // "/admin/scrape/conferences/view",
             "/admin/scrape/seasons/conferenceMappings/publishUpdate/100",
             "/admin/scrape/seasons/conferenceMappings/publishReplace/100"
     );

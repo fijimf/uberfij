@@ -37,6 +37,12 @@ public class SeasonScrapeService {
         return new ModelAndView("forward:/admin/scrape/index");
     }
 
+    @PostMapping("/updateCurrent")
+    public ModelAndView updateCurrentSeason() {
+        seasonMgr.updateCurrentSeason();
+        return new ModelAndView("forward:/admin/scrape/index");
+    }
+
     @GetMapping("/conferenceMappings/scrape/{year}")
     public ModelAndView scrapeConferenceMapping(@PathVariable("year") int year) {
         EspnStandingsScrape standingsScrape = standingsMgr.scrape(year);

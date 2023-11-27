@@ -14,11 +14,14 @@ import com.fijimf.deepfij.db.repo.schedule.SeasonRepo;
 import com.fijimf.deepfij.db.repo.schedule.TeamRepo;
 import com.fijimf.deepfij.db.repo.scrape.EspnScoreboardScrapeRepo;
 import com.fijimf.deepfij.db.repo.scrape.EspnSeasonScrapeRepo;
+import com.fijimf.deepfij.services.Mailer;
+
 import jakarta.annotation.PostConstruct;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -43,8 +46,13 @@ public class SeasonManager {
 
     private final ConcurrentMap<Long, ExecutorService> executors = new ConcurrentHashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+    private final ScheduledExecutorService threadPool;
 
-    public SeasonManager(SeasonRepo repo, GameRepo gameRepo, TeamRepo teamRepo, EspnSeasonScrapeRepo seasonScrapeRepo, EspnScoreboardScrapeRepo scoreboardScrapeRepo, StandingsScrapeManager standingsMgr, ScoreboardScrapeManager scoreboardMgr) {
+    private final Mailer mailer;
+
+    public SeasonManager(SeasonRepo repo, GameRepo gameRepo, TeamRepo teamRepo, EspnSeasonScrapeRepo seasonScrapeRepo,
+            EspnScoreboardScrapeRepo scoreboardScrapeRepo, StandingsScrapeManager standingsMgr,
+            ScoreboardScrapeManager scoreboardMgr, Mailer mailer) {
         this.repo = repo;
         this.gameRepo = gameRepo;
         this.teamRepo = teamRepo;
@@ -52,6 +60,8 @@ public class SeasonManager {
         this.scoreboardScrapeRepo = scoreboardScrapeRepo;
         this.standingsMgr = standingsMgr;
         this.scoreboardMgr = scoreboardMgr;
+        this.mailer = mailer;
+        this.threadPool = Executors.newScheduledThreadPool(1);
     }
 
     @PostConstruct
@@ -62,7 +72,8 @@ public class SeasonManager {
             seasonScrapeRepo.saveAndFlush(ss.complete("ABANDONED"));
         });
         seasonScrapeRepo.findByCompletedAtIsNotNullAndStatus("RUNNING").forEach(ss -> {
-            logger.info("Setting scrape " + ss.getId() + " with completion at " + ss.getCompletedAt() + " and status 'RUNNING' to 'COMPLETED'");
+            logger.info("Setting scrape " + ss.getId() + " with completion at " + ss.getCompletedAt()
+                    + " and status 'RUNNING' to 'COMPLETED'");
             seasonScrapeRepo.saveAndFlush(ss.complete("COMPLETE"));
         });
 
@@ -96,15 +107,17 @@ public class SeasonManager {
         return LocalDate.of(yyyy - 1, 11, 1);
     }
 
-//    public Long scrapeSeason(Season season, String from, String to) {
-//        LocalDate start = LocalDate.parse(from, DateTimeFormatter.ofPattern("yyyyMMdd"));
-//        LocalDate end = LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyyMMdd"));
-//        return scrapeSeason(season, start, end);
-//    }
+    // public Long scrapeSeason(Season season, String from, String to) {
+    // LocalDate start = LocalDate.parse(from,
+    // DateTimeFormatter.ofPattern("yyyyMMdd"));
+    // LocalDate end = LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyyMMdd"));
+    // return scrapeSeason(season, start, end);
+    // }
 
     private Long scrapeSeason(Season season, LocalDate start, LocalDate end, Long timeout) {
         Random random = new Random();
-        EspnSeasonScrape seasonScrape = seasonScrapeRepo.saveAndFlush(new EspnSeasonScrape(0L, season.getSeason(), start, end, LocalDateTime.now(), null, "STARTING"));
+        EspnSeasonScrape seasonScrape = seasonScrapeRepo.saveAndFlush(
+                new EspnSeasonScrape(0L, season.getSeason(), start, end, LocalDateTime.now(), null, "STARTING"));
         ExecutorService executorService = Executors.newFixedThreadPool(1);
         executors.put(seasonScrape.getId(), executorService);
         start.datesUntil(end).forEach(d -> executorService.submit(() -> {
@@ -113,7 +126,7 @@ public class SeasonManager {
             try {
                 Thread.sleep(sleepDelay);
             } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
+                // throw new RuntimeException(e);
             }
             scrapeDate(d, seasonScrape.getId());
             seasonScrapeRepo.updateStatusById(seasonScrape.getId(), "RUNNING");
@@ -169,8 +182,10 @@ public class SeasonManager {
 
     public Long scrapeSeasonByYear(int year, String from, String to, String timeOutSec) {
         Season season = findSeasonBySeason(year);
-        LocalDate start = StringUtils.isNotBlank(from) ? LocalDate.parse(from, DateTimeFormatter.ofPattern("yyyyMMdd")) : defaultStartDate(year);
-        LocalDate end = StringUtils.isNotBlank(to) ? LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyyMMdd")) : defaultEndDate(year);
+        LocalDate start = StringUtils.isNotBlank(from) ? LocalDate.parse(from, DateTimeFormatter.ofPattern("yyyyMMdd"))
+                : defaultStartDate(year);
+        LocalDate end = StringUtils.isNotBlank(to) ? LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyyMMdd"))
+                : defaultEndDate(year);
         Long timeout = StringUtils.isNotBlank(timeOutSec) ? Long.parseLong(timeOutSec) : 3600L;
         return scrapeSeason(season, start, end, timeout);
     }
@@ -179,16 +194,23 @@ public class SeasonManager {
         return seasonScrapeRepo.findAllBySeasonOrderByStartedAt(season.getSeason());
     }
 
-    public void publishSeasonScrape(long seasonScrapeId) {
-        seasonScrapeRepo.findById(seasonScrapeId).ifPresent(ess -> ess.getScoreboardScrapes().forEach(this::publishScoreboardScrape));
+    public List<PublishResult> publishSeasonScrape(long seasonScrapeId) {
+        return seasonScrapeRepo.findById(seasonScrapeId).map(
+                ess -> ess.getScoreboardScrapes()
+                        .stream()
+                        .map(this::publishScoreboardScrape)
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .toList())
+                .orElse(Collections.emptyList());
+
     }
 
     public void publishScoreboardScrape(long id) {
         scoreboardScrapeRepo.findById(id).ifPresent(this::publishScoreboardScrape);
     }
 
-
-    public void publishScoreboardScrape(EspnScoreboardScrape sbs) {
+    public Optional<PublishResult> publishScoreboardScrape(EspnScoreboardScrape sbs) {
         LocalDate scoreboardKey = sbs.getScoreboardKey();
 
         Map<String, Game> gameMap = gameRepo
@@ -200,27 +222,32 @@ public class SeasonManager {
                 .stream()
                 .collect(Collectors.toMap(Team::getEspnId, Function.identity()));
         long sbsId = sbs.getId();
-        logger.info("For scoreboard scrape " + sbsId + "(" + scoreboardKey.format(DateTimeFormatter.ISO_LOCAL_DATE) + ") found " + gameMap.size() + " existing games.");
+        logger.info("For scoreboard scrape " + sbsId + "(" + scoreboardKey.format(DateTimeFormatter.ISO_LOCAL_DATE)
+                + ") found " + gameMap.size() + " existing games.");
 
         try {
             Scoreboard scoreboard = objectMapper.readValue(sbs.getResponse(), Scoreboard.class);
             List<ScoreboardGame> scoreboardGames = scoreboard.unpackGames();
             logger.info("Unpacked " + scoreboardGames.size() + " from the scraped JSON " + sbs.getId());
 
-            List<ScoreboardGame> oldGames = scoreboardGames.stream().filter(g -> gameMap.containsKey(g.getUid())).toList();
-            List<ScoreboardGame> newGames = scoreboardGames.stream().filter(g -> !gameMap.containsKey(g.getUid())).toList();
-
+            List<ScoreboardGame> oldGames = scoreboardGames.stream().filter(g -> gameMap.containsKey(g.getUid()))
+                    .toList();
+            List<ScoreboardGame> newGames = scoreboardGames.stream().filter(g -> !gameMap.containsKey(g.getUid()))
+                    .toList();
 
             logger.info("For scoreboard scrape " + sbsId + " found " + scoreboardGames.size() + " games for scrape.");
 
             List<Game> toBeUpdated = oldGames.stream()
                     .flatMap(g -> makeGame(g, teamMap, LocalDateTime.now(), scoreboardKey, sbsId).stream()
-                            .flatMap(h -> h.createUpdate(gameMap.get(g.getUid())).stream())).toList();
+                            .flatMap(h -> h.createUpdate(gameMap.get(g.getUid())).stream()))
+                    .toList();
             List<Game> updatedGames = gameRepo.saveAllAndFlush(toBeUpdated);
             logger.info("For " + scoreboardKey + " " + updatedGames.size() + " games updated");
-//fixme
-            Set<String> knownKeys = scoreboardGames.stream().filter(ScoreboardGame::isPlayable).map(ScoreboardGame::getUid).collect(Collectors.toSet());
-            Set<String> toBeDeleted = gameMap.keySet().stream().filter(k -> !knownKeys.contains(k)).collect(Collectors.toSet());
+            // fixme
+            Set<String> knownKeys = scoreboardGames.stream().filter(ScoreboardGame::isPlayable)
+                    .map(ScoreboardGame::getUid).collect(Collectors.toSet());
+            Set<String> toBeDeleted = gameMap.keySet().stream().filter(k -> !knownKeys.contains(k))
+                    .collect(Collectors.toSet());
             int deleteCount = gameRepo.deleteAllByEspnIdIn(toBeDeleted);
             logger.info("For " + scoreboardKey + " " + deleteCount + " games deleted");
 
@@ -230,13 +257,17 @@ public class SeasonManager {
                     .flatMap(Optional::stream).toList();
             List<Game> insertedGames = gameRepo.saveAllAndFlush(toBeInserted);
             logger.info("For " + scoreboardKey + " " + insertedGames.size() + " games inserted");
+            return Optional
+                    .of(new PublishResult(scoreboardKey, insertedGames.size(), updatedGames.size(), deleteCount, ""));
 
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            logger.error("Error processing JSON for scoreboard scrape " + sbsId, e);
+            return Optional.empty();
         }
     }
 
-    private Optional<Game> makeGame(ScoreboardGame s, Map<String, Team> teams, LocalDateTime now, LocalDate sbKey, long id) {
+    private Optional<Game> makeGame(ScoreboardGame s, Map<String, Team> teams, LocalDateTime now, LocalDate sbKey,
+            long id) {
         if (s.getSummary().toLowerCase().contains("canceled")) {
             logger.info("Skipping " + s.getUid() + " listed as canceled");
             return Optional.empty();
@@ -282,12 +313,15 @@ public class SeasonManager {
         }
     }
 
-    private static void setTeamInfo(ScoreboardGame s, Map<String, Team> teams, Game g, ScoreboardTeam t0, ScoreboardTeam t1) {
+    private static void setTeamInfo(ScoreboardGame s, Map<String, Team> teams, Game g, ScoreboardTeam t0,
+            ScoreboardTeam t1) {
         g.setHomeTeam(teams.get(t0.getId()));
         g.setAwayTeam(teams.get(t1.getId()));
         if (s.getSummary().toLowerCase().contains("final")) {
-            if (StringUtils.isNotBlank(t0.getScore())) g.setHomeScore(Integer.parseInt(t0.getScore()));
-            if (StringUtils.isNotBlank(t1.getScore())) g.setAwayScore(Integer.parseInt(t1.getScore()));
+            if (StringUtils.isNotBlank(t0.getScore()))
+                g.setHomeScore(Integer.parseInt(t0.getScore()));
+            if (StringUtils.isNotBlank(t1.getScore()))
+                g.setAwayScore(Integer.parseInt(t1.getScore()));
             g.setNumPeriods(Integer.parseInt(s.getPeriod()));
         }
     }
@@ -296,4 +330,46 @@ public class SeasonManager {
         return seasonScrapeRepo.findById(id).orElseThrow();
     }
 
+    @Scheduled(cron = "0 0 2,4 * * *")
+    public void updateCurrentSeason() {
+        Season currentSeason = repo.findFirstByOrderBySeasonDesc().orElseThrow();
+        LocalDate today = LocalDate.now();
+        if (currentSeason.includesDate(today)) {
+            LocalDate start = today.minusDays(2);
+            LocalDate end = today.plusDays(8);
+            logger.info("Updating current season from " + start + " to " + end + " With timeout of 3600 seconds");
+            Long newScrapeId = scrapeSeason(currentSeason, start, end, 3600L);
+            schedulePublish(newScrapeId, 3600L);
+
+        } else {
+            logger.info("Current season " + currentSeason.getSeason() + " does not include today " + today
+                    + ". Skipping update.");
+        }
+    }
+
+    private void schedulePublish(Long newScrapeId, Long timeout) {
+        threadPool.schedule(() -> {
+            logger.info("Publishing current season scrape update [" + newScrapeId + "]");
+            seasonScrapeRepo.findById(newScrapeId).ifPresentOrElse((ss) -> {
+                if (ss.getStatus().equalsIgnoreCase("COMPLETED")) {
+                    logger.info("Status:" + ss.getStatus() + ", completed at " + ss.getCompletedAt());
+                    List<PublishResult> result = publishSeasonScrape(newScrapeId);
+                    mailer.sendGamesUpdatedMessage(ss, result);
+                } else {
+                    logger.warn("Status:" + ss.getStatus());
+                    if (ss.getCompletedAt() != null) {
+                        logger.warn("Completed at " + ss.getCompletedAt());
+                        logger.warn("Will not publish");
+                    } else {
+                        if (timeout > 0L) {
+                            logger.warn("Will schedule publish again in 600 seconds");
+                            schedulePublish(newScrapeId, timeout - 600);
+                        } else {
+                            logger.warn("Scrape has timed out and will not be published.");
+                        }
+                    }
+                }
+            }, () -> logger.error("Could not find season scrape with id " + newScrapeId));
+        }, 600L, TimeUnit.SECONDS);
+    }
 }

@@ -14,6 +14,7 @@ public class TeamPage {
     private final List<Season> seasons;
 
     private final List<String> messages = new ArrayList<>();
+    private final List<SeasonalRecord> seasonalRecords;
 
     public TeamPage(int currentYear, Team team, List<Season> seasons) {
         if (team == null)
@@ -27,6 +28,7 @@ public class TeamPage {
                     messages.add("Could not find season " + currentYear);
                     return seasons.stream().max(Comparator.comparing(Season::getSeason)).orElseThrow();
                 });
+        this.seasonalRecords = createSeasonalRecords();
     }
 
     public TeamPage(Team team, List<Season> seasons) {
@@ -37,13 +39,12 @@ public class TeamPage {
         this.team = team;
         this.seasons = seasons;
         this.currentSeason = seasons.stream().max(Comparator.comparing(Season::getSeason)).get();
-
+        this.seasonalRecords = createSeasonalRecords();
     }
 
     public Team getTeam() {
         return team;
     }
-
 
     public String getTitle() {
         return team.getLongName();
@@ -61,12 +62,24 @@ public class TeamPage {
         return currentSeason.getSeason();
     }
 
+    public List<SeasonalRecord> getSeasonalRecords() {
+        return seasonalRecords;
+    }
+
     public Record getCurrentRecord() {
-        return getSeasonalRecords().get(getCurrentYear()).get(0);
+        return getSeasonalRecords().stream()
+                .filter(s -> s.getSeason() == getCurrentYear())
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("No seasonal record found for the current year"))
+                .getOverall();
     }
 
     public Record getCurrentConfRecord() {
-        return getSeasonalRecords().get(getCurrentYear()).get(1);
+        return getSeasonalRecords().stream()
+                .filter(s -> s.getSeason() == getCurrentYear())
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("No seasonal record found for the current year"))
+                .getConference();
     }
 
     public String getTeamColor() {
@@ -83,18 +96,62 @@ public class TeamPage {
                 .collect(Collectors.toList());
     }
 
-    public Map<Integer, List<Record>> getSeasonalRecords() {
-        return seasons.stream().filter(s -> s.getConference(team) != null).collect(Collectors.toMap(
-                Season::getSeason,
+    private List<SeasonalRecord> createSeasonalRecords() {
+        return seasons.stream().filter(s -> s.getConference(team) != null).map(
                 s -> {
                     Set<Game> games = s.getGames();
-                    Record overall = Record.createRecord("Overall", team, games.stream().toList());
-                    Record conference = Record.createRecord(s.getConference(team).getAltName(), team, s.getConferenceGames().stream().toList());
-                    Record home = Record.createRecord("Home", team, games.stream().filter(g -> g.isHomeTeam(team, false)).toList());
-                    Record away = Record.createRecord("Away", team, games.stream().filter(g -> g.isAwayTeam(team, false)).toList());
-                    Record neutral = Record.createRecord("Neutral", team, games.stream().filter(Game::isNeutralSite).toList());
-                    return List.of(overall, conference, home, away, neutral);
-                })
-        );
+                    return new SeasonalRecord(s.getSeason(),
+                            Record.createRecord("Overall", team, games.stream().toList()),
+                            Record.createRecord(s.getConference(team).getAltName(), team,
+                                    s.getConferenceGames().stream().toList()),
+                            Record.createRecord("Home", team,
+                                    games.stream().filter(g -> g.isHomeTeam(team, false)).toList()),
+                            Record.createRecord("Away", team,
+                                    games.stream().filter(g -> g.isAwayTeam(team, false)).toList()),
+                            Record.createRecord("Neutral", team, games.stream().filter(Game::isNeutralSite).toList()));
+                }).sorted(Comparator.comparing(SeasonalRecord::getSeason).reversed()).toList();
+
+    }
+
+    public static class SeasonalRecord {
+        private final int season;
+        private final Record overall;
+        private final Record conference;
+        private final Record home;
+        private final Record away;
+        private final Record neutral;
+
+        public SeasonalRecord(int season, Record overall, Record conference, Record home, Record away, Record neutral) {
+            this.season = season;
+            this.overall = overall;
+            this.conference = conference;
+            this.home = home;
+            this.away = away;
+            this.neutral = neutral;
+        }
+
+        public int getSeason() {
+            return season;
+        }
+
+        public Record getOverall() {
+            return overall;
+        }
+
+        public Record getConference() {
+            return conference;
+        }
+
+        public Record getHome() {
+            return home;
+        }
+
+        public Record getAway() {
+            return away;
+        }
+
+        public Record getNeutral() {
+            return neutral;
+        }
     }
 }
