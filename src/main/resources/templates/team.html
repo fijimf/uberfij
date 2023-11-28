@@ -49,11 +49,11 @@
             <tbody>
             <tr th:each="seasonalRecord: ${team.getSeasonalRecords()}">
                 <td th:text="${seasonalRecord.getSeason()}"></td>
-                <td th:text="${seasonalRecord.getOverall()}"></td>
-                <td th:text="${seasonalRecord.getConference}"></td>
-                <td th:text="${seasonalRecord.getHome()}"></td>
-                <td th:text="${seasonalRecord.getAway()}"></td>
-                <td th:text="${seasonalRecord.getNeutral()}"></td>
+                <td th:text="${seasonalRecord.getOverall().display()}"></td>
+                <td th:text="${seasonalRecord.getConference().display()}"></td>
+                <td th:text="${seasonalRecord.getHome().display()}"></td>
+                <td th:text="${seasonalRecord.getAway().display()}"></td>
+                <td th:text="${seasonalRecord.getNeutral().display()}"></td>
             </tr>
             </tbody>
         </table>
