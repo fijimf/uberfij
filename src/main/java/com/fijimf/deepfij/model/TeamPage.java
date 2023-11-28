@@ -97,23 +97,14 @@ public class TeamPage {
     }
 
     private List<SeasonalRecord> createSeasonalRecords() {
-        return seasons.stream().filter(s -> s.getConference(team) != null).map(
-                s -> {
-                    Set<Game> games = s.getGames();
-                    return new SeasonalRecord(s.getSeason(),
-                            Record.createRecord("Overall", team, games.stream().toList()),
-                            Record.createRecord(s.getConference(team).getAltName(), team,
-                                    s.getConferenceGames().stream().toList()),
-                            Record.createRecord("Home", team,
-                                    games.stream().filter(g -> g.isHomeTeam(team, false)).toList()),
-                            Record.createRecord("Away", team,
-                                    games.stream().filter(g -> g.isAwayTeam(team, false)).toList()),
-                            Record.createRecord("Neutral", team, games.stream().filter(Game::isNeutralSite).toList()));
-                }).sorted(Comparator.comparing(SeasonalRecord::getSeason).reversed()).toList();
-
+        return seasons.stream()
+                .filter(s -> s.getConference(team) != null)
+                .map(s -> SeasonalRecord.fromSeason(s, team))
+                .sorted()
+                .toList();
     }
 
-    public static class SeasonalRecord {
+    public static class SeasonalRecord implements Comparable<SeasonalRecord> {
         private final int season;
         private final Record overall;
         private final Record conference;
@@ -128,6 +119,15 @@ public class TeamPage {
             this.home = home;
             this.away = away;
             this.neutral = neutral;
+        }
+
+        public static SeasonalRecord fromSeason(Season s, Team t) {
+            return new SeasonalRecord(s.getSeason(),
+                    Record.createRecord("Overall", t, s.getGames().stream().toList()),
+                    Record.createRecord("Conference", t, s.getConferenceGames().stream().toList()),
+                    Record.createRecord("Home", t, s.getGames().stream().filter(g -> g.isHomeTeam(t, false)).toList()),
+                    Record.createRecord("Away", t, s.getGames().stream().filter(g -> g.isHomeTeam(t, false)).toList()),
+                    Record.createRecord("Neutral", t, s.getGames().stream().filter(Game::isNeutralSite).toList()));
         }
 
         public int getSeason() {
@@ -152,6 +152,11 @@ public class TeamPage {
 
         public Record getNeutral() {
             return neutral;
+        }
+
+        @Override
+        public int compareTo(SeasonalRecord other) {
+            return -Integer.compare(season, other.season);
         }
     }
 }
