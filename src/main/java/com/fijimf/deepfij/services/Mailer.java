@@ -19,7 +19,9 @@ import org.thymeleaf.context.Context;
 
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -106,8 +108,8 @@ public class Mailer {
         final Map<String, Object> ctx = new HashMap<>();
         ctx.put("username", ss.getFrom());
         ctx.put("username", ss.getTo());
-        ctx.put("startedAt", ss.getStartedAt());
-        ctx.put("completedAt", ss.getCompletedAt());
+        ctx.put("startedAt", getUSEastFromUTC(ss.getStartedAt()));
+        ctx.put("completedAt", getUSEastFromUTC(ss.getCompletedAt()));
         ctx.put("id", ss.getId());
         ctx.put("results", results);
         try {
@@ -116,5 +118,9 @@ public class Mailer {
             logger.error("Failed to send mail", e);
             e.printStackTrace();
         }
+    }
+
+    public LocalDate getUSEastFromUTC(LocalDateTime utc) {
+        return utc.atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of("US/Eastern")).toLocalDate();
     }
 }
