@@ -194,11 +194,11 @@ public class SeasonManager {
         return seasonScrapeRepo.findAllBySeasonOrderByStartedAt(season.getSeason());
     }
 
-    public List<PublishResult> publishSeasonScrape(long seasonScrapeId) {
+    public List<PublishResult> publishSeasonScrape(long seasonScrapeId, Season season) {
         return seasonScrapeRepo.findById(seasonScrapeId).map(
                 ess -> ess.getScoreboardScrapes()
                         .stream()
-                        .map(this::publishScoreboardScrape)
+                        .map(ss -> publishScoreboardScrape(ss, season))
                         .filter(Optional::isPresent)
                         .map(Optional::get)
                         .toList())
@@ -207,10 +207,13 @@ public class SeasonManager {
     }
 
     public void publishScoreboardScrape(long id) {
-        scoreboardScrapeRepo.findById(id).ifPresent(this::publishScoreboardScrape);
+        scoreboardScrapeRepo.findById(id).ifPresent(ss -> {
+            Season season = findSeasonBySeason(ss.getEspnSeasonScrape().getSeason());
+            publishScoreboardScrape(ss, season);
+        });
     }
 
-    public Optional<PublishResult> publishScoreboardScrape(EspnScoreboardScrape sbs) {
+    public Optional<PublishResult> publishScoreboardScrape(EspnScoreboardScrape sbs, Season season) {
         LocalDate scoreboardKey = sbs.getScoreboardKey();
 
         Map<String, Game> gameMap = gameRepo
@@ -222,12 +225,14 @@ public class SeasonManager {
                 .stream()
                 .collect(Collectors.toMap(Team::getEspnId, Function.identity()));
         long sbsId = sbs.getId();
+        int existingGames = gameMap.size();
         logger.info("For scoreboard scrape " + sbsId + "(" + scoreboardKey.format(DateTimeFormatter.ISO_LOCAL_DATE)
-                + ") found " + gameMap.size() + " existing games.");
+                + ") found " + existingGames + " existing games.");
 
         try {
             Scoreboard scoreboard = objectMapper.readValue(sbs.getResponse(), Scoreboard.class);
             List<ScoreboardGame> scoreboardGames = scoreboard.unpackGames();
+            int scrapedGames = scoreboardGames.size();
             logger.info("Unpacked " + scoreboardGames.size() + " from the scraped JSON " + sbs.getId());
 
             List<ScoreboardGame> oldGames = scoreboardGames.stream().filter(g -> gameMap.containsKey(g.getUid()))
@@ -238,7 +243,7 @@ public class SeasonManager {
             logger.info("For scoreboard scrape " + sbsId + " found " + scoreboardGames.size() + " games for scrape.");
 
             List<Game> toBeUpdated = oldGames.stream()
-                    .flatMap(g -> makeGame(g, teamMap, LocalDateTime.now(), scoreboardKey, sbsId).stream()
+                    .flatMap(g -> makeGame(g, season, teamMap, LocalDateTime.now(), scoreboardKey, sbsId).stream()
                             .flatMap(h -> h.createUpdate(gameMap.get(g.getUid())).stream()))
                     .toList();
             List<Game> updatedGames = gameRepo.saveAllAndFlush(toBeUpdated);
@@ -253,7 +258,7 @@ public class SeasonManager {
 
             List<Game> toBeInserted = newGames
                     .stream()
-                    .map(s -> makeGame(s, teamMap, LocalDateTime.now(), scoreboardKey, sbsId))
+                    .map(s -> makeGame(s, season, teamMap, LocalDateTime.now(), scoreboardKey, sbsId))
                     .flatMap(Optional::stream).toList();
             List<Game> insertedGames = gameRepo.saveAllAndFlush(toBeInserted);
             logger.info("For " + scoreboardKey + " " + insertedGames.size() + " games inserted");
@@ -266,7 +271,8 @@ public class SeasonManager {
         }
     }
 
-    private Optional<Game> makeGame(ScoreboardGame s, Map<String, Team> teams, LocalDateTime now, LocalDate sbKey,
+    private Optional<Game> makeGame(ScoreboardGame s, Season season, Map<String, Team> teams, LocalDateTime now,
+            LocalDate sbKey,
             long id) {
         if (s.getSummary().toLowerCase().contains("canceled")) {
             logger.info("Skipping " + s.getUid() + " listed as canceled");
@@ -293,7 +299,7 @@ public class SeasonManager {
             g.setScrapeSrcId(id);
             g.setScoreboardKey(sbKey);
             g.setDate(s.getDate().toLocalDate());
-            g.setSeason(findSeasonBySeason(s.getSeason()));
+            g.setSeason(season);
             g.setEspnId(s.getUid());
             g.setLocation(StringUtils.truncate(s.getLocation(), 48));
             g.setNcaaTournament(s.getSeasonType().equalsIgnoreCase("3"));
@@ -335,11 +341,11 @@ public class SeasonManager {
         Season currentSeason = repo.findFirstByOrderBySeasonDesc().orElseThrow();
         LocalDate today = LocalDate.now();
         if (currentSeason.includesDate(today)) {
-            LocalDate start = today.minusDays(2);
-            LocalDate end = today.plusDays(8);
+            LocalDate start = today.minusDays(5);
+            LocalDate end = today.plusDays(9);
             logger.info("Updating current season from " + start + " to " + end + " With timeout of 3600 seconds");
             Long newScrapeId = scrapeSeason(currentSeason, start, end, 3600L);
-            schedulePublish(newScrapeId, 3600L);
+            schedulePublish(newScrapeId, currentSeason, 3600L);
 
         } else {
             logger.info("Current season " + currentSeason.getSeason() + " does not include today " + today
@@ -347,13 +353,13 @@ public class SeasonManager {
         }
     }
 
-    private void schedulePublish(Long newScrapeId, Long timeout) {
+    private void schedulePublish(Long newScrapeId, Season season, Long timeout) {
         threadPool.schedule(() -> {
             logger.info("Publishing current season scrape update [" + newScrapeId + "]");
             seasonScrapeRepo.findById(newScrapeId).ifPresentOrElse((ss) -> {
                 if (ss.getStatus().equalsIgnoreCase("COMPLETED")) {
                     logger.info("Status:" + ss.getStatus() + ", completed at " + ss.getCompletedAt());
-                    List<PublishResult> result = publishSeasonScrape(newScrapeId);
+                    List<PublishResult> result = publishSeasonScrape(newScrapeId, season);
                     mailer.sendGamesUpdatedMessage(ss, result);
                 } else {
                     logger.warn("Status:" + ss.getStatus());
@@ -363,7 +369,7 @@ public class SeasonManager {
                     } else {
                         if (timeout > 0L) {
                             logger.warn("Will schedule publish again in 600 seconds");
-                            schedulePublish(newScrapeId, timeout - 600);
+                            schedulePublish(newScrapeId, season, timeout - 600);
                         } else {
                             logger.warn("Scrape has timed out and will not be published.");
                         }

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class PublishResult {
     private final LocalDate key;
+    private final int existingGames = 0;
     private final int gamesInserted;
     private final int gamesUpdated;
     private final int gamesDeleted;

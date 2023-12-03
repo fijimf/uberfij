@@ -83,6 +83,10 @@ public class Season {
         conferenceToTeams.forEach((k, v) -> v.sort(Comparator.comparing(Team::getName)));
     }
 
+    public List<Team> getTeams(Conference conference) {
+        return conferenceToTeams.getOrDefault(conference, Collections.emptyList());
+    }
+
     public Set<Game> getGames() {
         return games;
     }
@@ -126,14 +130,25 @@ public class Season {
     public Set<Game> getConferenceGames() {
         return games.stream().filter(this::isConferenceGame).collect(Collectors.toSet());
     }
-
-    private boolean isConferenceGame(Game g) {
+    public Set<Game> getNonConferenceGames() {
+        return games.stream().filter(g->!isConferenceGame(g)).collect(Collectors.toSet());
+    }
+    public boolean isConferenceGame(Game g) {
         return teamToConference.containsKey(g.getHomeTeam()) &&
                 teamToConference.containsKey(g.getAwayTeam()) &&
                 teamToConference.get(g.getHomeTeam()).getId() == teamToConference.get(g.getAwayTeam()).getId();
     }
 
+    public boolean isRegularConferenceGame(Game g) {
+        return teamToConference.containsKey(g.getHomeTeam()) &&
+                teamToConference.containsKey(g.getAwayTeam()) &&
+                teamToConference.get(g.getHomeTeam()).getId() == teamToConference.get(g.getAwayTeam()).getId()
+                && g.getConfTournament()!=Boolean.TRUE && g.getNcaaTournament()!=Boolean.TRUE;
+    }
+
     public boolean includesDate(LocalDate today) {
         return !(today.isBefore(defaultStartDate()) || today.isAfter(defaultEndDate()));
     }
+
+
 }

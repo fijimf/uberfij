@@ -11,8 +11,9 @@ import java.util.stream.Collectors;
 public class TeamPage {
     private final Season currentSeason;
     private final Team team;
+    private final Conference conference;
+    private final ConferenceStandings conferenceStandings;
     private final List<Season> seasons;
-
     private final List<String> messages = new ArrayList<>();
     private final List<SeasonalRecord> seasonalRecords;
 
@@ -28,6 +29,8 @@ public class TeamPage {
                     messages.add("Could not find season " + currentYear);
                     return seasons.stream().max(Comparator.comparing(Season::getSeason)).orElseThrow();
                 });
+        this.conference = currentSeason.getConference(team);
+        this.conferenceStandings = ConferenceStandings.fromSeason(currentSeason, conference);
         this.seasonalRecords = createSeasonalRecords();
     }
 
@@ -39,6 +42,8 @@ public class TeamPage {
         this.team = team;
         this.seasons = seasons;
         this.currentSeason = seasons.stream().max(Comparator.comparing(Season::getSeason)).get();
+        this.conference = currentSeason.getConference(team);
+        this.conferenceStandings = ConferenceStandings.fromSeason(currentSeason, conference);
         this.seasonalRecords = createSeasonalRecords();
     }
 
@@ -60,6 +65,10 @@ public class TeamPage {
 
     public int getCurrentYear() {
         return currentSeason.getSeason();
+    }
+
+    public Conference getConference() {
+        return conference;
     }
 
     public List<SeasonalRecord> getSeasonalRecords() {
@@ -86,6 +95,10 @@ public class TeamPage {
         return team.getColor();
     }
 
+    public ConferenceStandings getConferenceStandings() {
+        return conferenceStandings;
+    }
+
     public List<ScheduleItem> getScheduleItems() {
         return currentSeason
                 .getGames()
@@ -99,64 +112,17 @@ public class TeamPage {
     private List<SeasonalRecord> createSeasonalRecords() {
         return seasons.stream()
                 .filter(s -> s.getConference(team) != null)
-                .map(s -> SeasonalRecord.fromSeason(s, team))
+                .map(s -> SeasonalRecord.fromSeason(s, team, s.getSeason() == currentSeason.getSeason()))
                 .sorted()
                 .toList();
     }
 
-    public static class SeasonalRecord implements Comparable<SeasonalRecord> {
-        private final int season;
-        private final Record overall;
-        private final Record conference;
-        private final Record home;
-        private final Record away;
-        private final Record neutral;
-
-        public SeasonalRecord(int season, Record overall, Record conference, Record home, Record away, Record neutral) {
-            this.season = season;
-            this.overall = overall;
-            this.conference = conference;
-            this.home = home;
-            this.away = away;
-            this.neutral = neutral;
-        }
-
-        public static SeasonalRecord fromSeason(Season s, Team t) {
-            return new SeasonalRecord(s.getSeason(),
-                    Record.createRecord("Overall", t, s.getGames().stream().toList()),
-                    Record.createRecord("Conference", t, s.getConferenceGames().stream().toList()),
-                    Record.createRecord("Home", t, s.getGames().stream().filter(g -> g.isHomeTeam(t, false)).toList()),
-                    Record.createRecord("Away", t, s.getGames().stream().filter(g -> g.isHomeTeam(t, false)).toList()),
-                    Record.createRecord("Neutral", t, s.getGames().stream().filter(Game::isNeutralSite).toList()));
-        }
-
-        public int getSeason() {
-            return season;
-        }
-
-        public Record getOverall() {
-            return overall;
-        }
-
-        public Record getConference() {
-            return conference;
-        }
-
-        public Record getHome() {
-            return home;
-        }
-
-        public Record getAway() {
-            return away;
-        }
-
-        public Record getNeutral() {
-            return neutral;
-        }
-
-        @Override
-        public int compareTo(SeasonalRecord other) {
-            return -Integer.compare(season, other.season);
+    public String getSeasonQueryString(){
+        if (getCurrentYear() == seasons.get(0).getSeason()) {
+            return "";
+        } else {
+            return "?season=" + getCurrentYear();
         }
     }
+
 }

@@ -28,7 +28,7 @@
             <p class="mx-4" style="font-size: 24px;" >
                 (<span th:text="${team.getCurrentRecord().display()}"></span>,
                 <span th:text="${team.getCurrentConfRecord().display()}"></span>
-                <span th:text="${team.getCurrentConfRecord().getLabel()}"></span>)
+                <span th:text="${team.getConference().getAltName()}"></span>)
             </p>
         </div>
     </div>
@@ -48,7 +48,9 @@
             </thead>
             <tbody>
             <tr th:each="seasonalRecord: ${team.getSeasonalRecords()}">
-                <td th:text="${seasonalRecord.getSeason()}"></td>
+                <td th:if="${seasonalRecord.isFocus()}" th:text="${seasonalRecord.getSeason()}"></td>
+                <td th:unless="${seasonalRecord.isFocus()}" >
+                    <a th:href="${'/team/'+team.getTeam().getKey()+'?season='+seasonalRecord.getSeason()}" th:text="${seasonalRecord.getSeason()}"></a></td>
                 <td th:text="${seasonalRecord.getOverall().display()}"></td>
                 <td th:text="${seasonalRecord.getConference().display()}"></td>
                 <td th:text="${seasonalRecord.getHome().display()}"></td>
@@ -74,9 +76,28 @@
                     <td th:text="${item.getDate()}"></td>
                     <td>
                         <span th:text="${item.getAtVs()}"></span>
-                        <a th:href="${'/team/'+item.getTeamKey()}" th:text="${item.getTeamName()}"></a>
+                        <a th:href="${'/team/'+item.getTeamKey()+team.getSeasonQueryString()}" th:text="${item.getTeamName()}"></a>
                     </td>
                     <td th:text="${item.getResult()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-4">
+            <table class="table table-bordered table-sm w-100">
+                <thead>
+                <tr ><th colspan="2" th:text="${team.getConference().getName()}"><th th:text="${team.getCurrentYear()}"></th></tr>
+                <tr>
+                    <th>Team</th>
+                    <th>Conference</th>
+                    <th>Non Conf</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item: ${team.getConferenceStandings().getStandings()}">
+                    <td><a th:href="${'/team/'+item.getTeam().getKey()+team.getSeasonQueryString()}" th:text="${item.getTeam().getName()}"></a></td>
+                    <td th:text="${item.getConferenceRecord().display()}"></td>
+                    <td th:text="${item.getNonConferenceRecord().display()}"></td>
                 </tr>
                 </tbody>
             </table>
