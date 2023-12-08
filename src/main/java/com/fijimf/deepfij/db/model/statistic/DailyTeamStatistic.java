@@ -3,8 +3,6 @@ package com.fijimf.deepfij.db.model.statistic;
 import com.fijimf.deepfij.db.model.schedule.Team;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
-
 @Entity
 @Table(name = "daily_team_statistic")
 public class DailyTeamStatistic {
