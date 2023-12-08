@@ -313,4 +313,8 @@ public class Game {
             throw new RuntimeException();
         }
     }
+
+    public boolean isComplete() {
+        return homeScore != null && awayScore != null;
+    }
 }
