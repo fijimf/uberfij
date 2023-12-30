@@ -1,4 +1,4 @@
-insert into public.season (id, season) values (2, 2024);
+insert into public.season (id, season) values (2, 2023);
 
 insert into public.team (id, key, name, nickname, long_name, alt_name_1, alt_name_2, color, alt_color, logo_url, espn_id, scrape_src_id, published_at) values (1, 'abilene-christian-wildcats', 'Abilene Chrstn', 'Wildcats', 'Abilene Christian Wildcats', 'ACU', 'Abilene Chrstn', '4e2683', 'ebebeb', 'https://a.espncdn.com/i/teamlogos/ncaa/500/2000.png', '2000', 1, '2023-11-25 09:39:30.756327');
 insert into public.team (id, key, name, nickname, long_name, alt_name_1, alt_name_2, color, alt_color, logo_url, espn_id, scrape_src_id, published_at) values (2, 'air-force-falcons', 'Air Force', 'Falcons', 'Air Force Falcons', 'AFA', 'Air Force', '004a7b', 'ffffff', 'https://a.espncdn.com/i/teamlogos/ncaa/500/2005.png', '2005', 1, '2023-11-25 09:39:30.756353');

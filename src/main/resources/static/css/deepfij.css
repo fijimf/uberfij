@@ -1,3 +1,17 @@
-.bold-bi {
-    -webkit-text-stroke: 1px;
+@font-face {
+
+    font-family: 'TexGyreHero';
+    font-style: italic;
+    font-weight: bold;
+    src: local('TexGyreHero'), url('fonts/texgyreheroscn-bolditalic.otf') format('opentype');
+}
+.shadow-text {
+    text-shadow: 3px 3px 5px rgba(192, 192, 192, 1.0);
+}
+.jumbotron {
+    background-image: url('img/deepfij-ted1.jpg');
+    background-size: cover;
+    background-position: 50% 50%;
+    font-family: 'TexGyreHero', sans-serif;
+    color: blue;
 }

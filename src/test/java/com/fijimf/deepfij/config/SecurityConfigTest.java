@@ -1,5 +1,6 @@
 package com.fijimf.deepfij.config;
 
+import com.fijimf.deepfij.analytics.StatsManager;
 import com.fijimf.deepfij.db.model.schedule.Season;
 import com.fijimf.deepfij.db.model.scrape.EspnStandingsScrape;
 import com.fijimf.deepfij.db.repo.schedule.SeasonRepo;
@@ -42,8 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @MockBean(TeamsScrapeManager.class),
         @MockBean(UserManager.class),
         @MockBean(SeasonRepo.class),
-        @MockBean(DailyTeamStatisticRepo.class),
-        @MockBean(DailyTeamStatisticSummaryRepo.class)
+        @MockBean(StatsManager.class),
 })
 @WebMvcTest()
 //@EnableWebSecurity

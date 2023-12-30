@@ -44,7 +44,7 @@ public class DailyTeamStatisticSummaryRepoTest {
 
     @Test
     void saveStatisticSummary() {
-        Season season = seasonRepo.findBySeason(2024).orElseThrow();
+        Season season = seasonRepo.findBySeason(2023).orElseThrow();
         DailyTeamStatisticSummary summary = new DailyTeamStatisticSummary(0L, season, LocalDate.of(2023,11,25),"WINS",0.5,2,0.0,1.0,0.5,0.0,1.0,0.25,0.0,0.0);
         summary = dailyTeamStatisticSummaryRepo.saveAndFlush(summary);
         assertThat(summary.getId()).isGreaterThan(0L);
@@ -52,7 +52,7 @@ public class DailyTeamStatisticSummaryRepoTest {
 
     @Test
     void findStatisticSummaryById() {
-        Season season = seasonRepo.findBySeason(2024).orElseThrow();
+        Season season = seasonRepo.findBySeason(2023).orElseThrow();
         DailyTeamStatisticSummary summary = new DailyTeamStatisticSummary(0L, season, LocalDate.of(2023,11,25),"WINS",0.5,2,0.0,1.0,0.5,0.0,1.0,0.25,0.0,0.0);
         summary = dailyTeamStatisticSummaryRepo.saveAndFlush(summary);
         Optional<DailyTeamStatisticSummary> found = dailyTeamStatisticSummaryRepo.findById(summary.getId());
@@ -62,7 +62,7 @@ public class DailyTeamStatisticSummaryRepoTest {
 
     @Test
     void deleteStatisticSummary() {
-        Season season = seasonRepo.findBySeason(2024).orElseThrow();
+        Season season = seasonRepo.findBySeason(2023).orElseThrow();
         DailyTeamStatisticSummary summary = new DailyTeamStatisticSummary(0L, season, LocalDate.of(2023,11,25),"WINS",0.5,2,0.0,1.0,0.5,0.0,1.0,0.25,0.0,0.0);
         summary = dailyTeamStatisticSummaryRepo.saveAndFlush(summary);
         assertThat(summary.getId()).isGreaterThan(0L);
