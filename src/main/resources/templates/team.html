@@ -14,7 +14,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bevan&display=swap" rel="stylesheet">
-
+    <script src="https://d3js.org/d3.v5.js"></script>
+    <script src="/js/gamesScatter.js"></script>
 </head>
 <body>
 <header th:replace="~{common/topnav::topnav}"></header>
@@ -32,7 +33,6 @@
             </p>
         </div>
     </div>
-
     <div class="row">
         <div class="col-lg-4">
         <table class="table table-bordered table-sm">
@@ -59,8 +59,7 @@
             </tr>
             </tbody>
         </table>
-        <ul th:each="entry: ${team.getSeasonalRecords()}">
-        </ul>
+            <div id="scatterPlot"></div>
     </div>
         <div class="col-lg-4">
             <table class="table table-bordered table-sm w-100">
@@ -102,7 +101,17 @@
                 </tbody>
             </table>
         </div>
+        <div class="row">
+
+        </div>
     </div>
 </div>
+<script th:inline="javascript">
+    window.onload(gamesScatter([[${team.getTeam().getKey()}]]));
+</script>
+
+</body>
+</html>
+
 </body>
 </html>

@@ -37,36 +37,53 @@ public class StatsManager {
 
             statistics.forEach((summary, byTeam) -> {
                 logger.info("Saving " + summary.getStatistic());
-                summaryRepo.findBySeasonAndDateAndStatistic(s, date, summary.getStatistic()).ifPresentOrElse(su -> {
-                            su.setMin(summary.getMin());
-                            su.setMean(summary.getMean());
-                            su.setN(summary.getN());
-                            su.setMax(summary.getMax());
-                            su.setMedian(summary.getMedian());
-                            su.setPercentile25(summary.getPercentile25());
-                            su.setPercentile75(summary.getPercentile75());
-                            su.setStdDev(summary.getStdDev());
-                            su.setKurtosis(summary.getKurtosis());
-                            su.setSkewness(summary.getSkewness());
-                            summaryRepo.saveAndFlush(su);
-                            for (DailyTeamStatistic dailyTeamStatistic : byTeam) {
-                                dailyTeamStatistic.setSummary(su);
-                            }
-                        },
-                        () -> {
-                            DailyTeamStatisticSummary saved = summaryRepo.saveAndFlush(summary);
-                            for (DailyTeamStatistic dailyTeamStatistic : byTeam) {
-                                dailyTeamStatistic.setSummary(saved);
-                            }
-                        }
-                );
-
+                summaryRepo.findBySeasonAndDateAndStatistic(s, date, summary.getStatistic())
+                        .ifPresentOrElse(
+                                oldSummary -> {
+                                    logger.info("Found summary "+oldSummary.getId()+":["+oldSummary.getStatistic()+", "+oldSummary.getDate()+"]");
+                                    deleteOldStats(oldSummary);
+                                    updateSummaryStats (summary, oldSummary, byTeam);
+                                },
+                                () -> insertSummaryStats(summary, byTeam)
+                        );
                 bulk.addAll(byTeam);
-
             });
         }));
         logger.info("Inserting " + bulk.size());
         inserter.batchInsertStats(bulk);
         logger.info("Done");
+    }
+
+    @Transactional
+    public void deleteOldStats(DailyTeamStatisticSummary oldSummary) {
+        int numDeleted = statisticRepo.deleteBySummary(oldSummary);
+        logger.info("Deleted "+numDeleted+" daily statistics");
+    }
+
+    @Transactional
+    public void insertSummaryStats(DailyTeamStatisticSummary summary, List<DailyTeamStatistic> byTeam){
+        DailyTeamStatisticSummary saved = summaryRepo.saveAndFlush(summary);
+        for (DailyTeamStatistic dailyTeamStatistic : byTeam) {
+            dailyTeamStatistic.setSummary(saved);
+        }
+    }
+
+    @Transactional
+    public void updateSummaryStats(DailyTeamStatisticSummary summary, DailyTeamStatisticSummary oldSummary, List<DailyTeamStatistic> byTeam) {
+        oldSummary.setMin(summary.getMin());
+        oldSummary.setMean(summary.getMean());
+        oldSummary.setN(summary.getN());
+        oldSummary.setMax(summary.getMax());
+        oldSummary.setMedian(summary.getMedian());
+        oldSummary.setPercentile25(summary.getPercentile25());
+        oldSummary.setPercentile75(summary.getPercentile75());
+        oldSummary.setStdDev(summary.getStdDev());
+        oldSummary.setKurtosis(summary.getKurtosis());
+        oldSummary.setSkewness(summary.getSkewness());
+        summaryRepo.saveAndFlush(oldSummary);
+        logger.info("Setting summaryId to "+oldSummary.getId()+ " for "+byTeam.size()+" statistics");
+        for (DailyTeamStatistic dailyTeamStatistic : byTeam) {
+            dailyTeamStatistic.setSummary(oldSummary);
+        }
     }
 }

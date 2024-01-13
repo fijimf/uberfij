@@ -54,9 +54,9 @@ public class Game {
     }
 
     public Game(Long id, LocalDate date, LocalDate scoreboardKey, Season season, Team homeTeam, Team awayTeam,
-            Integer homeScore, Integer awayScore, Integer numPeriods, Boolean isNeutralSite, String location,
-            Double spread, Double overUnder, Boolean isConfTournament, Boolean isNcaaTournament, String espnId,
-            Long scrapeSrcId, LocalDateTime publishedAt) {
+                Integer homeScore, Integer awayScore, Integer numPeriods, Boolean isNeutralSite, String location,
+                Double spread, Double overUnder, Boolean isConfTournament, Boolean isNcaaTournament, String espnId,
+                Long scrapeSrcId, LocalDateTime publishedAt) {
         this.id = id;
         this.date = date;
         this.scoreboardKey = scoreboardKey;
@@ -312,6 +312,30 @@ public class Game {
         } else {
             throw new RuntimeException();
         }
+    }
+
+    public Integer getScore(Team t) {
+        if (t.getId() == homeTeam.getId()) {
+            return homeScore;
+        } else if (t.getId() == awayTeam.getId()) {
+            return awayScore;
+        } else {
+            throw new RuntimeException();
+        }
+    }
+
+    public Integer getOppScore(Team t) {
+        if (t.getId() == homeTeam.getId()) {
+            return awayScore;
+        } else if (t.getId() == awayTeam.getId()) {
+            return homeScore;
+        } else {
+            throw new RuntimeException();
+        }
+    }
+
+    public Integer getMargin(Team t) {
+        return getScore(t) - getOppScore(t);
     }
 
     public boolean isComplete() {
