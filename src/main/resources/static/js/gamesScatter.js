@@ -48,23 +48,23 @@ function gamesScatter(key) {
         // Add the y-axis title
         let fontPx=14;
         let labelX = margin.left/2-(fontPx/1.5);
-        let labelY = height+margin.top/2;
+        let labelY = height/2+margin.top;
         svg.append("text")
             .attr("x", labelX)
             .attr("y", labelY)
             .style("writing-mode", "tb")
-            .style("text-anchor", "end")
+            .style("text-anchor", "middle")
             .style("font-family", "Bevan")
             .style("font-size", fontPx+"px")
             .text(resp.shortName);
 
 
-        let oppLabelX = labelX+margin.left;
-        let oppLabelY = labelY+margin.bottom;
+        let oppLabelX = width/2+margin.left;
+        let oppLabelY = height+margin.top+margin.bottom-fontPx/1.5;
         svg.append("text")
             .attr("x", oppLabelX)
             .attr("y", oppLabelY)
-            .style("text-anchor", "start")
+            .style("text-anchor", "middle")
             .style("font-family", "Bevan")
             .style("font-size", fontPx+"px")
             .text("Opponent");
