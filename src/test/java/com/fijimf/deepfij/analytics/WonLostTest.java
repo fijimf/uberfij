@@ -95,6 +95,20 @@ public class WonLostTest {
                                         LocalDate.of(2022, 12, 25), 2.0,
                                         LocalDate.of(2023, 2, 5), 3.0,
                                         LocalDate.of(2023, 3, 31), 7.0)
+                        ),
+                        "LOSS_STREAK",
+                        Map.of("georgetown-hoyas",
+                                Map.of(
+                                        LocalDate.of(2022, 11, 30), 0.0,
+                                        LocalDate.of(2022, 12, 25), 3.0,
+                                        LocalDate.of(2023, 2, 5), 2.0,
+                                        LocalDate.of(2023, 3, 31), 4.0),
+                                "virginia-cavaliers",
+                                Map.of(
+                                        LocalDate.of(2022, 11, 30), 0.0,
+                                        LocalDate.of(2022, 12, 25), 2.0,
+                                        LocalDate.of(2023, 2, 5), 0.0,
+                                        LocalDate.of(2023, 3, 31), 2.0)
                         )
                 );
 

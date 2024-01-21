@@ -85,10 +85,6 @@ public class WonLost {
         runningTotal.putIfAbsent(team, new EnumMap<>(GameMetric.class));
         Map<GameMetric, Double> teamStats = runningTotal.get(team);
         BiFunction<GameMetric, Double, Double> increment = (k, v) -> (v == null ? 1 : v + 1.0);
-        if (team.getKey().equalsIgnoreCase("georgetown-hoyas")) {
-            logger.info("**Updating hoyas " + g.getDate() + " hoyas winner? " + g.isWinner(team));
-            logger.info(" Before " + teamStats.getOrDefault(WINS, 0.0) + " - " + teamStats.getOrDefault(LOSSES, 0.0));
-        }
         if (g.isWinner(team)) {
             teamStats.compute(WINS, increment);
             teamStats.putIfAbsent(LOSSES, 0.0);
@@ -101,8 +97,5 @@ public class WonLost {
             teamStats.put(WIN_STREAK, 0.0);
         }
         teamStats.put(GameMetric.WIN_PCT, teamStats.get(GameMetric.WINS) / (teamStats.get(GameMetric.WINS) + teamStats.get(GameMetric.LOSSES)));
-        if (team.getKey().equalsIgnoreCase("georgetown-hoyas")) {
-            logger.info(" After " + teamStats.getOrDefault(WINS, 0.0) + " - " + teamStats.getOrDefault(LOSSES, 0.0));
-        }
     }
 }
