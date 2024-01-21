@@ -37,12 +37,12 @@ public class StandingsScrapeManager {
     private final static String URL = "https://site.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?season=";
     private final static Logger logger = LoggerFactory.getLogger(StandingsScrapeManager.class);
 
-    private EspnStandingsScrapeRepo scrapeRepo;
-    private ConferenceMappingRepo conferenceMappingRepo;
-    private SeasonRepo seasonRepo;
-    private TeamRepo teamRepo;
-    private ConferenceRepo conferenceRepo;
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final EspnStandingsScrapeRepo scrapeRepo;
+    private final ConferenceMappingRepo conferenceMappingRepo;
+    private final SeasonRepo seasonRepo;
+    private final TeamRepo teamRepo;
+    private final ConferenceRepo conferenceRepo;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public StandingsScrapeManager(EspnStandingsScrapeRepo scrapeRepo, ConferenceMappingRepo conferenceMappingRepo, SeasonRepo seasonRepo, TeamRepo teamRepo, ConferenceRepo conferenceRepo) {
         this.scrapeRepo = scrapeRepo;

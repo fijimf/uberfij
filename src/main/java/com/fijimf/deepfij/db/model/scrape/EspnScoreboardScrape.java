@@ -12,8 +12,7 @@ public class EspnScoreboardScrape {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-//    @Column( name="espn_season_scrape_id")
-//    private long espnSeasonScrapeId;
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "espn_season_scrape_id")

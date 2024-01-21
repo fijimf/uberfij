@@ -107,13 +107,6 @@ public class SeasonManager {
         return LocalDate.of(yyyy - 1, 11, 1);
     }
 
-    // public Long scrapeSeason(Season season, String from, String to) {
-    // LocalDate start = LocalDate.parse(from,
-    // DateTimeFormatter.ofPattern("yyyyMMdd"));
-    // LocalDate end = LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyyMMdd"));
-    // return scrapeSeason(season, start, end);
-    // }
-
     private Long scrapeSeason(Season season, LocalDate start, LocalDate end, Long timeout) {
         Random random = new Random();
         EspnSeasonScrape seasonScrape = seasonScrapeRepo.saveAndFlush(

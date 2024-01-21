@@ -26,11 +26,10 @@ public class TeamScrapeTest {
             List<Team> teams = mapped.values();
             assertThat(teams).hasSize(360);
             teams.forEach(System.err::println);
-           // assertThat(conferences).allMatch(c-> StringUtils.isNotBlank(c.getLogoUrl())||c.getKey().equalsIgnoreCase("asun"));
-           // assertThat(conferences).allMatch(Conference::isValid);
         }
 
     }
+
     @Test
     void testSerialize() throws IOException {
 
@@ -43,6 +42,7 @@ public class TeamScrapeTest {
         }
 
     }
+
     @Test
     void testParseJson2() throws IOException {
 
@@ -50,11 +50,11 @@ public class TeamScrapeTest {
             ObjectMapper objectMapper = new ObjectMapper();
             ConferencesConference cc = objectMapper.readValue(inputStream, ConferencesConference.class);
             assertThat(cc).isNotNull();
-            assertThat(cc).hasFieldOrPropertyWithValue( "name", "Atlantic 10 Conference");
-            assertThat(cc).hasFieldOrPropertyWithValue( "shortName", "A 10");
-            assertThat(cc).hasFieldOrPropertyWithValue( "groupId", "3");
-            assertThat(cc).hasFieldOrPropertyWithValue( "logo", "https://a.espncdn.com/i/teamlogos/ncaa_conf/500/atlantic_10.png");
-            assertThat(cc).hasFieldOrPropertyWithValue( "parentGroupId", "50");
+            assertThat(cc).hasFieldOrPropertyWithValue("name", "Atlantic 10 Conference");
+            assertThat(cc).hasFieldOrPropertyWithValue("shortName", "A 10");
+            assertThat(cc).hasFieldOrPropertyWithValue("groupId", "3");
+            assertThat(cc).hasFieldOrPropertyWithValue("logo", "https://a.espncdn.com/i/teamlogos/ncaa_conf/500/atlantic_10.png");
+            assertThat(cc).hasFieldOrPropertyWithValue("parentGroupId", "50");
         }
     }
 }

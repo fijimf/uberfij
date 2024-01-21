@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -34,6 +35,6 @@ public class ConferencesTest {
 
         Conference conference = validConferences.get(0);
         assertEquals("Conference 1", conference.getName());
-        assertEquals(true, conference.isValid());
+        assertTrue(conference.isValid());
     }
 }

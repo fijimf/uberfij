@@ -13,7 +13,7 @@ public class ConferenceMap {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "season_id", updatable = false, insertable = true)
+    @JoinColumn(name = "season_id", updatable = false)
     private Season season;
 
     @OneToOne

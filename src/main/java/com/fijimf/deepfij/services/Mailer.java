@@ -100,7 +100,7 @@ public class Mailer {
             ctx.put("username", u.getUsername());
             sendMail(u.getEmail(), "Deepfij password changed", "mail/password-changed.html", ctx);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            logger.error("Exception sending password changed email",e);
         }
     }
 
@@ -115,8 +115,7 @@ public class Mailer {
         try {
             sendMail("fijimf@gmail.com", "Schedule Updated", "mail/schedule-updated.html", ctx);
         } catch (MessagingException e) {
-            logger.error("Failed to send mail", e);
-            e.printStackTrace();
+            logger.error("Failed to send games updated mail", e);
         }
     }
 

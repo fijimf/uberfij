@@ -19,9 +19,7 @@
     font-weight: normal;
     src: local('SedgwickAveDisplay'), url('fonts/SedgwickAveDisplay-Regular.ttf') format('truetype');
 }
-.shadow-text {
-    text-shadow: 3px 3px 5px rgba(192, 192, 192, 1.0);
-}
+
 
 
 .jumbotron {
@@ -31,7 +29,7 @@
     background-position: 50% 50%;
     font-family: 'SedgwickAveDisplay', sans-serif;
     color: #991122;
-    text-shadow: 1px 1px 1.5px #333;
+    text-shadow: 1px 1px 1px #333;
 }
 
 /*.jumbotron::before {*/
