@@ -2,6 +2,7 @@ package com.fijimf.deepfij.services.schedule;
 
 import com.fijimf.deepfij.db.model.schedule.Game;
 import com.fijimf.deepfij.db.model.schedule.Season;
+import com.fijimf.deepfij.db.model.schedule.Team;
 import com.fijimf.deepfij.db.model.statistic.DailyTeamStatistic;
 import com.fijimf.deepfij.db.repo.schedule.SeasonRepo;
 import com.fijimf.deepfij.db.repo.schedule.TeamRepo;
@@ -10,6 +11,7 @@ import com.fijimf.deepfij.model.GameScatterData;
 import com.fijimf.deepfij.model.TeamPage;
 import com.fijimf.deepfij.services.rest.StatsObservation;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -70,5 +72,9 @@ public class TeamManager {
                     .map(s -> new StatsObservation(s.getSummary().getDate(), s.getValue(), null, null, null, null, null, null, null, null, null))
                     .collect(Collectors.toList());
         }).orElse(Collections.emptyList());
+    }
+
+    public List<Team> loadTeamList() {
+        return teamRepo.findAll(Sort.by("name"));
     }
 }

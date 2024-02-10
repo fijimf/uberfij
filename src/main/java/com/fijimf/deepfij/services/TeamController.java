@@ -16,8 +16,13 @@ public class TeamController {
         this.teamManager = teamManager;
     }
 
+    @GetMapping("/team")
+    public ModelAndView team() {
+        return new ModelAndView("team_index.html", "teams", teamManager.loadTeamList());
+    }
+
     @GetMapping("/team/{key}")
-    public ModelAndView team(@PathVariable("key") final String key, @RequestParam(value = "season", required = false) final Integer season)  {
+    public ModelAndView team(@PathVariable("key") final String key, @RequestParam(value = "season", required = false) final Integer season) {
         return teamManager.loadTeamPage(key, season)
                 .map(t -> new ModelAndView("team.html", "team", t))
                 .orElseGet(() -> new ModelAndView("team_not_found.html"));
