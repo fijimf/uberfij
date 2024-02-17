@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Deep Fij</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.0.2/dist/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/deepfij.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bevan&display=swap" rel="stylesheet">
+    <script src="https://d3js.org/d3.v5.js"></script>
+    <script src="/js/gamesScatter.js"></script>
+</head>
+<body>
+<header th:replace="~{common/topnav::topnav}"></header>
+<div class="deepfij-base container">
+    <div class="row">
+        <h1 style="font-family: 'Bevan', serif;" th:text="${#temporals.format(page.date(), 'MMMM d, yyyy')}"></h1>
+    </div>
+    <div class="row">
+        <div class="col-5">
+            <div class="mb-3">
+                <label for="dateInput" class="form-label">Date</label>
+                <input type="date" class="form-control" id="dateInput">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered table-sm">
+                <colgroup>
+                    <col style="width:20%;"/>
+                    <col style="width:5%; align-content: "/>
+                    <col style="width:5%;"/>
+                    <col style="width:20%;"/>
+                    <col style="width:5%;"/>
+                    <col style="width:5%;"/>
+                    <col style="width:5%;"/>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>Away Team</th>
+                    <th>Score</th>
+                    <th></th>
+                    <th>Home Team</th>
+                    <th>Score</th>
+                    <th>Spread</th>
+                    <th>O/U</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="game: ${page.games()}">
+                    <td>
+                        <a th:href="${game.getAwayTeam().getKey()}" th:text="${game.getAwayTeam().getName()}"></a>
+                    </td>
+                    <td class="text-end" th:text="${game.getAwayScore()}"></td>
+                    <td class="text-center">@</td>
+                    <td>
+                        <a th:href="${game.getHomeTeam().getKey()}" th:text="${game.getHomeTeam().getName()}"></a>
+                    </td>
+                    <td class="text-end" th:text="${game.getHomeScore()}"></td>
+                    <td class="text-end" th:text="${game.getSpread()}"></td>
+                    <td class="text-end" th:text="${game.getOverUnder()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

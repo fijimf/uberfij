@@ -91,7 +91,7 @@ public class Season {
         return games;
     }
 
-    public Set<Game> getDamesForKey(LocalDate key) {
+    public Set<Game> getGamesForKey(LocalDate key) {
         return games.stream().filter(g -> g.scoreboardKey().equals(key)).collect(Collectors.toSet());
     }
 
@@ -151,4 +151,7 @@ public class Season {
     }
 
 
+    public List<Game> getGamesFroDate(LocalDate date) {
+        return games.stream().filter(game -> game.getDate().isEqual(date)).sorted(Comparator.comparing(game->game.getAwayTeam().getName())).toList();
+    }
 }

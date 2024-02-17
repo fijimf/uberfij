@@ -17,15 +17,15 @@
     <script src="https://d3js.org/d3.v5.js"></script>
     <script src="/js/gamesScatter.js"></script>
 </head>
-<body>
+<body  >
 <header th:replace="~{common/topnav::topnav}"></header>
-<div class="container">
+<div class="deepfij-base container">
     <div class="row">
         <h1 style=" font-family: 'Bevan', serif;" >Teams</h1>
     </div>
     <div class="row">
-        <div style="display: flex; flex-direction: row; flex-wrap: wrap">
-            <div style="flex:1 200px" th:each="team: ${teams}">
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap; flex-flow: ">
+            <div style="flex:0 0 200px" th:each="team: ${teams}">
                 <img class="p-1" style="object-fit:contain; height: 1.6em;" th:src="${team.getLogoUrl()}" alt="Logo 1">
                 <a th:text="${team.getName()}" th:href="${'/team/'+team.getKey()}"></a>
             </div>

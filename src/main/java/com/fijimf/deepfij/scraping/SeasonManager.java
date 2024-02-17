@@ -15,7 +15,6 @@ import com.fijimf.deepfij.db.repo.schedule.TeamRepo;
 import com.fijimf.deepfij.db.repo.scrape.EspnScoreboardScrapeRepo;
 import com.fijimf.deepfij.db.repo.scrape.EspnSeasonScrapeRepo;
 import com.fijimf.deepfij.services.Mailer;
-
 import jakarta.annotation.PostConstruct;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -51,8 +50,8 @@ public class SeasonManager {
     private final Mailer mailer;
 
     public SeasonManager(SeasonRepo repo, GameRepo gameRepo, TeamRepo teamRepo, EspnSeasonScrapeRepo seasonScrapeRepo,
-            EspnScoreboardScrapeRepo scoreboardScrapeRepo, StandingsScrapeManager standingsMgr,
-            ScoreboardScrapeManager scoreboardMgr, Mailer mailer) {
+                         EspnScoreboardScrapeRepo scoreboardScrapeRepo, StandingsScrapeManager standingsMgr,
+                         ScoreboardScrapeManager scoreboardMgr, Mailer mailer) {
         this.repo = repo;
         this.gameRepo = gameRepo;
         this.teamRepo = teamRepo;
@@ -105,6 +104,10 @@ public class SeasonManager {
 
     public static LocalDate defaultStartDate(int yyyy) {
         return LocalDate.of(yyyy - 1, 11, 1);
+    }
+
+    public static int seasonByDate(LocalDate date) {
+        return date.getMonthValue() > 4 ? date.getYear() + 1 : date.getYear();
     }
 
     private Long scrapeSeason(Season season, LocalDate start, LocalDate end, Long timeout) {
@@ -189,12 +192,12 @@ public class SeasonManager {
 
     public List<PublishResult> publishSeasonScrape(long seasonScrapeId, Season season) {
         return seasonScrapeRepo.findById(seasonScrapeId).map(
-                ess -> ess.getScoreboardScrapes()
-                        .stream()
-                        .map(ss -> publishScoreboardScrape(ss, season))
-                        .filter(Optional::isPresent)
-                        .map(Optional::get)
-                        .toList())
+                        ess -> ess.getScoreboardScrapes()
+                                .stream()
+                                .map(ss -> publishScoreboardScrape(ss, season))
+                                .filter(Optional::isPresent)
+                                .map(Optional::get)
+                                .toList())
                 .orElse(Collections.emptyList());
 
     }
@@ -265,8 +268,8 @@ public class SeasonManager {
     }
 
     private Optional<Game> makeGame(ScoreboardGame s, Season season, Map<String, Team> teams, LocalDateTime now,
-            LocalDate sbKey,
-            long id) {
+                                    LocalDate sbKey,
+                                    long id) {
         if (s.getSummary().toLowerCase().contains("canceled")) {
             logger.info("Skipping " + s.getUid() + " listed as canceled");
             return Optional.empty();
@@ -313,7 +316,7 @@ public class SeasonManager {
     }
 
     private static void setTeamInfo(ScoreboardGame s, Map<String, Team> teams, Game g, ScoreboardTeam t0,
-            ScoreboardTeam t1) {
+                                    ScoreboardTeam t1) {
         g.setHomeTeam(teams.get(t0.getId()));
         g.setAwayTeam(teams.get(t1.getId()));
         if (s.getSummary().toLowerCase().contains("final")) {

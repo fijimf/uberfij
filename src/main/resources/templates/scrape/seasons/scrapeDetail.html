@@ -12,10 +12,10 @@
     <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/css/deepfij.css">
 </head>
-<body>
+<body  >
 <header th:replace="~{common/topnav::topnav}"></header>
 
-<div class="container">
+<div class="deepfij-base container">
 
     <h1 th:text="${'Seasons Admin ['+season.getSeason()+']'}"></h1>
     <h2 th:text="${'Detail of Scrape ID ['+seasonScrape.getId()}"></h2>
@@ -46,7 +46,7 @@
                             <td th:text="${sb.getFlavor()}"></td>
                             <td th:text="${sb.getResponseCode()}"></td>
                             <td th:text="${sb.getNumberOfGames()}"></td>
-                            <td th:text="${season.getDamesForKey(sb.getScoreboardKey()).size()}"></td>
+                            <td th:text="${season.getGamesForKey(sb.getScoreboardKey()).size()}"></td>
                             <td><a th:href="${'/admin/scrape/seasons/publishScoreboard/'+sb.getId()}">Publish</a></td>
                         </tr>
                         </tbody>
