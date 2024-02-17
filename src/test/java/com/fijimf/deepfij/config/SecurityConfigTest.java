@@ -11,6 +11,7 @@ import com.fijimf.deepfij.scraping.SeasonManager;
 import com.fijimf.deepfij.scraping.StandingsScrapeManager;
 import com.fijimf.deepfij.scraping.TeamsScrapeManager;
 import com.fijimf.deepfij.services.Mailer;
+import com.fijimf.deepfij.services.schedule.GameManager;
 import com.fijimf.deepfij.services.schedule.TeamManager;
 import com.fijimf.deepfij.services.user.UserManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,6 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @MockBean(UserManager.class),
         @MockBean(SeasonRepo.class),
         @MockBean(StatsManager.class),
+        @MockBean(GameManager.class),
 })
 @WebMvcTest()
 //@EnableWebSecurity
