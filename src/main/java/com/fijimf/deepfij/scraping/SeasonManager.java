@@ -194,7 +194,7 @@ public class SeasonManager {
         return seasonScrapeRepo.findById(seasonScrapeId).map(
                         ess -> ess.getScoreboardScrapes()
                                 .stream()
-                                .map(ss -> publishScoreboardScrape(ss, season))
+                                .map(ss -> publishScoreboardScrape2(ss, season))
                                 .filter(Optional::isPresent)
                                 .map(Optional::get)
                                 .toList())
@@ -205,8 +205,70 @@ public class SeasonManager {
     public void publishScoreboardScrape(long id) {
         scoreboardScrapeRepo.findById(id).ifPresent(ss -> {
             Season season = findSeasonBySeason(ss.getEspnSeasonScrape().getSeason());
-            publishScoreboardScrape(ss, season);
+            publishScoreboardScrape2(ss, season);
         });
+    }
+
+    public Optional<PublishResult> publishScoreboardScrape2(EspnScoreboardScrape sbs, Season season) {
+        Map<String, Team> teamMap = teamRepo
+                .findAll()
+                .stream()
+                .collect(Collectors.toMap(Team::getEspnId, Function.identity()));
+
+        LocalDate scoreboardKey = sbs.getScoreboardKey();
+        Map<String, ScoreboardGame> scrapedGames = extractGames(sbs, scoreboardKey).stream().collect(Collectors.toMap(ScoreboardGame::getUid, Function.identity()));
+        List<Game> updates = createUpdates(sbs, season, scrapedGames, teamMap, scoreboardKey);
+        List<Game> inserts = createInserts(sbs, season, scrapedGames, teamMap, scoreboardKey);
+        List<String> deletes = createDeletes(sbs, season, scrapedGames, teamMap, scoreboardKey);
+        gameRepo.saveAllAndFlush(updates);
+        gameRepo.saveAllAndFlush(inserts);
+        gameRepo.deleteAllByEspnIdIn(deletes);
+        return Optional.of(new PublishResult(scoreboardKey, inserts.size(), updates.size(), deletes.size(), "OK"));
+    }
+
+    private List<Game> createInserts(EspnScoreboardScrape sbs, Season season, Map<String, ScoreboardGame> scrapedGames, Map<String, Team> teamMap, LocalDate scoreboardKey) {
+        Map<String, Game> oldGames = season.getGames().stream().collect(Collectors.toMap(Game::getEspnId, Function.identity()));
+
+        return scrapedGames.entrySet()
+                .stream()
+                .filter(entry -> !oldGames.containsKey(entry.getKey()))
+                .map(entry -> makeGame(entry.getValue(), season, teamMap, LocalDateTime.now(), scoreboardKey, sbs.getId()))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
+    }
+
+    private List<String> createDeletes(EspnScoreboardScrape sbs, Season season, Map<String, ScoreboardGame> scrapedGames, Map<String, Team> teamMap, LocalDate scoreboardKey) {
+        Map<String, Game> oldGames = season.getGames().stream().collect(Collectors.toMap(Game::getEspnId, Function.identity()));
+        return oldGames
+                .entrySet()
+                .stream()
+                .filter(e -> e.getValue().getScoreboardKey().isEqual(scoreboardKey) && !scrapedGames.containsKey(e.getKey()))
+                .map(Map.Entry::getKey)
+                .toList();
+    }
+
+
+    private List<Game> createUpdates(EspnScoreboardScrape sbs, Season season, Map<String, ScoreboardGame> scrapedGames, Map<String, Team> teamMap, LocalDate scoreboardKey) {
+        Map<String, Game> oldGames = season.getGames().stream().collect(Collectors.toMap(Game::getEspnId, Function.identity()));
+
+        return scrapedGames.entrySet()
+                .stream()
+                .filter(entry -> oldGames.containsKey(entry.getKey()))
+                .flatMap(entry -> makeGame(entry.getValue(), season, teamMap, LocalDateTime.now(), scoreboardKey, sbs.getId())
+                        .stream()
+                        .flatMap(newGame -> newGame.createUpdate(oldGames.get(entry.getKey())).stream())).toList();
+    }
+
+    private List<ScoreboardGame> extractGames(EspnScoreboardScrape sbs, LocalDate scoreboardKey) {
+        try {
+            Scoreboard scoreboard = objectMapper.readValue(sbs.getResponse(), Scoreboard.class);
+            List<ScoreboardGame> scoreboardGames = scoreboard.unpackGames();
+            logger.info("Unpacked %d from the scraped JSON %d/%tF".formatted(scoreboardGames.size(), sbs.getId(), scoreboardKey));
+            return scoreboardGames;
+        } catch (JsonProcessingException ex) {
+            return Collections.emptyList();
+        }
     }
 
     public Optional<PublishResult> publishScoreboardScrape(EspnScoreboardScrape sbs, Season season) {

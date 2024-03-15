@@ -7,9 +7,7 @@ import com.fijimf.deepfij.db.model.statistic.DailyTeamStatistic;
 import com.fijimf.deepfij.db.repo.schedule.SeasonRepo;
 import com.fijimf.deepfij.db.repo.schedule.TeamRepo;
 import com.fijimf.deepfij.db.repo.statistic.DailyTeamStatisticRepo;
-import com.fijimf.deepfij.model.GameScatterData;
-import com.fijimf.deepfij.model.GamesPage;
-import com.fijimf.deepfij.model.TeamPage;
+import com.fijimf.deepfij.model.*;
 import com.fijimf.deepfij.scraping.SeasonManager;
 import com.fijimf.deepfij.services.rest.StatsObservation;
 import org.apache.commons.lang3.StringUtils;
@@ -19,10 +17,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
@@ -84,31 +80,93 @@ public class GameManager {
         return teamRepo.findAll(Sort.by("name"));
     }
 
-    public LocalDate getDate(String yyyymmdd) {
+    public LocalDate getDate(String yyyymmdd, LocalDate today, Map<Integer, Season> seasons) {
+        if (seasons.isEmpty()) throw new IllegalArgumentException("No seasons are known");
         if (StringUtils.isBlank(yyyymmdd)) {
-            LocalDate today = LocalDate.now();
-            Season season = seasonRepo.findFirstByOrderBySeasonDesc().orElseThrow();
-            return season
-                    .gameDates()
-                    .stream()
-                    .filter(d -> !d.isAfter(today))
-                    .max(Comparator.naturalOrder())
-                    .orElse(today);
+            int year = SeasonManager.seasonByDate(today);
+            if (seasons.containsKey(year)) {
+                Season season = seasons.get(year);
+                return season
+                        .gameDates()
+                        .stream()
+                        .filter(d -> !d.isAfter(today))
+                        .max(Comparator.naturalOrder())
+                        .orElse(today);
+            } else {
+                return today;
+            }
         } else {
             return LocalDate.parse(yyyymmdd, DateTimeFormatter.ofPattern("yyyyMMdd"));
         }
     }
 
+
     public GamesPage getGamesPage(String yyyymmdd) {
-        LocalDate date = getDate(yyyymmdd);
-        Optional<Season> optSeason = seasonRepo.findBySeason(SeasonManager.seasonByDate(date));
-        if (optSeason.isPresent()) {
-            return new GamesPage(date, optSeason.get().getGamesFroDate(date));
+        Map<Integer, Season> seasons = seasonRepo.findAllByOrderBySeasonDesc().stream().collect(Collectors.toMap(Season::getSeason, Function.identity()));
+        LocalDate today = LocalDate.now();
+        LocalDate date = getDate(yyyymmdd, today, seasons);
+        LocalDate asOf = (date.isAfter(today)) ? today : date;
+        int season = SeasonManager.seasonByDate(date);
+        if (seasons.containsKey(season)) {
+            return new GamesPage(date, getPrev(date, seasons), getNext(date, seasons), season, asOf, createGameLines(date, seasons.get(season)));
         } else {
-            Season season = seasonRepo.findFirstByOrderBySeasonDesc().orElseThrow();
-            LocalDate d2 = season.gameDates().get(season.gameDates().size() - 1);
-            return new GamesPage(d2, season.getGamesFroDate(date));
+            return new GamesPage(date, date.minusDays(1), date.plusDays(1), season, asOf, Collections.emptyList());
+        }
+    }
+
+    private List<GameLine> createGameLines(LocalDate asOf, Season season) {
+        Map<String, TeamLine> teamData = new HashMap<>();
+        season.gameDates().stream().filter(d -> !d.isAfter(asOf)).forEach(d -> {
+            season.getGamesForDate(d).forEach(g -> {
+                Team homeTeam = g.getHomeTeam();
+                Team awayTeam = g.getAwayTeam();
+                Integer homeScore = g.getHomeScore();
+                Integer awayScore = g.getAwayScore();
+                if (homeScore != null && awayScore != null) {
+                    update(teamData, homeTeam, homeScore, awayScore);
+                    update(teamData, awayTeam, awayScore, homeScore);
+                }
+            });
+        });
+        return season.getGamesForDate(asOf).stream().map(g -> new GameLine(g, teamData.get(g.getHomeTeam().getKey()), teamData.get(g.getAwayTeam().getKey()))).toList();
+
+    }
+
+    private static void update(Map<String, TeamLine> teamData, Team team, int score, int oppScore) {
+        String key = team.getKey();
+        teamData.compute(key, (k, v) -> v == null ? TeamLine.create(team.getName(), key).update(score, oppScore) : v.update(score, oppScore));
+    }
+
+
+    public LocalDate getPrev(LocalDate d, Map<Integer, Season> seasons) {
+        LocalDate previousDate = d.minusDays(1);
+        int year = SeasonManager.seasonByDate(d);
+
+        if (!seasons.containsKey(year)) {
+            return previousDate;
+        }
+
+        Season season = seasons.get(year);
+        if (previousDate.isBefore(season.firstGameDate()) && seasons.containsKey(year - 1)) {
+            return seasons.get(year - 1).lastGameDate();
+        } else {
+            return previousDate;
+        }
+    }
+
+    public LocalDate getNext(LocalDate d, Map<Integer, Season> seasons) {
+        LocalDate nextDate = d.plusDays(1);
+        int year = SeasonManager.seasonByDate(d);
+
+        if (!seasons.containsKey(year)) {
+            return nextDate;
+        }
+
+        Season season = seasons.get(year);
+        if (nextDate.isAfter(season.lastGameDate()) && seasons.containsKey(year + 1)) {
+            return seasons.get(year + 1).firstGameDate();
+        } else {
+            return nextDate;
         }
     }
 }
-

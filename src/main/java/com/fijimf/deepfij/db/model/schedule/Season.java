@@ -151,7 +151,15 @@ public class Season {
     }
 
 
-    public List<Game> getGamesFroDate(LocalDate date) {
+    public List<Game> getGamesForDate(LocalDate date) {
         return games.stream().filter(game -> game.getDate().isEqual(date)).sorted(Comparator.comparing(game->game.getAwayTeam().getName())).toList();
+    }
+
+    public LocalDate firstGameDate(){
+        return gameDates().get(0);
+    }
+
+    public LocalDate lastGameDate(){
+        return gameDates().get(gameDates().size() - 1);
     }
 }

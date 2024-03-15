@@ -35,3 +35,10 @@
 .deepfij-base {
     font-size: 0.75rem;
 }
+
+.deepfij-teamline-data {
+    font-size: 80%;
+    font-weight: bolder;
+    letter-spacing: -1px;
+    margin-left: 15px;
+}

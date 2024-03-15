@@ -1,15 +1,20 @@
 package com.fijimf.deepfij.db.model.schedule;
 
 import jakarta.persistence.*;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Optional;
 
 @Entity
 @Table(name = "games") // FIXME
 public class Game {
+    private static final Logger logger = LoggerFactory.getLogger(Game.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -245,6 +250,8 @@ public class Game {
         if (isEffectivelyEqual(target)) {
             return Optional.empty();
         } else {
+            logger.info("OLD|"+target);
+            logger.info("NEW|"+this);
             target.setDate(date);
             target.setSeason(season);
             target.setHomeTeam(homeTeam);
@@ -340,5 +347,28 @@ public class Game {
 
     public boolean isComplete() {
         return homeScore != null && awayScore != null;
+    }
+
+    @Override
+    public String toString() {
+        return "%6d|%s|%s|%4d|%12s|%12s|%3d|%3d|%1d|%s|%12s|%5.1f|%.1f|%s|%s|%14s|%5d|%s}"
+                .formatted(id,
+                        date.format(DateTimeFormatter.ISO_LOCAL_DATE),
+                        scoreboardKey.format(DateTimeFormatter.ISO_LOCAL_DATE),
+                        season.getSeason(),
+                        StringUtils.truncate(homeTeam.getName(),12),
+                        StringUtils.truncate(awayTeam.getName(),12),
+                        homeScore,
+                        awayScore,
+                        numPeriods,
+                        isNeutralSite==null?" ":(isNeutralSite?"Y":"N"),
+                        StringUtils.truncate(location, 12),
+                        spread,
+                        overUnder,
+                        isNeutralSite==null?" ":(isConfTournament?"Y":"N"),
+                        isNeutralSite==null?" ":(isNcaaTournament?"Y":"N"),
+                        StringUtils.truncate(espnId,14),
+                        scrapeSrcId,
+                        publishedAt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
     }
 }
