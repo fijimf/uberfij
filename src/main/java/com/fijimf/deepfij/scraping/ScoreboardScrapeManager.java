@@ -1,23 +1,5 @@
 package com.fijimf.deepfij.scraping;
 
-import static java.time.temporal.ChronoUnit.SECONDS;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -25,6 +7,17 @@ import com.fijimf.deepfij.db.model.scrape.EspnScoreboardScrape;
 import com.fijimf.deepfij.db.model.scrape.EspnSeasonScrape;
 import com.fijimf.deepfij.db.repo.scrape.EspnScoreboardScrapeRepo;
 import com.fijimf.deepfij.db.repo.scrape.EspnSeasonScrapeRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.http.HttpResponse;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 
 @Component
@@ -36,45 +29,49 @@ public class ScoreboardScrapeManager {
     private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     private final EspnScoreboardScrapeRepo repo;
     private final EspnSeasonScrapeRepo scrRepo;
+    private final ScoreboardHttpClient scoreboardHttpClient;
 
-    public ScoreboardScrapeManager(EspnScoreboardScrapeRepo repo, EspnSeasonScrapeRepo scrRepo) {
+    public ScoreboardScrapeManager(EspnScoreboardScrapeRepo repo, EspnSeasonScrapeRepo scrRepo, ScoreboardHttpClient scoreboardHttpClient) {
         this.repo = repo;
         this.scrRepo = scrRepo;
-    }
-
-    public String scoreboardUrl(LocalDate d) {
-        return URL + d.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        this.scoreboardHttpClient = scoreboardHttpClient;
     }
 
     @Transactional
-    public void scrapeScoreboardDate(LocalDate d, Long seasonScrapeId) {
-        String scoreboardUrl = scoreboardUrl(d);
+    public void scrapeScoreboardDate(LocalDate date, Long seasonScrapeId, String flavor) throws InterruptedException {
         EspnSeasonScrape espnSeasonScrape = scrRepo.findById(seasonScrapeId).orElseThrow(RuntimeException::new);
         LocalDateTime start = LocalDateTime.now();
         try {
-            HttpRequest request = HttpRequest.newBuilder().uri(new URI(scoreboardUrl)).timeout(Duration.of(10, SECONDS)).GET().build();
-            HttpClient client = HttpClient.newBuilder().build();
-
-            HttpResponse<byte[]> response = client.send(request, HttpResponse.BodyHandlers.ofByteArray());
-            int status = response.statusCode();
-            long duration = ChronoUnit.MILLIS.between(start, LocalDateTime.now());
-            logger.info("Scrape response Code: " + response.statusCode() + " Bytes: " + response.body().length + " Duration: " + duration);
-            try {
-                Scoreboard scoreboard = objectMapper.readValue(response.body(), Scoreboard.class);
-                try {
-                    repo.saveAndFlush(new EspnScoreboardScrape(0L, espnSeasonScrape, d, "ODDS", scoreboardUrl, start, duration, status, objectMapper.writerFor(Scoreboard.class).writeValueAsString(scoreboard), scoreboard.numberOfGames()));
-                } catch (JsonProcessingException e) {
-                    logger.error("Failed serialization " + d, e);
-                    repo.saveAndFlush(new EspnScoreboardScrape(0L, espnSeasonScrape, d, "ODDS", scoreboardUrl, start, duration, status, null, 0));
-                }
-            } catch (IOException e) {
-                logger.error("IO Exception", e);
-                repo.saveAndFlush(new EspnScoreboardScrape(0L, espnSeasonScrape, d, "ODDS", scoreboardUrl, start, duration, status, null, 0));
-            }
-
-        } catch (Exception e) {
-            logger.error("", e);
-            repo.saveAndFlush(new EspnScoreboardScrape(0L, espnSeasonScrape, d, "ODDS", scoreboardUrl, start, -1L, -200, null, 0));
+            HttpResponse<byte[]> response = scoreboardHttpClient.retrieveScoreboardData(date, flavor);
+            processResponse(response, espnSeasonScrape, date, flavor, start);
+        } catch (IOException e){
+            logger.error("IOException processing "+date+" skipping",e);
+            saveScrapeResult(espnSeasonScrape, date, "", "", start, -1L, -199, null, 0);
+        } catch (URISyntaxException e) {
+            logger.error("Bad URI "+e.getInput()+" skipping", e);
+            saveScrapeResult(espnSeasonScrape, date, "", "", start, -1L, -299,"", 0);
         }
+    }
+
+    private void processResponse(HttpResponse<byte[]> response, EspnSeasonScrape espnSeasonScrape, LocalDate date, String flavor,  LocalDateTime retrievedAt) {
+
+        String url=scoreboardHttpClient.getUrl(date, flavor);
+        String responseString = null;
+        int numberOfGames = 0;
+        Long responseTimeMs = ChronoUnit.MILLIS.between(retrievedAt, LocalDateTime.now());
+        try {
+            Scoreboard scoreboard = objectMapper.readValue(response.body(), Scoreboard.class);
+            responseString = objectMapper.writerFor(Scoreboard.class).writeValueAsString(scoreboard);
+            numberOfGames = scoreboard.numberOfGames();
+        } catch (JsonProcessingException e) {
+            logger.error("Failed serialization/deserialization " + date, e);
+        } catch (IOException e) {
+            logger.error("IOException processing " + date, e);
+        }
+        saveScrapeResult(espnSeasonScrape, date, flavor, url, retrievedAt, responseTimeMs, response.statusCode(), responseString, numberOfGames);
+    }
+
+    private void saveScrapeResult(EspnSeasonScrape espnSeasonScrape, LocalDate date, String flavor, String url, LocalDateTime retrievedAt, Long responseTimeMs, int statusCode, String response, int numberOfGames) {
+        repo.saveAndFlush(new EspnScoreboardScrape(0L, espnSeasonScrape, date, flavor, url, retrievedAt, responseTimeMs, statusCode, response, numberOfGames));
     }
 }

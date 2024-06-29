@@ -19,6 +19,7 @@ public interface EspnSeasonScrapeRepo extends JpaRepository<EspnSeasonScrape, Lo
 
     List<EspnSeasonScrape> findByCompletedAtIsNotNullAndStatus(String status);
 
+    List<EspnSeasonScrape> findByCompletedAtIsNullAndSeasonAndStatus(int seeason, String status);
 
     @Transactional
     @Modifying(clearAutomatically = true)

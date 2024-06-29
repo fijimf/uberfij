@@ -1,16 +1,23 @@
 package com.fijimf.deepfij.services.schedule;
 
+import com.fijimf.deepfij.db.model.schedule.Conference;
 import com.fijimf.deepfij.db.model.schedule.Game;
 import com.fijimf.deepfij.db.model.schedule.Season;
 import com.fijimf.deepfij.db.model.schedule.Team;
 import com.fijimf.deepfij.db.model.statistic.DailyTeamStatistic;
+import com.fijimf.deepfij.db.repo.schedule.ConferenceRepo;
+import com.fijimf.deepfij.db.repo.schedule.GameRepo;
 import com.fijimf.deepfij.db.repo.schedule.SeasonRepo;
 import com.fijimf.deepfij.db.repo.schedule.TeamRepo;
 import com.fijimf.deepfij.db.repo.statistic.DailyTeamStatisticRepo;
+import com.fijimf.deepfij.model.Record;
 import com.fijimf.deepfij.model.*;
 import com.fijimf.deepfij.scraping.SeasonManager;
 import com.fijimf.deepfij.services.rest.StatsObservation;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.stat.descriptive.MultivariateSummaryStatistics;
+import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -24,13 +31,18 @@ import java.util.stream.Collectors;
 @Component
 public class GameManager {
     private final TeamRepo teamRepo;
+    private final ConferenceRepo conferenceRepo;
+
+    private final GameRepo gameRepo;
 
     private final SeasonRepo seasonRepo;
 
     private final DailyTeamStatisticRepo statisticRepo;
 
-    public GameManager(TeamRepo teamRepo, SeasonRepo seasonRepo, DailyTeamStatisticRepo statisticRepo) {
+    public GameManager(TeamRepo teamRepo, ConferenceRepo conferenceRepo, GameRepo gameRepo, SeasonRepo seasonRepo, DailyTeamStatisticRepo statisticRepo) {
         this.teamRepo = teamRepo;
+        this.conferenceRepo = conferenceRepo;
+        this.gameRepo = gameRepo;
         this.seasonRepo = seasonRepo;
         this.statisticRepo = statisticRepo;
     }
@@ -168,5 +180,69 @@ public class GameManager {
         } else {
             return nextDate;
         }
+    }
+
+    public Optional<GameSnapshot> getGameSnapshot(Long id) {
+        return gameRepo.findById(id).map(g -> new GameSnapshot(id, g.getDate(), createTeamSnapshot(g.getHomeTeam(), g.getDate()), g.getHomeScore(), createTeamSnapshot(g.getAwayTeam(), g.getDate()), g.getAwayScore(), g.getSpread(), g.getOverUnder()));
+    }
+
+    private TeamSnapshot createTeamSnapshot(Team team, LocalDate asOf) {
+        int year = SeasonManager.seasonByDate(asOf);
+        String conference = conferenceRepo.findConferenceForTeamYear(team.getId(), year).map(Conference::getName).orElse("");
+        List<Game> games = gameRepo.findAllByTeamSeason(team.getId(), year)
+                .stream()
+                .filter(g -> g.getDate().isBefore(asOf))
+                .filter(g -> g.getHomeScore() != null && g.getAwayScore() != null)
+                .toList();
+        Record overall = Record.createRecord("Overall", team, games);
+        Record last5 = Record.createRecord("Last 5", team, games.subList(0, Math.min(5, games.size())));
+        double[] pf = games.stream().mapToDouble(g -> g.getScore(team).doubleValue()).toArray();
+        double[] pa = games.stream().mapToDouble(g -> g.getOppScore(team).doubleValue()).toArray();
+        MultivariateSummaryStatistics scoringStats = calculateScoringStats(team, games);
+        RealMatrix cov = scoringStats.getCovariance();
+        double a = cov.getEntry(0, 0);
+        double b = cov.getEntry(0, 1);
+        double c = cov.getEntry(1, 0);
+        double d = cov.getEntry(1, 1);
+        double corr = b / (Math.sqrt(a) * Math.sqrt(d));
+        double m = (a + d) / 2;
+        double det = a * d - b * c;
+        double q = Math.sqrt(m * m - det);
+        double[] eigenvalues = {m + q, m - q};
+        double c95angle = Math.atan2(eigenvalues[1] - d, b);
+        double c95majorAxis = 2 * Math.sqrt(eigenvalues[0] * 5.991);
+        double c95minorAxis = 2 * Math.sqrt(eigenvalues[1] * 5.991);
+
+
+        Percentile q1 = new Percentile(25);
+        Percentile q3 = new Percentile(75);
+
+        return new TeamSnapshot(
+                new SimpleTeam(team, conference),
+                asOf,
+                overall,
+                last5,
+                scoringStats.getMean()[0],//pointsFor.getMean(),
+                scoringStats.getStandardDeviation()[0],//.getStandardDeviation(),
+                q1.evaluate(pf),
+                q3.evaluate(pf),
+                scoringStats.getMean()[1],//pointsFor.getMean(),
+                scoringStats.getStandardDeviation()[1],//
+                q1.evaluate(pa),
+                q3.evaluate(pa),
+                corr,
+                c95majorAxis,
+                c95minorAxis,
+                c95angle
+
+        );
+    }
+
+    private static MultivariateSummaryStatistics calculateScoringStats(Team team, List<Game> games) {
+        MultivariateSummaryStatistics mvs = new MultivariateSummaryStatistics(2, false);
+        games.forEach(g -> {
+            mvs.addValue(new double[]{g.getScore(team), g.getOppScore(team)});
+        });
+        return mvs;
     }
 }

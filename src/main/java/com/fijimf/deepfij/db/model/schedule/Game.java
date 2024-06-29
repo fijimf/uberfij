@@ -250,8 +250,8 @@ public class Game {
         if (isEffectivelyEqual(target)) {
             return Optional.empty();
         } else {
-            logger.info("OLD|"+target);
-            logger.info("NEW|"+this);
+            logger.info("OLD|" + target);
+            logger.info("NEW|" + this);
             target.setDate(date);
             target.setSeason(season);
             target.setHomeTeam(homeTeam);
@@ -356,19 +356,57 @@ public class Game {
                         date.format(DateTimeFormatter.ISO_LOCAL_DATE),
                         scoreboardKey.format(DateTimeFormatter.ISO_LOCAL_DATE),
                         season.getSeason(),
-                        StringUtils.truncate(homeTeam.getName(),12),
-                        StringUtils.truncate(awayTeam.getName(),12),
+                        StringUtils.truncate(homeTeam.getName(), 12),
+                        StringUtils.truncate(awayTeam.getName(), 12),
                         homeScore,
                         awayScore,
                         numPeriods,
-                        isNeutralSite==null?" ":(isNeutralSite?"Y":"N"),
+                        isNeutralSite == null ? " " : (isNeutralSite ? "Y" : "N"),
                         StringUtils.truncate(location, 12),
                         spread,
                         overUnder,
-                        isNeutralSite==null?" ":(isConfTournament?"Y":"N"),
-                        isNeutralSite==null?" ":(isNcaaTournament?"Y":"N"),
-                        StringUtils.truncate(espnId,14),
+                        isNeutralSite == null ? " " : (isConfTournament ? "Y" : "N"),
+                        isNeutralSite == null ? " " : (isNcaaTournament ? "Y" : "N"),
+                        StringUtils.truncate(espnId, 14),
                         scrapeSrcId,
                         publishedAt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+    }
+
+    public String getLine() {
+        if (spread == null) {
+            return null;
+        } else if (spread == 0) {
+            return "Pick";
+        } else if (spread < 0) {
+            return awayTeam.getAltName1() + " +" + (-spread);
+        } else {
+            return homeTeam.getAltName1() + " +" + spread;
+        }
+    }
+
+    public String getLineResult() {
+        if (spread == null || homeScore == null || awayScore == null) {
+            return null;
+        } else {
+            if (homeScore + spread > awayScore) {
+                return homeTeam.getAltName1();
+            } else {
+                return awayTeam.getAltName1();
+            }
+        }
+    }
+
+    public String getOverUnderResult() {
+        if (overUnder == null || homeScore == null || awayScore == null) {
+            return null;
+        } else {
+            if (homeScore + awayScore == overUnder) {
+                return "PUSH";
+            } else if (homeScore + awayScore > overUnder) {
+                return "OVER";
+            } else {
+                return "UNDER";
+            }
+        }
     }
 }

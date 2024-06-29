@@ -31,6 +31,8 @@ import java.util.concurrent.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.fijimf.deepfij.scraping.ScoreboardHttpClient.ODDS_FLAVOR;
+
 @Component
 public class SeasonManager {
     private final Logger logger = LoggerFactory.getLogger(SeasonManager.class);
@@ -110,7 +112,7 @@ public class SeasonManager {
         return date.getMonthValue() > 4 ? date.getYear() + 1 : date.getYear();
     }
 
-    private Long scrapeSeason(Season season, LocalDate start, LocalDate end, Long timeout) {
+    private Long scrapeSeason(Season season, LocalDate start, LocalDate end, Long timeout, String flavor) {
         Random random = new Random();
         EspnSeasonScrape seasonScrape = seasonScrapeRepo.saveAndFlush(
                 new EspnSeasonScrape(0L, season.getSeason(), start, end, LocalDateTime.now(), null, "STARTING"));
@@ -121,10 +123,10 @@ public class SeasonManager {
             logger.info("Loading " + d + " - delay is " + sleepDelay + " ms");
             try {
                 Thread.sleep(sleepDelay);
+                scrapeDate(d, seasonScrape.getId(), flavor);
             } catch (InterruptedException e) {
                 // throw new RuntimeException(e);
             }
-            scrapeDate(d, seasonScrape.getId());
             seasonScrapeRepo.updateStatusById(seasonScrape.getId(), "RUNNING");
 
         }));
@@ -172,8 +174,8 @@ public class SeasonManager {
         });
     }
 
-    private void scrapeDate(LocalDate date, long seasonScrapeId) {
-        scoreboardMgr.scrapeScoreboardDate(date, seasonScrapeId);
+    private void scrapeDate(LocalDate date, long seasonScrapeId, String flavor) throws InterruptedException {
+        scoreboardMgr.scrapeScoreboardDate(date, seasonScrapeId, flavor);
     }
 
     public Long scrapeSeasonByYear(int year, String from, String to, String timeOutSec) {
@@ -183,7 +185,7 @@ public class SeasonManager {
         LocalDate end = StringUtils.isNotBlank(to) ? LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyyMMdd"))
                 : defaultEndDate(year);
         Long timeout = StringUtils.isNotBlank(timeOutSec) ? Long.parseLong(timeOutSec) : 3600L;
-        return scrapeSeason(season, start, end, timeout);
+        return scrapeSeason(season, start, end, timeout, ODDS_FLAVOR);
     }
 
     public List<EspnSeasonScrape> findSeasonScrapesBySeason(Season season) {
@@ -402,7 +404,7 @@ public class SeasonManager {
             LocalDate start = today.minusDays(5);
             LocalDate end = today.plusDays(9);
             logger.info("Updating current season from " + start + " to " + end + " With timeout of 3600 seconds");
-            Long newScrapeId = scrapeSeason(currentSeason, start, end, 3600L);
+            Long newScrapeId = scrapeSeason(currentSeason, start, end, 3600L, ODDS_FLAVOR);
             schedulePublish(newScrapeId, currentSeason, 3600L);
 
         } else {
@@ -435,5 +437,9 @@ public class SeasonManager {
                 }
             }, () -> logger.error("Could not find season scrape with id " + newScrapeId));
         }, 600L, TimeUnit.SECONDS);
+    }
+
+    public Optional<LocalDateTime> findLastUpdate(int season){
+        return seasonScrapeRepo.findByCompletedAtIsNullAndSeasonAndStatus(season,"COMPLETED").stream().map(EspnSeasonScrape::getCompletedAt).max(LocalDateTime::compareTo);
     }
 }
