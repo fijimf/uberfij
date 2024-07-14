@@ -3,6 +3,7 @@ package com.fijimf.deepfij.config;
 import com.fijimf.deepfij.analytics.StatsManager;
 import com.fijimf.deepfij.db.model.schedule.Season;
 import com.fijimf.deepfij.db.model.scrape.EspnStandingsScrape;
+import com.fijimf.deepfij.db.repo.quote.QuoteRepo;
 import com.fijimf.deepfij.db.repo.schedule.SeasonRepo;
 import com.fijimf.deepfij.db.repo.statistic.DailyTeamStatisticRepo;
 import com.fijimf.deepfij.db.repo.statistic.DailyTeamStatisticSummaryRepo;
@@ -72,6 +73,9 @@ public class SecurityConfigTest {
 
     @MockBean
     private SeasonManager seasonManager;
+
+    @MockBean
+    private QuoteRepo quoteRepo;
 
     @MockBean
     private TeamManager teamManager;

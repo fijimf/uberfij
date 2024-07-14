@@ -409,4 +409,8 @@ public class Game {
             }
         }
     }
+
+    public String getSlug() {
+        return getHomeTeam().getAltName1()+"@"+getAwayTeam().getAltName1();
+    }
 }

@@ -183,7 +183,7 @@ public class GameManager {
     }
 
     public Optional<GameSnapshot> getGameSnapshot(Long id) {
-        return gameRepo.findById(id).map(g -> new GameSnapshot(id, g.getDate(), createTeamSnapshot(g.getHomeTeam(), g.getDate()), g.getHomeScore(), createTeamSnapshot(g.getAwayTeam(), g.getDate()), g.getAwayScore(), g.getSpread(), g.getOverUnder()));
+        return gameRepo.findById(id).map(g -> new GameSnapshot(id, g.getSlug(), g.getDate(), createTeamSnapshot(g.getHomeTeam(), g.getDate()), g.getHomeScore(), createTeamSnapshot(g.getAwayTeam(), g.getDate()), g.getAwayScore(), g.getSpread(), g.getOverUnder()));
     }
 
     private TeamSnapshot createTeamSnapshot(Team team, LocalDate asOf) {

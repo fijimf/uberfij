@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 public class GameSnapshot {
     private final Long id;
+    private final String slug;
     private final LocalDate date;
     private  final TeamSnapshot homeSnapshot;
     private final Integer homeScore;
@@ -14,8 +15,9 @@ public class GameSnapshot {
     private final Double spread;
     private final Double overUnder;
 
-    public GameSnapshot(Long id, LocalDate date, TeamSnapshot homeSnapshot, Integer homeScore, TeamSnapshot awaySnapshot, Integer awayScore, Double spread, Double overUnder) {
+    public GameSnapshot(Long id, String slug, LocalDate date, TeamSnapshot homeSnapshot, Integer homeScore, TeamSnapshot awaySnapshot, Integer awayScore, Double spread, Double overUnder) {
         this.id = id;
+        this.slug=slug;
         this.date = date;
         this.homeSnapshot = homeSnapshot;
         this.homeScore = homeScore;
@@ -56,5 +58,9 @@ public class GameSnapshot {
 
     public Double getOverUnder() {
         return overUnder;
+    }
+
+    public String getSlug() {
+        return slug;
     }
 }
