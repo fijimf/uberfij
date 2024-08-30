@@ -16,6 +16,8 @@ import com.fijimf.deepfij.scraping.SeasonManager;
 import com.fijimf.deepfij.services.rest.StatsObservation;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealMatrixFormat;
+import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 import org.apache.commons.math3.stat.descriptive.MultivariateSummaryStatistics;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 import org.springframework.cache.annotation.Cacheable;
@@ -194,52 +196,80 @@ public class GameManager {
                 .filter(g -> g.getDate().isBefore(asOf))
                 .filter(g -> g.getHomeScore() != null && g.getAwayScore() != null)
                 .toList();
+        List<TeamGameSnapshot> teamGames = games.stream().map(g -> makeTeamGameSnapshot(team, g)).toList();
         Record overall = Record.createRecord("Overall", team, games);
         Record last5 = Record.createRecord("Last 5", team, games.subList(0, Math.min(5, games.size())));
         double[] pf = games.stream().mapToDouble(g -> g.getScore(team).doubleValue()).toArray();
         double[] pa = games.stream().mapToDouble(g -> g.getOppScore(team).doubleValue()).toArray();
         MultivariateSummaryStatistics scoringStats = calculateScoringStats(team, games);
         RealMatrix cov = scoringStats.getCovariance();
+
+        System.err.println(RealMatrixFormat.getInstance().format(cov));
+
         double a = cov.getEntry(0, 0);
         double b = cov.getEntry(0, 1);
         double c = cov.getEntry(1, 0);
         double d = cov.getEntry(1, 1);
         double corr = b / (Math.sqrt(a) * Math.sqrt(d));
-        double m = (a + d) / 2;
-        double det = a * d - b * c;
+
+        double trace = cov.getTrace();
+        double m = trace / 2;
+        double det = determinant2x2(cov);
         double q = Math.sqrt(m * m - det);
         double[] eigenvalues = {m + q, m - q};
+
         double c95angle = Math.atan2(eigenvalues[1] - d, b);
-        double c95majorAxis = 2 * Math.sqrt(eigenvalues[0] * 5.991);
-        double c95minorAxis = 2 * Math.sqrt(eigenvalues[1] * 5.991);
-
-
+        double c95majorAxis =  Math.sqrt(eigenvalues[0] * 5.99);
+        double c95minorAxis =  Math.sqrt(eigenvalues[1] * 5.99);
         Percentile q1 = new Percentile(25);
         Percentile q3 = new Percentile(75);
 
+        double pointsForAvg = scoringStats.getMean()[0];
+        double pointsForStdDev = scoringStats.getStandardDeviation()[0];
+        double pointsAgainstAvg = scoringStats.getMean()[1];
+        double pointsAgainstStdDev = scoringStats.getStandardDeviation()[1];
+        double c95pfAxis = pointsForStdDev > pointsAgainstStdDev? c95majorAxis:c95minorAxis;
+        double c95paAxis = pointsForStdDev <= pointsAgainstStdDev? c95majorAxis:c95minorAxis;
+        System.err.println("----");
+        System.err.println("PF "+pointsForStdDev+" "+c95pfAxis);
+        System.err.println("PA "+pointsAgainstStdDev+" "+c95paAxis);
+        System.err.println("----");
         return new TeamSnapshot(
                 new SimpleTeam(team, conference),
                 asOf,
                 overall,
                 last5,
-                scoringStats.getMean()[0],//pointsFor.getMean(),
-                scoringStats.getStandardDeviation()[0],//.getStandardDeviation(),
+                teamGames,
+                pointsForAvg,//pointsFor.getMean(),
+                pointsForStdDev,//.getStandardDeviation(),
                 q1.evaluate(pf),
                 q3.evaluate(pf),
-                scoringStats.getMean()[1],//pointsFor.getMean(),
-                scoringStats.getStandardDeviation()[1],//
+                pointsAgainstAvg,//pointsFor.getMean(),
+                pointsAgainstStdDev,//
                 q1.evaluate(pa),
                 q3.evaluate(pa),
                 corr,
-                c95majorAxis,
-                c95minorAxis,
+                c95pfAxis,
+                c95paAxis,
                 c95angle
 
         );
     }
 
+    private double determinant2x2(RealMatrix cov) {
+        if (cov.getColumnDimension() != 2 || cov.getRowDimension() != 2) throw new IllegalArgumentException("Matrix must be 2x2");
+        return cov.getEntry(0, 0) * cov.getEntry(1, 1) - cov.getEntry(0, 1) * cov.getEntry(1, 0);
+    }
+
+    private TeamGameSnapshot makeTeamGameSnapshot(Team team, Game game) {
+        Team opponent = game.getOpponent(team);
+        Conference conference = game.getSeason().getConference(opponent);
+        SimpleTeam oppTeam = new SimpleTeam(opponent.getId(), opponent.getKey(), opponent.getName(), conference.getName(), opponent.getNickname(), opponent.getColor(), opponent.getLogoUrl());
+        return new TeamGameSnapshot(game.getId(), oppTeam, game.getScore(team), game.getOppScore(team), game.getDate());
+    }
+
     private static MultivariateSummaryStatistics calculateScoringStats(Team team, List<Game> games) {
-        MultivariateSummaryStatistics mvs = new MultivariateSummaryStatistics(2, false);
+        MultivariateSummaryStatistics mvs = new MultivariateSummaryStatistics(2, true);
         games.forEach(g -> {
             mvs.addValue(new double[]{g.getScore(team), g.getOppScore(team)});
         });

@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
 
-public record GameSnapshot(Long id, String slug, LocalDate date, TeamSnapshot homeSnapshot, Integer homeScore,
-                           TeamSnapshot awaySnapshot, Integer awayScore, Double spread, Double overUnder) {
-
+public record TeamGameSnapshot(long id, SimpleTeam opp, int score, int oppScore, LocalDate date ) {
     @Override
     @JsonFormat(pattern = "yyyy-MM-dd")
     public LocalDate date() {
