@@ -49,7 +49,8 @@ public class ApiController {
     }
 
     @GetMapping("/season")
-    List<Map<String, Object>> getSeasons() {
+    @Cacheable("rest")
+   public List<Map<String, Object>> getSeasons() {
         return seasonManager.findAllSeasons().stream().map(s ->
                 Map.of("id", s.getId(),
                         "year", s.getSeason(),
