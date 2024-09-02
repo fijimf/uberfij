@@ -14,7 +14,7 @@
     <name>uberfij</name>
     <description>Deepfij</description>
     <properties>
-        <java.version>17</java.version>
+        <java.version>22</java.version>
         <testcontainers.version>1.17.6</testcontainers.version>
         <project.scm.id>fijimf-github</project.scm.id>
     </properties>
