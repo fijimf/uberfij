@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,23 +33,23 @@ public class StatsManager {
     @Transactional
     public void calculateWonLostStats(Integer season) {
         List<DailyTeamStatistic> bulk = new ArrayList<>();
-        seasonRepo.findBySeason(season).ifPresent(s -> WonLost.calculate(s).forEach((date, statistics) -> {
+        seasonRepo.findBySeason(season).ifPresent(s -> WonLost.calculate(s).forEach(dailyStats -> {
+            LocalDate date = dailyStats.date();
             logger.info("Saving won lost stats from date " + date);
 
-            statistics.forEach((summary, byTeam) -> {
-                logger.info("Saving " + summary.getStatistic());
-                summaryRepo.findBySeasonAndDateAndStatistic(s, date, summary.getStatistic())
-                        .ifPresentOrElse(
-                                oldSummary -> {
-                                    logger.info("Found summary "+oldSummary.getId()+":["+oldSummary.getStatistic()+", "+oldSummary.getDate()+"]");
-                                    deleteOldStats(oldSummary);
-                                    updateSummaryStats (summary, oldSummary, byTeam);
-                                },
-                                () -> insertSummaryStats(summary, byTeam)
-                        );
-                bulk.addAll(byTeam);
-            });
+            DailyTeamStatisticSummary summary = dailyStats.summary();
+            summaryRepo.findBySeasonAndDateAndStatistic(s, date, summary.getStatistic())
+                    .ifPresentOrElse(
+                            oldSummary -> {
+                                logger.info("Found summary "+oldSummary.getId()+":["+oldSummary.getStatistic()+", "+oldSummary.getDate()+"]");
+                                deleteOldStats(oldSummary);
+                                updateSummaryStats (summary, oldSummary, dailyStats.teamStats());
+                            },
+                            () -> insertSummaryStats(summary, dailyStats.teamStats())
+                    );
+            bulk.addAll(dailyStats.teamStats());
         }));
+
         logger.info("Inserting " + bulk.size());
         inserter.batchInsertStats(bulk);
         logger.info("Done");

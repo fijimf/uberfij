@@ -130,9 +130,11 @@ public class Season {
     public Set<Game> getConferenceGames() {
         return games.stream().filter(this::isConferenceGame).collect(Collectors.toSet());
     }
+
     public Set<Game> getNonConferenceGames() {
-        return games.stream().filter(g->!isConferenceGame(g)).collect(Collectors.toSet());
+        return games.stream().filter(g -> !isConferenceGame(g)).collect(Collectors.toSet());
     }
+
     public boolean isConferenceGame(Game g) {
         return teamToConference.containsKey(g.getHomeTeam()) &&
                 teamToConference.containsKey(g.getAwayTeam()) &&
@@ -143,7 +145,7 @@ public class Season {
         return teamToConference.containsKey(g.getHomeTeam()) &&
                 teamToConference.containsKey(g.getAwayTeam()) &&
                 teamToConference.get(g.getHomeTeam()).getId() == teamToConference.get(g.getAwayTeam()).getId()
-                && g.getConfTournament()!=Boolean.TRUE && g.getNcaaTournament()!=Boolean.TRUE;
+                && g.getConfTournament() != Boolean.TRUE && g.getNcaaTournament() != Boolean.TRUE;
     }
 
     public boolean includesDate(LocalDate today) {
@@ -152,14 +154,16 @@ public class Season {
 
 
     public List<Game> getGamesForDate(LocalDate date) {
-        return games.stream().filter(game -> game.getDate().isEqual(date)).sorted(Comparator.comparing(game->game.getAwayTeam().getName())).toList();
+        return games.stream()
+                .filter(game -> game.getDate().isEqual(date))
+                .sorted(Comparator.comparing(game -> game.getAwayTeam().getName())).toList();
     }
 
-    public LocalDate firstGameDate(){
+    public LocalDate firstGameDate() {
         return gameDates().get(0);
     }
 
-    public LocalDate lastGameDate(){
+    public LocalDate lastGameDate() {
         return gameDates().get(gameDates().size() - 1);
     }
 }
