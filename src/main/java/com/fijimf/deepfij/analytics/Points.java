@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 import static com.fijimf.deepfij.analytics.Points.GameData.*;
 import static com.fijimf.deepfij.analytics.Points.GameMetric.*;
 
-public class Points {
+public class Points implements StatisticCalculator {
 
     private static final Logger logger = LoggerFactory.getLogger(Points.class);
 
