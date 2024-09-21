@@ -17,6 +17,9 @@ pipeline {
         stage('Build') {
             steps {
                 withMaven {
+                    sh 'which mvn'
+                    sh 'ls -ltr `which mvn`'
+                    sh 'mvn --version'
                     sh 'mvn clean compile -DskipTests'
                 }
             }
