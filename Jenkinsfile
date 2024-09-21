@@ -3,6 +3,7 @@ pipeline {
 
     tools {
         jdk 'JDK 22'
+        mvn '3.9.9'
     }
 
 
